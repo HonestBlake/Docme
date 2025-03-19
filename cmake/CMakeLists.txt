@@ -9,7 +9,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Other build vars
 set(ROOT_DIR ${CMAKE_SOURCE_DIR}/..)
->
 set(COMMON ${ROOT_DIR}/common)
 set(CONFIG ${ROOT_DIR}/config)
 set(GENORATOR ${ROOT_DIR}/genorator)
