@@ -109,3 +109,7 @@ CMakeUserPresets.json
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# ADDED BY ME
+# ignore .vscode folder
+.vscode/
