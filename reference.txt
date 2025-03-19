@@ -1,0 +1,79 @@
+#file: "name", "type"
+
+#func: "name"("alias"), "type"
+#struct: "name", "type"
+#class: "name", "type"
+#namespace: "name", "type"
+
+#brief: "body"
+
+#note: "body"
+
+#memberof: "name", "type"
+#inherits: "name", "type"
+
+
+#overload: "scope"::"name"("args,..)      -> (MyClass::Foo(str, int))
+
+#friend: "class", "type"
+
+#throws: "except type", "desc"
+#uses: "type" "name"                      -> (SectionType, enum class)
+#calls: "scope"::"name"("args", ...)      -> (MyClass::Foo(str, int))
+
+#param: "type" "name", "desc"
+#return: "type", "desc"
+
+#detail: "body"
+
+
+data type:
+str, string
+int, integer 
+bool, boolean
+doub, double
+floa, float
+obj, object
+enum
+pair<>
+var<>, variant<>
+
+
+classes:
+object class
+static class
+abstact class
+factory class
+
+stucts:
+data struct
+
+namespaces:
+project namespace
+module namespace
+component namespace
+variable namespace
+function namespace
+
+other:
+optional<type>
+pair<type, type>
+vector<type>
+array<type>
+
+function key words:
+static
+const
+override
+virtual
+private
+public
+protected
+constructor
+destructor
+*return type
+
+map key words:
+const 
+inline
+unnordered
