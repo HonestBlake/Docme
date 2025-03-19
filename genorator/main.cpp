@@ -21,6 +21,8 @@ int main(int argc, char** argv){
 
     // btr::Logger::get<CDocTracer>().log<btr::Level::TRACE>("", std::source_location::current(), btr::Help::getCurrentTime());
 
+    // another test
+
     std::vector<std::string> fileLocations = {"genorator/include/nodes.hpp"};
     std::string outputLocation = "g";
     cdoc::Genorator::getInstance().setLocations(argc, argv).parseProgramFiles().generateDocumentation();
