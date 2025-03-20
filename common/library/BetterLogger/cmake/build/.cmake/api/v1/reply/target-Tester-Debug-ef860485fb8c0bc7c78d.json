@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "C:/Users/blake/Desktop/C++ Projects/Better Logger/tester/Tester.exe"
+			"path" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/tester/Tester.exe"
 		},
 		{
-			"path" : "C:/Users/blake/Desktop/C++ Projects/Better Logger/tester/Tester.pdb"
+			"path" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/tester/Tester.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -48,18 +48,18 @@
 					"fragment" : "-g -std=gnu++23"
 				},
 				{
-					"fragment" : "-Winvalid-pch -x c++-header -include \"C:/Users/blake/Desktop/C++ Projects/Better Logger/cmake/build/CMakeFiles/Tester.dir/cmake_pch.hxx\""
+					"fragment" : "-Winvalid-pch -x c++-header -include \"C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/cmake/build/CMakeFiles/Tester.dir/cmake_pch.hxx\""
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/blake/Desktop/C++ Projects/Better Logger/cmake/../include"
+					"path" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/cmake/../include"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/blake/Desktop/C++ Projects/Better Logger/cmake/.."
+					"path" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/cmake/.."
 				}
 			],
 			"language" : "CXX",
@@ -75,7 +75,7 @@
 			[
 				{
 					"backtrace" : 2,
-					"header" : "C:/Users/blake/Desktop/C++ Projects/Better Logger/cmake/../header/includes.hpp"
+					"header" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/cmake/../header/includes.hpp"
 				}
 			],
 			"sourceIndexes" : 
@@ -90,18 +90,18 @@
 					"fragment" : "-g -std=gnu++23"
 				},
 				{
-					"fragment" : "-Winvalid-pch -include \"C:/Users/blake/Desktop/C++ Projects/Better Logger/cmake/build/CMakeFiles/Tester.dir/cmake_pch.hxx\""
+					"fragment" : "-Winvalid-pch -include \"C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/cmake/build/CMakeFiles/Tester.dir/cmake_pch.hxx\""
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/blake/Desktop/C++ Projects/Better Logger/cmake/../include"
+					"path" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/cmake/../include"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/blake/Desktop/C++ Projects/Better Logger/cmake/.."
+					"path" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/cmake/.."
 				}
 			],
 			"language" : "CXX",
@@ -117,7 +117,7 @@
 			[
 				{
 					"backtrace" : 2,
-					"header" : "C:/Users/blake/Desktop/C++ Projects/Better Logger/cmake/../header/includes.hpp"
+					"header" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/cmake/../header/includes.hpp"
 				}
 			],
 			"sourceIndexes" : 
@@ -182,7 +182,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 1,
-			"path" : "C:/Users/blake/Desktop/C++ Projects/Better Logger/tester/tester.cpp",
+			"path" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/tester/tester.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

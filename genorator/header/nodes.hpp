@@ -20,7 +20,7 @@
 
 // TODO continuation doesnt work and multi line comments are not handled
 
-namespace worTech::cdocs::genorator::nodes{
+namespace worTech::autoDoc::genorator::nodes{
 
     // #namespace: typeEnumerations(type), variable namespace
     namespace typeEnumerations{

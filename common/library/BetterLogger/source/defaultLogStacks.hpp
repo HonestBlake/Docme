@@ -14,13 +14,13 @@ namespace worTech::betterLogger::defaultLogStacks{
     // #func: AutoFlush, private constructor
     // #scope: defaultLogStacks, component namespace
     // #info: deault constuctor for AutoFlush class
-    AutoFlush::AutoFlush(): LogStack(logger::AUTO_FLUSH_TERMINATE_FLUSH, logger::AUTO_FLUSH_AUTO_FLUSH){}
+    inline AutoFlush::AutoFlush(): LogStack(logger::AUTO_FLUSH_TERMINATE_FLUSH, logger::AUTO_FLUSH_AUTO_FLUSH){}
 
 // #div: TerminateFlush, singleton class
 
     // #func: TerminateFlush, private constructor
     // #scope: defaultLogStacks, component namespace
     // #info: deault constuctor for TerminateFlush class
-    TerminateFlush::TerminateFlush(): LogStack(logger::TERMINATE_FLUSH_TERMINATE_FLUSH, logger::TERMINATE_FLUSH_AUTO_FLUSH){}
+    inline TerminateFlush::TerminateFlush(): LogStack(logger::TERMINATE_FLUSH_TERMINATE_FLUSH, logger::TERMINATE_FLUSH_AUTO_FLUSH){}
 
 } // namespace worTech::betterLogger::defaultLogStacks

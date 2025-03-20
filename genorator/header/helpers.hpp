@@ -5,7 +5,7 @@
 #include "nodes.hpp"
 
 
-namespace worTech::cdocs::genorator::helpers{
+namespace worTech::autoDoc::genorator::helpers{
 
     enum class LineType: uint8_t{
         FLUSH,

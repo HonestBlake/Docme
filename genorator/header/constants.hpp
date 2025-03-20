@@ -2,7 +2,7 @@
 
 #include "CDocs.hpp"
 
-namespace worTech::cDocs::genorator::constants{
+namespace worTech::autoDoc::genorator::constants{
 
     enum class ReturnType{
         VOID,

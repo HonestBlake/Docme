@@ -14,6 +14,7 @@
 		"commands" : 
 		[
 			"add_executable",
+			"target_compile_definitions",
 			"target_include_directories",
 			"target_link_libraries"
 		],
@@ -29,19 +30,25 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 35,
+				"line" : 36,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 36,
+				"line" : 41,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
 				"line" : 37,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 38,
 				"parent" : 0
 			}
 		]
@@ -55,22 +62,29 @@
 					"fragment" : "-g -std=gnu++20"
 				}
 			],
-			"includes" : 
+			"defines" : 
 			[
 				{
 					"backtrace" : 2,
+					"define" : "WT_AUTODOC_DEBUG_TRACING"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
 					"path" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/AutoDoc/cmake/../genorator/header"
 				},
 				{
-					"backtrace" : 2,
+					"backtrace" : 3,
 					"path" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/AutoDoc/cmake/../common/header"
 				},
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/AutoDoc/cmake/../common/library/BetterLogger"
 				},
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/AutoDoc/cmake/../common/library/BetterLogger/include"
 				}
 			],
@@ -79,7 +93,7 @@
 			{
 				"backtraces" : 
 				[
-					3
+					4
 				],
 				"standard" : "20"
 			},

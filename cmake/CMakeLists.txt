@@ -31,8 +31,14 @@ add_library(BetterLogger INTERFACE)
 target_include_directories(BetterLogger INTERFACE ${COMMON}/${LIBRARY}/BetterLogger ${COMMON}/${LIBRARY}/BetterLogger/include)
 target_compile_features(BetterLogger INTERFACE cxx_std_20)
 
+
 # Build Genorator
 add_executable(Genorator ${GENORATOR_SOURCE_FILES})
 target_include_directories(Genorator PRIVATE ${GENORATOR_HEADER_INCLUDES} ${COMMON_HEADER_INCLUDES})
 target_link_libraries(Genorator PRIVATE BetterLogger)
 set_target_properties(Genorator PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${BUILD})
+
+target_compile_definitions(Genorator PRIVATE 
+    WT_AUTODOC_DEBUG_TRACING
+    # WT_AUTODOC_DEBUG_TRACING_VERBOSE
+)

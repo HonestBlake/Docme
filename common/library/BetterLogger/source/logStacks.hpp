@@ -15,7 +15,7 @@ namespace worTech::betterLogger::logStacks{
     // #scope: LogStack, abstact singleton class
     // #info: destuctor for LogStack base class that conditionally calls a log flush
     // #calls: flush();
-    LogStack::~LogStack(){
+    inline LogStack::~LogStack(){
         if(m_terminateFlush){
             flush();
         }
@@ -28,7 +28,7 @@ namespace worTech::betterLogger::logStacks{
     // #info: creates and returns a static instance of a LogStack derived class
     // #template: class T_derived, derived class of LogStack
     // #calls: T_derived();
-    template<class T_derived> LogStack& LogStack::get(){
+    template<class T_derived> inline LogStack& LogStack::get(){
         static T_derived instance = T_derived();
         return instance;
     }
@@ -41,7 +41,7 @@ namespace worTech::betterLogger::logStacks{
     // #overload: pushLog(std::string&&)
     // #param: const std::string& p_log, log to be pushed into buffer
     // #returns: LogStack&, current instance
-    LogStack& LogStack::pushLog(const std::string& p_log){
+    inline LogStack& LogStack::pushLog(const std::string& p_log){
         m_logBuffer.push_back(p_log);
         if(m_instantFlush){
             flush();
@@ -55,7 +55,7 @@ namespace worTech::betterLogger::logStacks{
     // #overload: pushLog(std::string&)
     // #param: const std::string& p_log, log to be pushed into buffer
     // #returns: LogStack&, current instance
-    LogStack& LogStack::pushLog(std::string&& p_log){
+    inline LogStack& LogStack::pushLog(std::string&& p_log){
         m_logBuffer.push_back(std::forward<std::string>(p_log));
         if(m_instantFlush){
             flush();
@@ -67,7 +67,7 @@ namespace worTech::betterLogger::logStacks{
     // #info: flushes the log buffer
     // #note: transfers ownership of logs on buffer outside of function
     // #returns: LogStack&, current instance
-    LogStack& LogStack::flush(){
+    inline LogStack& LogStack::flush(){
         for(std::string& log: m_logBuffer){
             recordLog(std::move(log));
         }
@@ -82,7 +82,7 @@ namespace worTech::betterLogger::logStacks{
     // #info: creates a LogStack instance with given flush conditions
     // #param: bool p_terminateFlush, condition to flush buffer on destruction
     // #param: bool p_instantFlush, condition to flush buffer on log push
-    LogStack::LogStack(bool p_terminateFlush, bool p_instantFlush): m_terminateFlush(p_terminateFlush), m_instantFlush(p_instantFlush){}
+    inline LogStack::LogStack(bool p_terminateFlush, bool p_instantFlush): m_terminateFlush(p_terminateFlush), m_instantFlush(p_instantFlush){}
 
 // #div: protected methods
 
@@ -92,7 +92,7 @@ namespace worTech::betterLogger::logStacks{
     // #note: can be overriden to change log recording method
     // #note: takes ownership of passed log
     // #param: std::string&& p_log, log to be recorded
-    void LogStack::recordLog(std::string&& p_log){
+    inline void LogStack::recordLog(std::string&& p_log){
         std::cout << p_log << std::endl;
     }
     

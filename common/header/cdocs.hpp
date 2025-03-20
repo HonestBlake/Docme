@@ -1,17 +1,5 @@
 #pragma once
 
-// #class: f
-// #note: f
-// f
-
-/*
-
-  
-    #struct: DataType, data structure
-*/
-
-
-// #class: f
 #include <string>
 #include <vector>
 #include <variant>
@@ -26,10 +14,16 @@
 #include <array>
 #include <utility>
 
+// project wide external lib
+#include "better/logger.hpp"
+
+
+
+
 // #
 inline namespace worTech{
     // #
-    namespace cdocs{
+    namespace autoDoc{
         // #
         inline namespace config{
             
@@ -73,6 +67,27 @@ inline namespace worTech{
                 using AnyNode = std::variant<GlobalSpace, NamespaceNode, ClassNode, FunctionNode, EnumNode, ConceptNode>;
             }
         } namespace gen = genorator;
-    } namespace cdoc = cdocs;
+    } namespace adoc = autoDoc;
 } namespace wt = worTech;
 
+
+
+// TODO put this somewhere else
+namespace worTech::autoDoc{
+    class CDocTracer: public btr::Logger{
+    public:
+        CDocTracer(): Logger("CDoc Tracer", {btr::Format::LOGGER, btr::Format::LEVEL, btr::Format::LOCATION, btr::Format::TIME, btr::Format::MESSAGE}){}
+    private:
+        std::string formatLocation(const btr::Level p_logLevel, const std::source_location& p_location)const override{
+            return getLogColor(p_logLevel) + p_location.function_name() + btr::log::SPACE + btr::ansii::RESET;
+        }
+    };
+} 
+// TODO make this a seperate tool
+namespace worTech{
+    namespace debugTools{
+        inline void trace(std::source_location&& p_location){
+            btr::Logger::get<adoc::CDocTracer>().log<btr::Level::TRACE>("", std::forward<std::source_location>(p_location), btr::Help::getCurrentTime());
+        }
+    } namespace debug = debugTools;
+}

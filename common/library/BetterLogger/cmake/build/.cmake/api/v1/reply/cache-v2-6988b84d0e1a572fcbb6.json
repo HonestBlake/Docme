@@ -11,7 +11,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/blake/Desktop/C++ Projects/Better Logger/cmake/build"
+			"value" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/cmake/build"
 		},
 		{
 			"name" : "BetterLogger_IS_TOP_LEVEL",
@@ -35,7 +35,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/blake/Desktop/C++ Projects/Better Logger/cmake"
+			"value" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/cmake"
 		},
 		{
 			"name" : "CMAKE_ADDR2LINE",
@@ -91,7 +91,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/blake/Desktop/C++ Projects/Better Logger/cmake/build"
+			"value" : "c:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/cmake/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -491,7 +491,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/blake/Desktop/C++ Projects/Better Logger/cmake/build/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/cmake/build/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -563,7 +563,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/blake/Desktop/C++ Projects/Better Logger/cmake"
+			"value" : "C:/Users/blake/OneDrive/Desktop/C++ Projects/Better Logger/cmake"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",

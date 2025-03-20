@@ -2,7 +2,7 @@
 
 // #file: helpers.hpp, header file
 
-namespace worTech::cdocs::genorator::helpers{
+namespace worTech::autoDoc::genorator::helpers{
 
 // LineInfo, method definitions
 
@@ -13,13 +13,21 @@ namespace worTech::cdocs::genorator::helpers{
 // #param: LineType p_type, enum representing documentation type held in line
 // #overload: LineInfo(LineType, size_t)
 // #detail: LineInfo constructor taking a LineType and defaulting start to 0
-LineInfo::LineInfo(const LineType p_type): type(p_type), start(0){};
+LineInfo::LineInfo(const LineType p_type): type(p_type), start(0){
+    #ifdef WT_AUTODOC_DEBUG_TRACING
+        debug::trace(std::source_location::current());
+    #endif
+};
 // #func: LineInfo(LineType, size_t), public constructor
 // #brief: LineInfo constructor taking a LineType and a starting index
 // #param: LineType p_type, enum representing documentation type held in line
 // #param: size_t p_startingIndex, starting index of the documentation in the line
 // #overload: LineInfo(LineType)
-LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type), start(p_startingIndex){};
+LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type), start(p_startingIndex){
+    #ifdef WT_AUTODOC_DEBUG_TRACING
+        debug::trace(std::source_location::current());
+    #endif
+};
 
 // ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -28,6 +36,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
 // public static methods
     // #
     NodeStack& NodeStack::getInstance()noexcept{
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         static NodeStack instance = NodeStack();
         return instance;
     }
@@ -36,11 +47,17 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
 
     // #
     NodeStack& NodeStack::addNode(AnyNode* const p_node){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         m_nodes.push_back(p_node);
         return *this;
     }
     // #
     inline const std::vector<AnyNode*>& NodeStack::nodes()const{
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         return m_nodes;
     }
 
@@ -52,6 +69,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
 
     // #
     FileStack& FileStack::getInstance()noexcept{
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         static FileStack instance = FileStack();
         return instance;
     }
@@ -60,11 +80,17 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
 
     // #
     FileStack& FileStack::addFile(FileNode* const p_file){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         m_files.push_back(p_file);
         return *this;
     }
     // #
     inline const std::vector<FileNode*>& FileStack::files()const{
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         return m_files;
     }
 
@@ -76,6 +102,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
 
     // #
     std::vector<std::vector<std::string>> NodeCreator::getDocumentation(const std::string& p_file){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         std::ifstream file;
         file.open(p_file);
         if(!file.is_open()){
@@ -94,6 +123,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
     }
     // #
     void NodeCreator::createNodes(std::vector<std::vector<std::string>>&& p_documentation){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         for(const std::vector<std::string>& section: p_documentation){
             for(const std::string& line: section){
                 std::cout << line << std::endl;
@@ -105,6 +137,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
 
     // #
     size_t NodeCreator::findComment(const std::string& p_line, size_t p_currentIndex, bool* p_currentIsComment){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         do{
             p_currentIndex = p_line.find(token::COMMENT, p_currentIndex);
             if(p_currentIndex == std::string::npos || p_currentIndex + 2 > p_line.size()) return std::string::npos;
@@ -118,6 +153,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
     }
     // #
     size_t NodeCreator::findStartTag(const std::string& p_line, size_t p_currentIndex){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         if((p_currentIndex = p_line.find_first_not_of(token::SPACE, p_currentIndex)) == std::string::npos) return std::string::npos;
         if(p_line[p_currentIndex] != token::TAG_START) return std::string::npos;
         p_currentIndex++;
@@ -125,6 +163,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
     }
     // #  class:
     std::string NodeCreator::getTag(const std::string& p_line, size_t p_currentIndex, size_t* p_startOfLine){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         size_t startOfTag;
         if((p_currentIndex = p_line.find_first_not_of(token::SPACE, p_currentIndex)) == std::string::npos) return std::string();
         startOfTag = p_currentIndex;
@@ -134,6 +175,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
     }
     // #
     inline bool NodeCreator::isValidTag(const std::string& p_tag, const SectionType p_currentSectionType){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         if(p_currentSectionType == SectionType::NONE){
             return map::START_TAGS.find(p_tag) != map::START_TAGS.end();
         }
@@ -141,10 +185,16 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
     }
     // #
     inline bool NodeCreator::isContinuableTag(const std::string& p_tag){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         return map::CONTINUABLE_TAGS.find(p_tag) != map::CONTINUABLE_TAGS.end();
     }
     // #
     inline bool NodeCreator::isStartTag(const std::string& p_tag){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         return map::START_TAGS.find(p_tag) != map::START_TAGS.end();
     }
     // #
@@ -153,11 +203,17 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
     }
     // #
     inline bool NodeCreator::isAtComment(const std::string& p_line, size_t p_currentIndex){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         return p_line[p_currentIndex] == token::COMMENT && (p_line[p_currentIndex + 1] == token::COMMENT 
             || p_line[p_currentIndex + 1] == token::MULTI_COMMENT);
     }
     // #
     LineInfo NodeCreator::getLineInfo(const std::string& p_line){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         static bool previousCanContinue = false; // track result of previous line
         static bool currentIsComment = false; // track if current line is a comment
         static SectionType currentSectionType = SectionType::NONE; // track current section type
@@ -223,6 +279,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
     }
     // #
     void NodeCreator::handleLine(const LineInfo& p_lineInfo, std::string&& p_line, std::vector<std::vector<std::string>>* p_documentation){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         // TODO time test with if blocks
         static std::vector<std::string> currentSection;
         switch(p_lineInfo.type){
@@ -259,6 +318,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
     // TODO chcek why somethimes double spacing
     // #
     std::string NodeCreator::cleanUpLine(std::string&& p_line, const size_t p_startingIndex){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         p_line.erase(0, p_startingIndex);
         size_t index; 
         if((index = p_line.find_first_not_of(token::SPACE)) != std::string::npos){
@@ -278,6 +340,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
 
     // #
     Genorator& Genorator::getInstance()noexcept{
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         static Genorator instance = Genorator();
         return instance;
     }
@@ -286,6 +351,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
 
     // #
     Genorator& Genorator::setLocations(int p_argc, char** p_argv){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         this->setOutputLocation(p_argv[0]).setDocsTxtLocation(p_argv[1]);
         for(int i = 3; i < p_argc; i++){
             this->addFileLocation(p_argv[i]);
@@ -301,6 +369,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
     // }
     // #
     Genorator& Genorator::parseProgramFiles(){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         // for(std::vector<std::string> g: NodeCreator::getDocumentation("genorator/include/nodes.hpp")){
         //     for(const std::string& line: g){
         //         std::cout << line << std::endl;
@@ -313,6 +384,9 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
     }
     // #
     Genorator& Genorator::generateDocumentation(){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         
         return *this;
     }
@@ -321,41 +395,65 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
 
     // #
     Genorator& Genorator::setOutputLocation(const std::string& p_outputLocation){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         m_outputLocation = p_outputLocation;
         return *this;
     }
     // #
     Genorator& Genorator::setOutputLocation(std::string&& p_outputLocation){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         m_outputLocation = std::forward<std::string>(p_outputLocation);
         return *this;
     }
     // #
     Genorator& Genorator::setDocsTxtLocation(const std::string& p_docsTxtLocation){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         m_docsTxtLocation = p_docsTxtLocation;
         return *this;
     }
     // #
     Genorator& Genorator::setDocsTxtLocation(std::string&& p_docsTxtLocation){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         m_docsTxtLocation = std::forward<std::string>(p_docsTxtLocation);
         return *this;
     }
     // #
     Genorator& Genorator::addFileLocation(const std::string& p_fileLocation){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         m_fileLocations.push_back(p_fileLocation);
         return *this;
     }
     // #
     Genorator& Genorator::addFileLocation(std::string&& p_fileLocation){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         m_fileLocations.push_back(std::forward<std::string>(p_fileLocation));
         return *this;
     }
     // #
     Genorator& Genorator::setFileLocations(const std::vector<std::string>& p_fileLocations){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         m_fileLocations = p_fileLocations;
         return *this;
     }
     // #
     Genorator& Genorator::setFileLocations(std::vector<std::string>&& p_fileLocations){
+        #ifdef WT_AUTODOC_DEBUG_TRACING
+            debug::trace(std::source_location::current());
+        #endif
         m_fileLocations = std::forward<std::vector<std::string>>(p_fileLocations);
         return *this;
     }

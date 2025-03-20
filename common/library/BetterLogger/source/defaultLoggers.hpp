@@ -14,13 +14,13 @@ namespace worTech::betterLogger::defaultLoggers{
     // #func: Main, public constructor
     // #scope: defaultLoggers, component namespace
     // #info: deault constuctor for Main class given a name
-    Main::Main(): Logger(std::move(logger::MAIN_NAME)){}
+    inline Main::Main(): Logger(std::move(logger::MAIN_NAME)){}
 
 // #div: Debug, singleton class
     
     // #func: Debug, public constructor
     // #scope: defaultLoggers, component namespace
     // #info: deault constuctor for Debug class given a name
-    Debug::Debug(): Logger(std::move(logger::DEBUG_NAME)){}
+    inline Debug::Debug(): Logger(std::move(logger::DEBUG_NAME)){}
     
 } // namespace worTech::betterLogger::defaultLoggers

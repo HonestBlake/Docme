@@ -4,7 +4,7 @@
 
 // #file: conceptTypes.hpp, header file
 
-namespace worTech::cdocs::genorator::conceptTypes{
+namespace worTech::autoDoc::genorator::conceptTypes{
 
     // #concept: StringType, type concept
     template<typename Type> concept StringType = std::is_same<std::decay_t<Type>, std::string>::value;
