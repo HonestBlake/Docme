@@ -77,7 +77,15 @@
 				},
 				{
 					"backtrace" : 3,
+					"path" : "C:/Users/blake/Desktop/C++ Projects/AutoDoc/autoDoc/genorator"
+				},
+				{
+					"backtrace" : 3,
 					"path" : "C:/Users/blake/Desktop/C++ Projects/AutoDoc/autoDoc/header"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/blake/Desktop/C++ Projects/AutoDoc/autoDoc"
 				},
 				{
 					"backtrace" : 4,
@@ -102,7 +110,8 @@
 				0,
 				1,
 				2,
-				3
+				3,
+				4
 			]
 		}
 	],
@@ -142,7 +151,8 @@
 				0,
 				1,
 				2,
-				3
+				3,
+				4
 			]
 		}
 	],
@@ -170,6 +180,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "autoDoc/genorator/source/commandLineParser.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "autoDoc/source/debugging.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

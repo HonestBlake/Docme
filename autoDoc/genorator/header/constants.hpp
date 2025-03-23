@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CDocs.hpp"
+#include "autoDoc.hpp"
 
 namespace worTech::autoDoc::genorator::constants{
 

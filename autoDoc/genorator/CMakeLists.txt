@@ -1,8 +1,8 @@
-# Genorator Module CMake Lists file
+# Genorator package CMake Lists file
 
-# Genorator module variables
+# Genorator package variables
 set(SOURCE_FILES ${GENORATOR}/main.cpp ${GENORATOR}/${SOURCE}/helpers.cpp ${GENORATOR}/${SOURCE}/nodes.cpp ${GENORATOR}/${SOURCE}/commandLineParser.cpp)
-set(HEADER_INCLUDES ${GENORATOR}/${HEADER})
+set(HEADER_INCLUDES ${GENORATOR}/${HEADER} ${GENORATOR})
 
 # Add Genorator target
 add_executable(Genorator ${SOURCE_FILES} ${COMMON_SOURCE_FILES})

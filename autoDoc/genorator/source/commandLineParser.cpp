@@ -31,7 +31,7 @@ namespace worTech::autoDoc::genorator::commandLineParser{
         // Check if any command line args were provided
         if(args.empty()){
             btr::Logger::get<AutoDocError>().log<btr::Level::ERROR>("No command line arguments provided");
-            std::exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE); 
         }
         // Parse command line args
         for(std::size_t arg = 0; arg < args.size(); arg++){
@@ -114,7 +114,39 @@ namespace worTech::autoDoc::genorator::commandLineParser{
 
 
         
-        std::filesystem::path file =  std::filesystem::path(p_arg);
+        std::filesystem::path source =  std::filesystem::path(p_arg);
+
+        if(!std::filesystem::exists(source)){ // Check if source cannot be found
+            debug::warn(std::format("Could not locate source file: {}", p_arg));
+            return;
+        }
+        if(std::filesystem::is_directory(source)){ // Source is a directory
+            // Check each file in directory to see if the file type is valid
+            for(const std::filesystem::directory_entry& entry : std::filesystem::recursive_directory_iterator(source)){
+                if(isValidFileType(source)){
+                    m_sourceFiles.push_back(source.string());
+                }
+            }
+        }else{ // Source is a file
+            if(isValidFileType(source)){
+                m_sourceFiles.push_back(source.string());
+            }else{
+                debug::warn(std::format("Provided source file is not a valid file type from given doc packets: {}", p_arg));
+                return;
+            }
+        }
+
+
+
+        // Check each doc packet to see if the file extension is valid
+        for(const DocPacket packet : m_docPackets){
+            if(isValidFileExtension(entry.path().extension().string(), packet)){
+                std::cout << "Added:" << entry.path().string() << std::endl;
+                m_sourceFiles.push_back(entry.path().string());
+                break;
+            }
+        } // for
+ 
         // Check each doc packet to see if the file extension is valid
         for(std::size_t packet = 0; packet < m_docPackets.size(); packet++){
             if(isValidFileExtension(file.extension().string(), m_docPackets[packet])) break;
@@ -123,34 +155,16 @@ namespace worTech::autoDoc::genorator::commandLineParser{
                 std::exit(EXIT_FAILURE);
             }
         }
-        if(!std::filesystem::exists(file)){ // Check if file cannot be found
-            btr::Logger::get<AutoDocError>().log<btr::Level::ERROR>(std::format("Could not locate source file: {}", p_arg));
-            std::exit(EXIT_FAILURE);
-        }
+
+       
+        
         m_sourceFiles.push_back(p_arg);
 
 
 
         
-        std::filesystem::path directory =  std::filesystem::path(p_arg);
-        if(!std::filesystem::exists(directory)){ // Check if file cannot be found
-            btr::Logger::get<AutoDocError>().log<btr::Level::ERROR>(std::format("Could not locate output directory: {}", p_arg));
-            std::exit(EXIT_FAILURE);
-        }else if(!std::filesystem::is_directory(directory)){ // Check if output directory is not a directory
-            btr::Logger::get<AutoDocError>().log<btr::Level::ERROR>(std::format("Provided output directory is not a valid directory: {}", p_arg));
-            std::exit(EXIT_FAILURE);
-        } 
-        // Check each file in directory to see if the file extension is valid
-        for(const std::filesystem::directory_entry& entry : std::filesystem::recursive_directory_iterator(directory)){
-            // Check each doc packet to see if the file extension is valid
-            for(const DocPacket packet : m_docPackets){
-                if(isValidFileExtension(entry.path().extension().string(), packet)){
-                    std::cout << "Added:" << entry.path().string() << std::endl;
-                    m_sourceFiles.push_back(entry.path().string());
-                    break;
-                }
-            } // for
-        } // for
+         
+        
 
 
 
