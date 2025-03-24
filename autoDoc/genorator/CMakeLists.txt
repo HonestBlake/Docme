@@ -1,7 +1,11 @@
 # Genorator package CMake Lists file
 
 # Genorator package variables
-set(SOURCE_FILES ${GENORATOR}/main.cpp ${GENORATOR}/${SOURCE}/helpers.cpp ${GENORATOR}/${SOURCE}/nodes.cpp ${GENORATOR}/${SOURCE}/commandLineParser.cpp)
+set(SOURCE_FILES ${GENORATOR}/main.cpp 
+# ${GENORATOR}/${SOURCE}/helpers.cpp 
+# ${GENORATOR}/${SOURCE}/nodes.cpp
+ ${GENORATOR}/${SOURCE}/commandLineParser.cpp)
+
 set(HEADER_INCLUDES ${GENORATOR}/${HEADER} ${GENORATOR})
 
 # Add Genorator target

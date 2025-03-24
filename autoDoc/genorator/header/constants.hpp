@@ -1,6 +1,6 @@
 #pragma once
 
-#include "autoDoc.hpp"
+#include "genorator.hpp"
 
 namespace worTech::autoDoc::genorator::constants{
 

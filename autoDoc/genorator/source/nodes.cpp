@@ -27,7 +27,7 @@ namespace worTech::autoDoc::genorator::nodes{
         return build;
     }
     // #func:
-    template <StringType T_name,OptionStringType T_brief, OptionStringType T_note, OptionStringType T_detail> 
+    template <StringType T_name, OptionStringType T_brief, OptionStringType T_note, OptionStringType T_detail> 
     FileNode* FileNode::build(T_name&& p_name, const type::File p_fileType, T_brief&& p_brief, T_note&& p_note, T_detail&& p_detail)noexcept{
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING

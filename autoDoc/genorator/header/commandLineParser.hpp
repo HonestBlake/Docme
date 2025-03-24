@@ -1,6 +1,6 @@
 #pragma once
 
-#include "autoDoc.hpp"
+#include "genorator.hpp"
 
 // #file: commandLineProccessor.hpp, header file
 
@@ -9,26 +9,28 @@
 namespace worTech::autoDoc::genorator::commandLineParser{
 
 
-    const std::unordered_set<std::string> CDOC_VALID_FILE_EXTENTIONS = {
-        ".cpp", 
-        ".hpp", 
-        ".h", 
-        ".c", 
-        ".cc", 
-        ".cxx", 
-        ".c++", 
-        ".h++", 
-        ".hh", 
-        ".hxx", 
-        ".h++"
-    };
-    const std::unordered_set<std::string> AUTO_DOC_VALID_FILE_EXTENTIONS = {
-        ".doc",
-        ".txt"
-    };
+    namespace extentions{
+
+        const std::unordered_set<std::string> CDOC = {
+            ".cpp", 
+            ".hpp", 
+            ".h", 
+            ".c", 
+            ".cc", 
+            ".cxx", 
+            ".c++", 
+            ".h++", 
+            ".hh", 
+            ".hxx", 
+            ".h++"
+        };
+        const std::unordered_set<std::string> AUTO_DOC = {
+            ".doc",
+            ".txt"
+        };
+
+    }
     
-
-
 
     constexpr std::string VALID_CONFIG_FILE_EXTENSION = ".txt";
 
@@ -86,20 +88,20 @@ namespace worTech::autoDoc::genorator::commandLineParser{
     // private factory methods
         CommandLineParser();
     // private methods
-        bool isValidFileExtension(std::string&& p_fileExtension, DocPacket p_packet)noexcept;
-        void handleDocPacket(const std::string& p_arg)noexcept;
-        void handleConfigFile(const std::string& p_arg)noexcept;
-        void handleOutputDirectory(const std::string& p_arg)noexcept;
-        void handleSource(const std::string& p_arg)noexcept;
-        void handleIgnore(const std::string& p_arg)noexcept;
-        void handleTag(const CommandLineTag p_tag, const std::string& p_arg)noexcept;
+        bool isValidFileType(const std::filesystem::path& p_file)noexcept;
+        void handlePacket(const std::string& p_packet)noexcept;
+        void handleConfigFile(std::string&& p_file)noexcept;
+        void handleOutputDirectory(std::string&& p_directory)noexcept;
+        void handleSource(std::string&& p_source)noexcept;
+        void handleIgnore(std::string&& p_ignore)noexcept;
+        void handleTag(const CommandLineTag p_tag, std::string&& p_arg)noexcept;
     // private members
-        std::vector<DocPacket> m_docPackets;
+        std::string m_rootDirectory;
         std::string m_configFile;
         std::string m_outputDirectory;
-        std::vector<std::string> m_sourceFiles;
-        std::vector<std::string> m_soruceDirectories;
-        std::vector<std::string> m_ignoreFiles;
+        std::unordered_set<Packet> m_packets;
+        std::unordered_set<std::string> m_sourceFiles;
+        std::unordered_set<std::string> m_ignoreFiles;
     };
 
 } // namespace worTech::autoDoc::genorator::commandLineProccessor

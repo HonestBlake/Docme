@@ -20,6 +20,8 @@ inline namespace worTech{
             namespace error = errorMessages; // alias errorMessages to error
             namespace debugTools{}
             namespace debug = debugTools; // alias debugTools to debug
+            namespace loggerValues{}
+            namespace logger = loggerValues; // alias loggerValues to logger
             class AutoDocTracer;
             class AutoDocDebug;
         }
