@@ -1,0 +1,10 @@
+{
+    "packet_name": "docme",
+    "language_support": [
+        "text"
+    ],
+    "description": "Default standard doc packet for text files.",
+    "accepted_file_types": [
+        "txt"
+    ]
+}

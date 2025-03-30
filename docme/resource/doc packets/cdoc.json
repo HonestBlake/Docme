@@ -1,0 +1,24 @@
+{
+    "packet_name": "cdoc",
+    "language_support": [
+        "C",
+        "C++"
+    ],
+    "description": "Adds support for the C and C++ laguages",
+    "accepted_file_types": [
+        ".cpp",
+        ".hpp",
+        ".c",
+        ".h",
+        ".cc",
+        ".cxx",
+        ".c++",
+        ".hxx",
+        ".h++",
+        ".hh",
+        ".tpp",
+        ".ipp",
+        ".inl",
+        ".ixx"
+    ]
+}

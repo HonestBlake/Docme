@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "C:/Users/blake/Desktop/C++ Projects/Docme/docme/library/nlohmann_json/json-build",
+		"source" : "docme/library/nlohmann_json/json-src"
+	}
+}

@@ -1,32 +1,33 @@
 # Project Cmake Lists file
 
-# setup AutoDoc project
+set(PROJECT_NAME Docme)
+set(PROJECT_DESCRIPTION "An automatic documentation tool for C/C++ programs, uses unique but standard style comment tags to help generate documentation files." )
+set(PROJECT_VERSION 1.0)
+
+# setup Docme project
 cmake_minimum_required(VERSION 3.31)
 project(
-    AutoDoc 
-    VERSION 1.0 
-    DESCRIPTION "An automatic documentation tool for C/C++ prgrams, uses Doxygen or JavaDoc style comment tags to help generate documentation files."  
+    ${PROJECT_NAME} 
+    VERSION ${PROJECT_VERSION}
+    DESCRIPTION ${PROJECT_DESCRIPTION}
     LANGUAGES CXX 
 )
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+include(FetchContent)
 
 # Project wide variables
-set(COMMON ${CMAKE_SOURCE_DIR}/autoDoc)
-set(EXECUTABLE ${CMAKE_SOURCE_DIR}/executable)
+set(COMMON ${CMAKE_SOURCE_DIR}/docme)
+set(BINARY ${CMAKE_SOURCE_DIR}/binary)
 set(SOURCE source)
 set(HEADER header)
 set(LIBRARY library)
 set(TEST test)
+set(PACKAGE package)
 
 # Set project wide output directories
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${EXECUTABLE})
-
-# Setup Better Logger library
-add_library(BetterLogger INTERFACE)
-target_include_directories(BetterLogger INTERFACE ${COMMON}/${LIBRARY}/BetterLogger ${COMMON}/${LIBRARY}/BetterLogger/include)
-target_compile_features(BetterLogger INTERFACE cxx_std_20)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY})
 
 # Connect the common module to the project
 add_subdirectory(${COMMON})
