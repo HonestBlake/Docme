@@ -37,12 +37,14 @@ namespace worTech::docme::genorator::docPackets{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
+        const std::filesystem::path filePath = packet::PATH_TO_PACKETS / std::filesystem::path(p_packetName + packet::FILE_EXTENSION); // Create path to json file
+        std::cout << filePath.string() << std::endl; // Debugging output
         // parse json file
-        std::expected<Json, std::string> jsonResult = Json::parse(packet::PATH_TO_PACKETS + p_packetName + packet::FILE_EXTENSION);
+        std::expected<Json, std::string> jsonResult = Json::parse(filePath);
         if(!jsonResult){ // Check if error parsing json file
             debug::error(jsonResult.error());
         }
-        Json json = jsonResult.value();
+        const Json json = jsonResult.value();
         // get name from json
         std::expected<std::string, std::string> nameResult = json.getString(packetFileKeys::NAME);
         if(!nameResult){ // Check if error getting name from json
@@ -93,8 +95,8 @@ namespace std{
     // #func: operator(), public inline const noexcept method
     
     // #param: const docme::DocPacket& p_packet, given packet
-    // #return: size_t, hash of packet
-    size_t hash<docme::DocPacket>::operator()(const docme::DocPacket& p_packet)const noexcept{
+    // #return: std::size_t, hash of packet
+    std::size_t hash<docme::DocPacket>::operator()(const docme::DocPacket& p_packet)const noexcept{
         if constexpr(docme::state::TRACING){ // Function tracing
             docme::debug::trace(std::source_location::current());
         }

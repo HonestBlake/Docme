@@ -1,7 +1,7 @@
 #include "commandLineParser.hpp"
+#include <better/logger.hpp> // used for logging api
 
-int main(int argc, char** argv){
-
+int main(int argc, char* argv[]){
     docme::CommandLine& commandLine = docme::CommandLine::get().parse(argc, argv);
     
     commandLine.printInternalData();

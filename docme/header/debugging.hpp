@@ -6,27 +6,6 @@
 
 namespace worTech::docme::debugging{
 
-    // #namepace: debugStates, variable namespace
-    namespace debugStates{
-        // set TRACING when macro defined 
-        #ifdef WT_AUTODOC_DEBUG_TRACING
-        constexpr bool TRACING = true;
-        #else
-        constexpr bool TRACING = false;
-        #endif
-        // set VERVOSE_TRACING when macro defined
-        #ifdef WT_AUTODOC_DEBUG_VERVOSE_TRACING
-        constexpr bool VERVOSE_TRACING = true;
-        #else
-        constexpr bool VERVOSE_TRACING = false;
-        #endif
-        // set WARNING_IS_ERROR when macro defined
-        #ifdef WT_AUTODOC_DEBUG_WARNING_IS_ERROR
-        constexpr bool WARNING_IS_ERROR = true;
-        #else
-        constexpr bool WARNING_IS_ERROR = false;
-        #endif
-    }
     // #namespace: errorMessages, variable namespace
     namespace errorMessages{
         const std::string NO_COMMAND_LINE_ARGUMENTS = "No command line arguments provided";
@@ -46,6 +25,8 @@ namespace worTech::docme::debugging{
         const std::string COULD_NOT_FIND_JSON_KEY = "Could not find json key: {}, in file: {}";
         const std::string JSON_TYPE_ERROR_STRING = "Json type error, expected string from key: {}, in file: {}";
         const std::string JSON_TYPE_ERROR_ARRAY = "Json type error, expected array from key: {}, in file: {}";
+        const std::string ARGS_WITH_SPECIAL_FLAG_CALL = "Cannot call a command line special flag with any arguments or flags";
+        const std::string NO_ARGS_GIVEN_TO_FLAG = "No arguments given to command line flag: {}";
     }
     // #namespace: debugTools, function namespace
     namespace debugTools{

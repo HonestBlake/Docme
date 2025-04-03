@@ -22,32 +22,41 @@ namespace worTech::docme::genorator::commandLineParser{
         VERSION,
         CONFIGURE
     };
-    // #namspace: commandLineVariables, variable namespace
+    // #namspace: commandLineVariables(commandLine), variable namespace
     namespace commandLineVariables{
         constexpr std::string COMMAND_SPECIFIER = "--";
         constexpr std::string TAG_SPECIFIER = "-";
         constexpr std::string HELP = COMMAND_SPECIFIER + "help";
         constexpr std::string VERSION = COMMAND_SPECIFIER + "version";
-        constexpr std::string CONFIGURE = COMMAND_SPECIFIER + "config";
+        constexpr std::string CONFIGURE = COMMAND_SPECIFIER + "configure";
         constexpr std::string ROOT_DIR = TAG_SPECIFIER + 'r';
         constexpr std::string DOC_PACKET = TAG_SPECIFIER + 'p';
         constexpr std::string CONFIG_FILE = TAG_SPECIFIER + 'c';
         constexpr std::string OUTPUT_DIRECTORY = TAG_SPECIFIER + 'o';
         constexpr std::string SOURCE = TAG_SPECIFIER + 's';
         constexpr std::string IGNORE = TAG_SPECIFIER + 'i';
-        const std::unordered_map<std::string, Token> TOKENS = {
+        const std::unordered_map<std::string, Token> FLAGS = {
             {ROOT_DIR, Token::ROOT_DIR},
             {DOC_PACKET, Token::DOC_PACKET},
             {CONFIG_FILE, Token::CONFIG_FILE},
             {OUTPUT_DIRECTORY, Token::OUTPUT_DIRECTORY},
             {SOURCE, Token::SOURCE},
-            {IGNORE, Token::IGNORE},
+            {IGNORE, Token::IGNORE}
+        };
+        const std::unordered_map<std::string, Token> SPECIAL_FLAGS = {
             {HELP, Token::HELP},
             {VERSION, Token::VERSION},
             {CONFIGURE, Token::CONFIGURE}
         };
         constexpr std::string CONFIG_FILE_TYPE = ".json";
     }
+    // #stuct: CommandLineOption, data struct
+    struct CommandLineOption{
+        std::optional<Token> flag;
+        std::vector<std::string> arguments;
+        bool operator==(const CommandLineOption& p_option)const noexcept;
+        std::size_t hash()const noexcept;
+    };
     // #class: CommandLineParser, singleton class
     class CommandLineParser{
     public:
@@ -60,14 +69,21 @@ namespace worTech::docme::genorator::commandLineParser{
     // public static methods
         static CommandLineParser& get()noexcept;
     // public methods
-        CommandLineParser& parse(int p_argc, char** p_argv)noexcept;
+        CommandLineParser& parse(int p_argc, char* p_argv[])noexcept;
         #ifdef WT_AUTODOC_DEBUGGING
         void printInternalData()noexcept;
         #endif
     private:
     // private factory methods
         CommandLineParser();
+    // private static methods
+        void help()const noexcept;
+        void version()const noexcept;
+        void configure()const noexcept;
     // private methods
+        void addOptionToCommandLine(std::unordered_set<Option>& p_commandLine, Option& p_option)noexcept;
+        std::unordered_set<Option> tokenizeCommandLine(std::vector<std::string>& p_args)noexcept;
+        void setDefaultValues()noexcept;
         bool isValidFileType(const std::filesystem::path& p_file)noexcept;
         void handleRootDirectory(std::string&& p_directory)noexcept;
         void handlePacket(const std::string& p_packet)noexcept;
@@ -75,16 +91,26 @@ namespace worTech::docme::genorator::commandLineParser{
         void handleOutputDirectory(std::string&& p_directory)noexcept;
         void handleSource(std::string&& p_source)noexcept;
         void handleIgnore(std::string&& p_ignore)noexcept;
-        void handleToken(const Token p_token, std::string&& p_arg)noexcept;
+        void handleCommand(const Token p_command)noexcept;
+        void handleArgument(const Token p_flag, std::string&& p_arg)noexcept;
+        void handleCommandLine(std::unordered_set<Option>&& p_commandLine)noexcept;
     // private members
-        bool m_handledSource;
-        bool m_handledIgnore;
-        std::string m_rootDirectory;
-        std::string m_configFile;
-        std::string m_outputDirectory;
+        std::vector<Option> m_commandLine; 
+        std::filesystem::path m_rootDirectory;
+        std::filesystem::path m_configFile;
+        std::filesystem::path m_outputDirectory;
         std::unordered_set<Packet> m_packets;
         std::unordered_set<std::string> m_sourceFiles;
         std::unordered_set<std::string> m_ignoreFiles;
     };
 
 } // namespace worTech::autoDoc::genorator::commandLineProccessor
+
+namespace std{
+
+    // #struct: hash<docme::DocPacket>, hash structure
+    template<> struct hash<docme::CommandLineOption>{
+        std::size_t operator()(const docme::CommandLineOption& p_option)const noexcept;
+    }
+
+} // namespace std

@@ -8,7 +8,7 @@ namespace worTech::docme::genorator::docPackets{
 
     // #namespace: packetVariables(packet), inline variable namespace
     namespace packetVariables{
-        const std::string PATH_TO_PACKETS = "../docme/resource/doc packets/";
+        const std::filesystem::path PATH_TO_PACKETS = std::filesystem::path(std::source_location::current().file_name()).parent_path().parent_path().parent_path().parent_path() / std::filesystem::path("resource/doc packets/");
         constexpr std::string DOCME = "docme";
         constexpr std::string FILE_EXTENSION = ".json";
     }
@@ -42,7 +42,7 @@ namespace std{
 
     // #struct: hash<docme::DocPacket>, hash structure
     template<> struct hash<docme::DocPacket>{
-        size_t operator()(const docme::DocPacket& p_packet)const noexcept;
+        std::size_t operator()(const docme::DocPacket& p_packet)const noexcept;
     };
 
 } // namespace std

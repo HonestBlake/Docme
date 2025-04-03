@@ -4,6 +4,8 @@
 
 #include "debugging.hpp" // decloration header
 
+#include "programVariables.hpp" // include program variables module globally
+
 namespace worTech::docme::debugging{
 
 // debugTools, function definitions

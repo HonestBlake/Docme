@@ -9,7 +9,7 @@ namespace worTech::docme::jsonTools{
     // #func: Json(const nlohmann::json&), public explicit constructor
 
     // #param: const nlohmann::json& p_json, given json object
-    Json::Json(const std::string& p_fileName, nlohmann::json&& p_json): m_fileName(p_fileName), m_json(std::forward<nlohmann::json>(p_json)){
+    Json::Json(const std::string& p_file, nlohmann::json&& p_json): m_file(p_file), m_json(std::forward<nlohmann::json>(p_json)){
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
@@ -18,19 +18,19 @@ namespace worTech::docme::jsonTools{
 // public static methods
 
     // #func: parse(const std::string&), public static noexcept method
-    std::expected<Json, std::string> Json::parse(const std::string& p_fileName)noexcept{
+    std::expected<Json, std::string> Json::parse(const std::filesystem::path& p_filePath)noexcept{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
         nlohmann::json json;
-        std::ifstream file = std::ifstream(p_fileName);
-        if(!file) return std::unexpected<std::string>(debug::message(error::FAILED_TO_OPEN_FILE, p_fileName));
+        std::ifstream file = std::ifstream(p_filePath);
+        if(!file) return std::unexpected<std::string>(debug::message(error::FAILED_TO_OPEN_FILE, p_filePath.string()));
         try{
             file >> json;
         }catch(const nlohmann::json::parse_error& e){
-            return std::unexpected<std::string>(debug::message(error::FAILED_TO_PARSE_JSON, p_fileName));
+            return std::unexpected<std::string>(debug::message(error::FAILED_TO_PARSE_JSON, p_filePath.string()));
         }
-        return(Json(p_fileName, std::move(json)));
+        return(Json(p_filePath.string(), std::move(json)));
     }
 
 // public methods
@@ -40,8 +40,8 @@ namespace worTech::docme::jsonTools{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
-        if(!m_json.contains(p_key)) return std::unexpected<std::string>(debug::message(error::COULD_NOT_FIND_JSON_KEY, p_key, m_fileName)); // Error if key is not in json
-        if(!m_json[p_key].is_string()) return std::unexpected<std::string>(debug::message(error::JSON_TYPE_ERROR_STRING, p_key, m_fileName)); // Error if key is not a string
+        if(!m_json.contains(p_key)) return std::unexpected<std::string>(debug::message(error::COULD_NOT_FIND_JSON_KEY, p_key, m_file)); // Error if key is not in json
+        if(!m_json[p_key].is_string()) return std::unexpected<std::string>(debug::message(error::JSON_TYPE_ERROR_STRING, p_key, m_file)); // Error if key is not a string
         return m_json[p_key].get<std::string>(); // return string at key
     }
     // #func: getUnorderedSet(const std::string&), public const noexcept method
@@ -49,10 +49,10 @@ namespace worTech::docme::jsonTools{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
-        if(!m_json.contains(p_key)) return std::unexpected<std::string>(debug::message(error::COULD_NOT_FIND_JSON_KEY, p_key, m_fileName)); // Error if key is not in json
-        if(!m_json[p_key].is_array()) return std::unexpected<std::string>(debug::message(error::JSON_TYPE_ERROR_ARRAY, p_key, m_fileName)); // Error if element is not an array
+        if(!m_json.contains(p_key)) return std::unexpected<std::string>(debug::message(error::COULD_NOT_FIND_JSON_KEY, p_key, m_file)); // Error if key is not in json
+        if(!m_json[p_key].is_array()) return std::unexpected<std::string>(debug::message(error::JSON_TYPE_ERROR_ARRAY, p_key, m_file)); // Error if element is not an array
         for(const nlohmann::json& element : m_json[p_key]){ // Check if each element in array is a string
-            if(!element.is_string()) return std::unexpected<std::string>(debug::message(error::JSON_TYPE_ERROR_STRING, p_key, m_fileName));
+            if(!element.is_string()) return std::unexpected<std::string>(debug::message(error::JSON_TYPE_ERROR_STRING, p_key, m_file));
         }
         return m_json[p_key].get<std::unordered_set<std::string>>(); // return unordered set from json array
     }

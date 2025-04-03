@@ -10,10 +10,15 @@
 inline namespace worTech{
     // #namespace: docme, project namespace
     namespace docme{
+        // #namespace: programVariables, inline module namespace
+        inline namespace programVariables{
+            namespace programConstants{}
+            namespace program = programConstants; // alias programConstants to program
+            namespace programStates{}
+            namespace state = programStates; // alias programStates to state
+        }
         // #namespace: debugging, inline module namespace
         inline namespace debugging{
-            namespace debugStates{}
-            namespace state = debugStates; // alias debugStates to debug
             namespace errorMessages{}
             namespace error = errorMessages; // alias errorMessages to error
             namespace debugTools{}
@@ -35,3 +40,4 @@ inline namespace worTech{
 namespace wt = worTech; // alias worTech to wt
 
 #include "debugging.hpp" // include debugging module globally
+#include "programVariables.hpp" // include program variables module globally
