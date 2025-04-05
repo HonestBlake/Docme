@@ -5,31 +5,6 @@
 
 namespace worTech::docme::genorator::commandLineParser{
 
-// CommandLineOption data struct, method definitions
-
-    // #func: operator==(), public const noexcept method4
-
-    // #param: const CommandLineOption& p_option, given command line option
-    // #return: bool, weather command line options are equal
-    bool CommandLineOption::operator==(const CommandLineOption& p_option)const noexcept{
-        if constexpr(state::TRACING){ // Function tracing
-            debug::trace(std::source_location::current());
-        }
-        return flag == p_option.flag;
-    }
-    // #func: hash(), public const noexcept method
-
-    // #return: size_t, hash of command line option
-    size_t CommandLineOption::hash()const noexcept{
-        if constexpr(state::TRACING){ // Function tracing
-            debug::trace(std::source_location::current());
-        }
-        return std::hash<std::underlying_type_t<Token>>{}(static_cast<std::underlying_type_t<Token>>(*flag));
-    }
-
-
-// -------------------------------------------------------------------------------------------------------------------------------------
-
 // CommandLineParser singleton class, method definitions
 
 // public static methods
@@ -84,13 +59,13 @@ namespace worTech::docme::genorator::commandLineParser{
         }
         std::cout << std::endl;
         std::cout << "Source Files: ";
-        for(const std::string& file: m_sourceFiles){
-            std::cout << file << " ";
+        for(const std::filesystem::path& file: m_sourceFiles){
+            std::cout << file.string() << " ";
         }
         std::cout << std::endl;
         std::cout << "Ignore Files: ";
-        for(const std::string& file: m_ignoreFiles){
-            std::cout << file << " ";
+        for(const std::filesystem::path& file: m_ignoreFiles){
+            std::cout << file.string() << " ";
         }
         std::cout << std::endl;
     }
@@ -103,7 +78,6 @@ namespace worTech::docme::genorator::commandLineParser{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
-        // m_rootDirectory = std::filesystem::current_path().string();
     }
 
 // private static methods
@@ -132,70 +106,40 @@ namespace worTech::docme::genorator::commandLineParser{
 
 // private methods
 
-    // #func: addOption(std::unordered_set<Option>&, Option&), private noexcept method
-
-    // #param: std::unordered_set<Option>& p_options, command line options
-    // #param: Option& p_option, command line option
-    void CommandLineParser::addOptionToCommandLine(std::unordered_set<Option>& p_commandLine, Option& p_option)noexcept{
-        if constexpr(state::TRACING){ // Function tracing
-            debug::trace(std::source_location::current());
-        }
-        if(p_commandLine.contains(p_option)){ // Check if option already exists in options
-            const_cast<Option&>(*p_commandLine.find(p_option)).arguments.insert(p_option.arguments.end(), std::make_move_iterator(p_option.arguments.begin()), std::make_move_iterator(p_option.arguments.end())); // Merge arguments with existing option
-        }else{ // Option does not exist in options
-            p_commandLine.emplace(p_option.flag, std::move(p_option.arguments)); // Emplace a Option object with flags and arguments
-        }
-        // Reset option arguements
-        p_option.arguments.clear(); 
-        p_option.arguments.shrink_to_fit();
-    }
     // #func: tokenizeCommandLine(std::vector<std::string>&), private noexcept method
 
     // #param: std::vector<std::string>& p_args, command line args
-    // #return: std::unordered_set<Option>, vector of tokenized command line options
-    std::unordered_set<Option> CommandLineParser::tokenizeCommandLine(std::vector<std::string>& p_args)noexcept{
+    // #return: std::unordered_map<Token, std::vector<std::string>>, vector of tokenized command line options
+    std::unordered_map<Token, std::vector<std::string>> CommandLineParser::tokenizeCommandLine(std::vector<std::string>& p_args)noexcept{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
-        Option option;
-        std::unordered_set<Option> commandLine;
-        for(std::string& arg: p_args){
-            if(commandLine::SPECIAL_FLAGS.contains(arg)){ // Check if arg is a command line special flag
-                if(p_args.size() < 2){ // Check if command line command has any other args or flags
-                    debug::error(error::ARGS_WITH_SPECIAL_FLAG_CALL, arg);
+        Token flag;
+        std::unordered_map<Token, std::vector<std::string>> commandLine;
+        for(size_t arg = 0; arg < p_args.size(); arg++){
+            if(commandLine::SPECIAL_FLAGS.contains(p_args[arg])){ // Arg is a command line special flag
+                if(p_args.size() < 2){ // Command line has other args
+                    debug::error(error::ARGS_WITH_SPECIAL_FLAG_CALL, p_args[arg]);
                 }
-                handleCommand(commandLine::SPECIAL_FLAGS.at(arg)); 
-            }
-            if(commandLine::FLAGS.contains(arg)){ // Check if arg is a command line flag
-                if(!option.arguments.empty()){
-                    addOptionToCommandLine(commandLine, option); // Add option to command line
-                }else{
-                    debug::warn(error::NO_ARGS_GIVEN_TO_FLAG, arg); 
-                }
-                option.flag = commandLine::FLAGS.at(arg); 
+                handleSpecialFlag(commandLine::SPECIAL_FLAGS.at(p_args[arg])); 
+            }else if(commandLine::FLAGS.contains(p_args[arg])){ // Arg is a command line flag
+                flag = commandLine::FLAGS.at(p_args[arg]); // Set flag to command line flag 
             }else{ // Arg is an argument
-                if(!option.flag){ // Check if flag is not set
-                    debug::error(error::UNRECONIZED_COMMAND_LINE_ARGUMENT, arg);
+                if(arg == 0){ // Argument has no flag
+                    debug::error(error::UNRECONIZED_COMMAND_LINE_ARGUMENT, p_args[arg]);
                 }
-                option.arguments.emplace_back(std::move(arg)); // Move arg to arguments
+                commandLine[flag].emplace_back(std::move(p_args[arg])); // Add argument to command line
             }
-        }
-        if(!option.arguments.empty()){
-            addOptionToCommandLine(commandLine, option); // Add last option to command line
-        }else{
-            debug::warn(error::NO_ARGS_GIVEN_TO_FLAG); 
         }
         return commandLine; 
     }
-    // TODO handle error with reverse map to find flag from token
-
-
     // #func: setDefaultValues(), private noexcept method
     void CommandLineParser::setDefaultValues()noexcept{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
         m_rootDirectory = std::filesystem::current_path(); // Set default root directory to program call site
+        m_outputDirectory = m_rootDirectory; // Set default output directory to root directory
         m_packets.emplace(Packet::get(packet::DOCME)); // Add default docme packet to packets
     }
     // #func: isValidFile(const std::filesystem::path&), private noexcept method
@@ -227,7 +171,7 @@ namespace worTech::docme::genorator::commandLineParser{
         }else if(!std::filesystem::is_directory(directory)){ // Check if directory is valid
             debug::error(error::INVALID_ROOT_DIRECTORY, p_directory);
         }
-        m_rootDirectory = std::forward<std::string>(p_directory);
+        m_rootDirectory = std::filesystem::current_path() / std::filesystem::path(std::forward<std::string>(p_directory));
     }
     // #func: handlePacket(const std::string&), private noexcept method
 
@@ -260,7 +204,7 @@ namespace worTech::docme::genorator::commandLineParser{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
-        std::filesystem::path directory =  std::filesystem::path(p_directory);
+        std::filesystem::path directory = m_rootDirectory / std::filesystem::path(p_directory);
         if(!std::filesystem::exists(directory)){ // Check if output directory cannot be found
             if(m_outputDirectory.empty()){ // Check if output directory is default set
                 debug::error(error::COULD_NOT_FIND_OUTPUT_DIRECTORY, p_directory);
@@ -276,7 +220,7 @@ namespace worTech::docme::genorator::commandLineParser{
                 return;
             }
         }
-        m_outputDirectory = std::forward<std::string>(p_directory);
+        m_outputDirectory = std::forward<std::filesystem::path>(directory);
     }
     // #func: handleSource(std::string&&), private noexcept method
 
@@ -292,14 +236,14 @@ namespace worTech::docme::genorator::commandLineParser{
         }
         if(std::filesystem::is_directory(source)){ // Source is a directory
             // Check each file in directory to see if the file type is valid
-            for(const std::filesystem::directory_entry& entry : std::filesystem::recursive_directory_iterator(source)){
+            for(const std::filesystem::directory_entry& entry: std::filesystem::recursive_directory_iterator(source)){
                 if(isValidFileType(entry.path())){
-                    m_sourceFiles.emplace(entry.path().string());
+                    m_sourceFiles.emplace(std::move(entry.path()));
                 }
             }
         }else{ // Source is a file
             if(isValidFileType(source)){
-                m_sourceFiles.emplace(std::forward<std::string>(p_source));
+                m_sourceFiles.emplace(std::move(source));
             }else{
                 debug::warn(error::INVALID_SOURCE_FILE_TYPE, p_source);
                 return;
@@ -315,37 +259,37 @@ namespace worTech::docme::genorator::commandLineParser{
         }
         std::filesystem::path ignore =  m_rootDirectory / std::filesystem::path(p_ingore);
         if(!std::filesystem::exists(ignore)){ // Check if ignore cannot be found
-            debug::warn(error::COULD_NOT_FIND_IGNORE, p_ingore);
+            debug::warn(error::COULD_NOT_FIND_IGNORE, ignore.string());
             return;
         }
         if(std::filesystem::is_directory(ignore)){ // Ignore is a directory
             // Find each file in directory
             for(const std::filesystem::directory_entry& entry : std::filesystem::recursive_directory_iterator(ignore)){
                 if(isValidFileType(entry.path())){ // Check if file type is valid
-                    m_ignoreFiles.emplace(entry.path().string());
+                    m_ignoreFiles.emplace(std::move(entry.path()));
                 }
             }
         }else{ // Ignore is a file
             if(isValidFileType(ignore)){
-                m_ignoreFiles.emplace(std::forward<std::string>(p_ingore));
+                m_ignoreFiles.emplace(std::move(ignore));
             }
         }
     }
     // #func: handleCommand(const Token), private noexcept method
 
     // #param: const Token p_command, command line command
-    void CommandLineParser::handleCommand(const Token p_command)noexcept{
+    void CommandLineParser::handleSpecialFlag(const Token p_specialFlag)noexcept{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
-        switch(p_command){
-        case Token::HELP:
+        switch(p_specialFlag){
+        case Token::HELP: 
             help();
             break;
-        case Token::VERSION:
+        case Token::VERSION: 
             version();
             break;
-        case Token::CONFIGURE:
+        case Token::CONFIGURE: 
             configure();
             break;
         } // switch
@@ -377,35 +321,23 @@ namespace worTech::docme::genorator::commandLineParser{
         case Token::IGNORE: 
             handleIgnore(std::forward<std::string>(p_arg));
             break;
-        }// switch
+        } // switch
     }
     // #func: handleCommandLine(std::unordered_set<Option>&&), private noexcept method
 
     // #param: std::unordered_set<Option>&& p_commandLine, command line options
-    void CommandLineParser::handleCommandLine(std::unordered_set<Option>&& p_commandLine)noexcept{
+    void CommandLineParser::handleCommandLine(std::unordered_map<Token, std::vector<std::string>>&& p_commandLine)noexcept{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
-        for(Option& option: p_commandLine){
-            for(std::string& argument: option.arguments){
-                handleArgument(*option.flag, std::move(argument)); 
+        // Handle each flag in given evaluation order
+        for(Token flag: commandLine::EVALUATION_ORDER){ 
+            if(!p_commandLine.contains(flag)) continue; // Skip if flag is not in command line
+            // Handle each argument for given flag
+            for(std::string& argument: p_commandLine.at(flag)){ 
+                handleArgument(flag, std::move(argument));
             }
         }
     }
 
 } // namespace worTech::autoDoc::genorator::commandLineProccessor
-
-namespace std{
-
-    // #func: operator(), public inline const noexcept method
-    
-    // #param: const docme::CommandLineOption& p_packet, given packet
-    // #return: std::size_t, hash of packet
-    std::size_t hash<docme::CommandLineOption>::operator()(const docme::CommandLineOption& p_packet)const noexcept{
-        if constexpr(docme::state::TRACING){ // Function tracing
-            docme::debug::trace(std::source_location::current());
-        }
-        return p_packet.hash();
-    }
-
-} // namespace std

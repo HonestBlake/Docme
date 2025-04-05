@@ -38,7 +38,6 @@ namespace worTech::docme::genorator::docPackets{
             debug::trace(std::source_location::current());
         }
         const std::filesystem::path filePath = packet::PATH_TO_PACKETS / std::filesystem::path(p_packetName + packet::FILE_EXTENSION); // Create path to json file
-        std::cout << filePath.string() << std::endl; // Debugging output
         // parse json file
         std::expected<Json, std::string> jsonResult = Json::parse(filePath);
         if(!jsonResult){ // Check if error parsing json file

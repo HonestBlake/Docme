@@ -26,7 +26,6 @@ namespace worTech::docme::debugging{
         const std::string JSON_TYPE_ERROR_STRING = "Json type error, expected string from key: {}, in file: {}";
         const std::string JSON_TYPE_ERROR_ARRAY = "Json type error, expected array from key: {}, in file: {}";
         const std::string ARGS_WITH_SPECIAL_FLAG_CALL = "Cannot call a command line special flag with any arguments or flags";
-        const std::string NO_ARGS_GIVEN_TO_FLAG = "No arguments given to command line flag: {}";
     }
     // #namespace: debugTools, function namespace
     namespace debugTools{
@@ -38,7 +37,7 @@ namespace worTech::docme::debugging{
     // #namespace: loggerValues, variable namespace
     namespace loggerValues{
         const std::string TRACER_NAME = "AutoDoc Tracer";
-        const std::string DEBUG_NAME = "AutoDoc Debug";
+        const std::string DEBUG_NAME = "AutoDoc";
         const std::array<btr::Format, 5> TRACER_FORMAT = {
             btr::Format::LOGGER, 
             btr::Format::LEVEL, 

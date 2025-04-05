@@ -24,7 +24,7 @@ target_link_libraries(Docme PRIVATE
 
 # target_compile_options(Genorator PRIVATE -fmodules-ts)
 target_compile_definitions(Docme PRIVATE 
-    WT_AUTODOC_DEBUG_TRACING
+    # WT_AUTODOC_DEBUG_TRACING
     WT_AUTODOC_DEBUGGING
     # WT_AUTODOC_DEBUG_TRACING_VERBOSE
 )

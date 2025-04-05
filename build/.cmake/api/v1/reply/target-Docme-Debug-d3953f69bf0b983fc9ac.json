@@ -67,10 +67,6 @@
 				{
 					"backtrace" : 2,
 					"define" : "WT_AUTODOC_DEBUGGING"
-				},
-				{
-					"backtrace" : 2,
-					"define" : "WT_AUTODOC_DEBUG_TRACING"
 				}
 			],
 			"includes" : 

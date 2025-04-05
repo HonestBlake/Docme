@@ -49,14 +49,15 @@ namespace worTech::docme::genorator::commandLineParser{
             {CONFIGURE, Token::CONFIGURE}
         };
         constexpr std::string CONFIG_FILE_TYPE = ".json";
+        constexpr std::array<Token, 6> EVALUATION_ORDER = {
+            Token::ROOT_DIR,
+            Token::DOC_PACKET,
+            Token::CONFIG_FILE,
+            Token::OUTPUT_DIRECTORY,
+            Token::SOURCE,
+            Token::IGNORE
+        };
     }
-    // #stuct: CommandLineOption, data struct
-    struct CommandLineOption{
-        std::optional<Token> flag;
-        std::vector<std::string> arguments;
-        bool operator==(const CommandLineOption& p_option)const noexcept;
-        std::size_t hash()const noexcept;
-    };
     // #class: CommandLineParser, singleton class
     class CommandLineParser{
     public:
@@ -81,8 +82,7 @@ namespace worTech::docme::genorator::commandLineParser{
         void version()const noexcept;
         void configure()const noexcept;
     // private methods
-        void addOptionToCommandLine(std::unordered_set<Option>& p_commandLine, Option& p_option)noexcept;
-        std::unordered_set<Option> tokenizeCommandLine(std::vector<std::string>& p_args)noexcept;
+        std::unordered_map<Token, std::vector<std::string>> tokenizeCommandLine(std::vector<std::string>& p_args)noexcept;
         void setDefaultValues()noexcept;
         bool isValidFileType(const std::filesystem::path& p_file)noexcept;
         void handleRootDirectory(std::string&& p_directory)noexcept;
@@ -91,26 +91,16 @@ namespace worTech::docme::genorator::commandLineParser{
         void handleOutputDirectory(std::string&& p_directory)noexcept;
         void handleSource(std::string&& p_source)noexcept;
         void handleIgnore(std::string&& p_ignore)noexcept;
-        void handleCommand(const Token p_command)noexcept;
+        void handleSpecialFlag(const Token p_specialFlag)noexcept;
         void handleArgument(const Token p_flag, std::string&& p_arg)noexcept;
-        void handleCommandLine(std::unordered_set<Option>&& p_commandLine)noexcept;
+        void handleCommandLine(std::unordered_map<Token, std::vector<std::string>>&& p_commandLine)noexcept;
     // private members
-        std::vector<Option> m_commandLine; 
         std::filesystem::path m_rootDirectory;
         std::filesystem::path m_configFile;
         std::filesystem::path m_outputDirectory;
         std::unordered_set<Packet> m_packets;
-        std::unordered_set<std::string> m_sourceFiles;
-        std::unordered_set<std::string> m_ignoreFiles;
+        std::unordered_set<std::filesystem::path> m_sourceFiles;
+        std::unordered_set<std::filesystem::path> m_ignoreFiles;
     };
 
 } // namespace worTech::autoDoc::genorator::commandLineProccessor
-
-namespace std{
-
-    // #struct: hash<docme::DocPacket>, hash structure
-    template<> struct hash<docme::CommandLineOption>{
-        std::size_t operator()(const docme::CommandLineOption& p_option)const noexcept;
-    }
-
-} // namespace std

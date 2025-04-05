@@ -14,8 +14,6 @@ namespace worTech::docme{
             namespace commandLineVariables{}
             namespace commandLine = commandLineVariables; // alias commandLineVariables to var
             using Token = CommandLineToken; // alias CommandLineTag to Tag
-            struct CommandLineOption;
-            using Option = CommandLineOption; // alias CommandLineOption to Option
             class CommandLineParser; 
             using CommandLine = CommandLineParser; // alias CommandLineParser to CommandLine
         }
