@@ -9,8 +9,8 @@ namespace worTech::docme::debugging{
     // #namespace: errorMessages, variable namespace
     namespace errorMessages{
         const std::string NO_COMMAND_LINE_ARGUMENTS = "No command line arguments provided";
-        const std::string UNRECONIZED_COMMAND_LINE_ARGUMENT = "Unreconized command line argument: {}";
-        const std::string UNRECONIZED_DOC_PACKET = "Unreconized doc packet: {}";
+        const std::string UNRECOGNIZED_COMMAND_LINE_ARGUMENT = "Unrecognized command line argument: {}";
+        const std::string UNRECOGNIZED_DOC_PACKET = "Unrecognized doc packet: {}";
         const std::string COULD_NOT_FIND_CONFIG_FILE = "Could not locate config file: {}";
         const std::string INVALID_CONFIG_FILE_TYPE = "Provided config file is not a valid {} file: {}";
         const std::string COULD_NOT_FIND_OUTPUT_DIRECTORY = "Could not locate output directory: {}";
@@ -26,6 +26,7 @@ namespace worTech::docme::debugging{
         const std::string JSON_TYPE_ERROR_STRING = "Json type error, expected string from key: {}, in file: {}";
         const std::string JSON_TYPE_ERROR_ARRAY = "Json type error, expected array from key: {}, in file: {}";
         const std::string ARGS_WITH_SPECIAL_FLAG_CALL = "Cannot call a command line special flag with any arguments or flags";
+        const std::string NO_SOURCE_FILES_PROVIDED = "No source files provided";
     }
     // #namespace: debugTools, function namespace
     namespace debugTools{

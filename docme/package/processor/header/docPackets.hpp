@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "parser.hpp"
+#include "processor.hpp"
 
-namespace worTech::docme::genorator::docPackets{
+namespace worTech::docme::processor::docPackets{
 
     // #namespace: packetVariables(packet), inline variable namespace
     namespace packetVariables{
@@ -36,7 +36,7 @@ namespace worTech::docme::genorator::docPackets{
         std::unordered_set<std::string> m_fileTypes;
     };
 
-} // namespace worTech::docme::genorator::packetManager
+} // namespace worTech::docme::generator::packetManager
 
 namespace std{
 

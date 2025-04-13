@@ -4,7 +4,7 @@
 
 #include "jsonTools.hpp" // include jsonTools module
 
-namespace worTech::docme::genorator::docPackets{
+namespace worTech::docme::processor::docPackets{
 
 // public factory methods
 
@@ -87,7 +87,7 @@ namespace worTech::docme::genorator::docPackets{
         return m_fileTypes;
     }
 
-} // namespace worTech::docme::genorator::packetManager
+} // namespace worTech::docme::processor::packetManager
 
 namespace std{
 

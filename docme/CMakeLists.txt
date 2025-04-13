@@ -1,7 +1,7 @@
 # Common Module CMake Lists file
 
 # Common module variables
-set(PARSER ${COMMON}/${PACKAGE}/parser)
+set(PROCESSOR ${COMMON}/${PACKAGE}/processor)
 set(COMMON_SOURCE_FILES 
     ${COMMON}/${SOURCE}/debugging.cpp
     ${COMMON}/${SOURCE}/jsonTools.cpp
@@ -21,5 +21,5 @@ target_include_directories(
     ${COMMON}/${LIBRARY}/BetterLogger
 )
 
-# Connect the genorator module to the project
-add_subdirectory(${PARSER})
+# Connect the processor module to the project
+add_subdirectory(${PROCESSOR})

@@ -2,7 +2,7 @@
 
 // #file: helpers.hpp, header file
 
-namespace worTech::docme::genorator::helpers{
+namespace worTech::docme::processor::helpers{
 
 // LineInfo, method definitions
 
@@ -358,24 +358,24 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
 
 // ----------------------------------------------------------------------------------------------------------------------------------------
 
-// Genorator, method definitions
+// Generator, method definitions
 
 // public static methods    
 
     // #
-    Genorator& Genorator::getInstance()noexcept{
+    Generator& Generator::getInstance()noexcept{
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
         #endif
-        static Genorator instance = Genorator();
+        static Generator instance = Generator();
         return instance;
     }
 
 // public methods
 
     // #
-    Genorator& Genorator::setLocations(int p_argc, char** p_argv){
+    Generator& Generator::setLocations(int p_argc, char** p_argv){
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
@@ -388,18 +388,18 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
     }
     // // #
     // template<StringType T_outputLocation, StringType T_docsTxtLocation, StringVectorType T_files> 
-    // Genorator& Genorator::setFileLocations(T_outputLocation&& p_outputLocation, T_docsTxtLocation&& p_docsTxtLocation, T_files&& p_files){
+    // Generator& Generator::setFileLocations(T_outputLocation&& p_outputLocation, T_docsTxtLocation&& p_docsTxtLocation, T_files&& p_files){
     //     this->setOutputLocation(std::forward<T_outputLocation>(p_outputLocation))
     //         .setDocsTxtLocation(std::forward<T_docsTxtLocation>(p_docsTxtLocation)).setFileLocations(std::forward<T_files>(p_files));
     //     return *this;
     // }
     // #
-    Genorator& Genorator::parseProgramFiles(){
+    Generator& Generator::parseProgramFiles(){
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
         #endif
-        // for(std::vector<std::string> g: NodeCreator::getDocumentation("genorator/include/nodes.hpp")){
+        // for(std::vector<std::string> g: NodeCreator::getDocumentation("generator/include/nodes.hpp")){
         //     for(const std::string& line: g){
         //         std::cout << line << std::endl;
         //     }
@@ -410,7 +410,7 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
         return *this;
     }
     // #
-    Genorator& Genorator::generateDocumentation(){
+    Generator& Generator::generateDocumentation(){
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
@@ -422,7 +422,7 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
 // private methods
 
     // #
-    Genorator& Genorator::setOutputLocation(const std::string& p_outputLocation){
+    Generator& Generator::setOutputLocation(const std::string& p_outputLocation){
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
@@ -431,7 +431,7 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
         return *this;
     }
     // #
-    Genorator& Genorator::setOutputLocation(std::string&& p_outputLocation){
+    Generator& Generator::setOutputLocation(std::string&& p_outputLocation){
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
@@ -440,7 +440,7 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
         return *this;
     }
     // #
-    Genorator& Genorator::setDocsTxtLocation(const std::string& p_docsTxtLocation){
+    Generator& Generator::setDocsTxtLocation(const std::string& p_docsTxtLocation){
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
@@ -449,7 +449,7 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
         return *this;
     }
     // #
-    Genorator& Genorator::setDocsTxtLocation(std::string&& p_docsTxtLocation){
+    Generator& Generator::setDocsTxtLocation(std::string&& p_docsTxtLocation){
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
@@ -458,7 +458,7 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
         return *this;
     }
     // #
-    Genorator& Genorator::addFileLocation(const std::string& p_fileLocation){
+    Generator& Generator::addFileLocation(const std::string& p_fileLocation){
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
@@ -467,7 +467,7 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
         return *this;
     }
     // #
-    Genorator& Genorator::addFileLocation(std::string&& p_fileLocation){
+    Generator& Generator::addFileLocation(std::string&& p_fileLocation){
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
@@ -476,7 +476,7 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
         return *this;
     }
     // #
-    Genorator& Genorator::setFileLocations(const std::vector<std::string>& p_fileLocations){
+    Generator& Generator::setFileLocations(const std::vector<std::string>& p_fileLocations){
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
@@ -485,7 +485,7 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
         return *this;
     }
     // #
-    Genorator& Genorator::setFileLocations(std::vector<std::string>&& p_fileLocations){
+    Generator& Generator::setFileLocations(std::vector<std::string>&& p_fileLocations){
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
@@ -494,4 +494,4 @@ LineInfo::LineInfo(const LineType p_type, size_t p_startingIndex): type(p_type),
         return *this;
     }
 
-} // worTech::cdocs::genorator::helpers
+} // worTech::cdocs::processor::helpers

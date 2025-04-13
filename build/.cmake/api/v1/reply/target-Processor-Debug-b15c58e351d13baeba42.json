@@ -20,7 +20,7 @@
 		],
 		"files" : 
 		[
-			"docme/package/parser/CMakeLists.txt"
+			"docme/package/processor/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -30,25 +30,25 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 15,
+				"line" : 18,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 26,
+				"line" : 29,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 17,
+				"line" : 20,
 				"parent" : 0
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 18,
+				"line" : 21,
 				"parent" : 0
 			}
 		]
@@ -66,18 +66,18 @@
 			[
 				{
 					"backtrace" : 2,
-					"define" : "WT_AUTODOC_DEBUGGING"
+					"define" : "WT_DOCME_DEBUGGING"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 3,
-					"path" : "C:/Users/blake/Desktop/C++ Projects/Docme/docme/package/parser/header"
+					"path" : "C:/Users/blake/Desktop/C++ Projects/Docme/docme/package/processor/header"
 				},
 				{
 					"backtrace" : 3,
-					"path" : "C:/Users/blake/Desktop/C++ Projects/Docme/docme/package/parser"
+					"path" : "C:/Users/blake/Desktop/C++ Projects/Docme/docme/package/processor"
 				},
 				{
 					"backtrace" : 3,
@@ -116,11 +116,14 @@
 				2,
 				3,
 				4,
-				5
+				5,
+				6,
+				7,
+				8
 			]
 		}
 	],
-	"id" : "Docme::@be033bf84a7f7780960f",
+	"id" : "Processor::@b1debf92a2bb7377636f",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -140,12 +143,12 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "Docme",
+	"name" : "Processor",
 	"nameOnDisk" : "docme.exe",
 	"paths" : 
 	{
-		"build" : "docme/package/parser",
-		"source" : "docme/package/parser"
+		"build" : "docme/package/processor",
+		"source" : "docme/package/processor"
 	},
 	"sourceGroups" : 
 	[
@@ -158,7 +161,10 @@
 				2,
 				3,
 				4,
-				5
+				5,
+				6,
+				7,
+				8
 			]
 		}
 	],
@@ -167,25 +173,43 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "docme/package/parser/main.cpp",
+			"path" : "docme/package/processor/main.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "docme/package/parser/source/nodes.cpp",
+			"path" : "docme/package/processor/source/nodes.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "docme/package/parser/source/commandLineParser.cpp",
+			"path" : "docme/package/processor/source/commandLineParser.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "docme/package/parser/source/docPackets.cpp",
+			"path" : "docme/package/processor/source/docPackets.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "docme/package/processor/source/docmeInfo.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "docme/package/processor/source/parser.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "docme/package/processor/source/generator.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

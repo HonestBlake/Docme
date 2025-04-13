@@ -1,14 +1,13 @@
 #pragma once
 
-#include "parser.hpp"
+#include "processor.hpp"
 
 #include "docPackets.hpp" 
+#include "docmeInfo.hpp" 
 
-// #file: commandLineProccessor.hpp, header file
+// #file: commandLineParser.hpp, header file
 
-// adoc -p docPacket -c path/to/config.doc -o path/to/output/dir/ -f path/to/single/file.cpp -d path/to/source/dir/ -i path/to/ingnored/file.cpp
-
-namespace worTech::docme::genorator::commandLineParser{
+namespace worTech::docme::processor::commandLineParser{
 
     // #enum: CommandLineToken(Token), uint8_t enum class
     enum class CommandLineToken: uint8_t{
@@ -22,7 +21,7 @@ namespace worTech::docme::genorator::commandLineParser{
         VERSION,
         CONFIGURE
     };
-    // #namspace: commandLineVariables(commandLine), variable namespace
+    // #namespace: commandLineVariables(commandLine), variable namespace
     namespace commandLineVariables{
         constexpr std::string COMMAND_SPECIFIER = "--";
         constexpr std::string TAG_SPECIFIER = "-";
@@ -71,7 +70,9 @@ namespace worTech::docme::genorator::commandLineParser{
         static CommandLineParser& get()noexcept;
     // public methods
         CommandLineParser& parse(int p_argc, char* p_argv[])noexcept;
-        #ifdef WT_AUTODOC_DEBUGGING
+        ParserInfo parserInfo()const noexcept;
+        GeneratorInfo generatorInfo()const noexcept;
+        #ifdef WT_DOCME_DEBUGGING
         void printInternalData()noexcept;
         #endif
     private:
@@ -84,6 +85,7 @@ namespace worTech::docme::genorator::commandLineParser{
     // private methods
         std::unordered_map<Token, std::vector<std::string>> tokenizeCommandLine(std::vector<std::string>& p_args)noexcept;
         void setDefaultValues()noexcept;
+        void removeIgnoreFiles()noexcept;
         bool isValidFileType(const std::filesystem::path& p_file)noexcept;
         void handleRootDirectory(std::string&& p_directory)noexcept;
         void handlePacket(const std::string& p_packet)noexcept;
@@ -96,11 +98,14 @@ namespace worTech::docme::genorator::commandLineParser{
         void handleCommandLine(std::unordered_map<Token, std::vector<std::string>>&& p_commandLine)noexcept;
     // private members
         std::filesystem::path m_rootDirectory;
-        std::filesystem::path m_configFile;
-        std::filesystem::path m_outputDirectory;
-        std::unordered_set<Packet> m_packets;
-        std::unordered_set<std::filesystem::path> m_sourceFiles;
         std::unordered_set<std::filesystem::path> m_ignoreFiles;
+        ParserInfo m_parserInfo;
+        GeneratorInfo m_generatorInfo;
+
+        std::filesystem::path m_configFile;
+        // std::filesystem::path m_outputDirectory;
+        // std::unordered_set<Packet> m_packets;
+        // std::unordered_set<std::filesystem::path> m_sourceFiles;
     };
 
-} // namespace worTech::autoDoc::genorator::commandLineProccessor
+} // namespace worTech::autoDoc::generator::commandLineParser

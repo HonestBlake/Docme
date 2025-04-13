@@ -1,10 +1,10 @@
 #pragma once
 
-#include "parser.hpp"
+#include "processor.hpp"
 
 // #file: conceptTypes.hpp, header file
 
-namespace worTech::docme::genorator::conceptTypes{
+namespace worTech::docme::processor::conceptTypes{
 
     // #concept: StringType, type concept
     template<typename Type> concept StringType = std::is_same<std::decay_t<Type>, std::string>::value;
@@ -20,4 +20,4 @@ namespace worTech::docme::genorator::conceptTypes{
     // #concept: DataVectorType, type concept
     template<typename Type> concept DataVectorType = std::is_same<std::decay_t<Type>, std::vector<DataType>>::value;
 
-} // namespace worTech::cdocs::genorator::conceptTypes
+} // namespace worTech::cdocs::generator::conceptTypes

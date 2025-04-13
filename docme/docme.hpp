@@ -33,8 +33,7 @@ inline namespace worTech{
 
         }
         inline namespace config{}
-        inline namespace genorator{} 
-        namespace gen = genorator; // alias genorator to gen
+        inline namespace processor{}
     } // namespace docme
 } // inline namespace worTech
 namespace wt = worTech; // alias worTech to wt

@@ -46,15 +46,15 @@
 					"source" : "docme/library/nlohmann_json/json-src"
 				},
 				{
-					"build" : "docme/package/parser",
-					"jsonFile" : "directory-docme.package.parser-Debug-a3415225a63993666749.json",
+					"build" : "docme/package/processor",
+					"jsonFile" : "directory-docme.package.processor-Debug-2c2a987373e38ac6d722.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.31"
 					},
 					"parentIndex" : 1,
 					"projectIndex" : 0,
-					"source" : "docme/package/parser",
+					"source" : "docme/package/processor",
 					"targetIndexes" : 
 					[
 						0
@@ -94,9 +94,9 @@
 			[
 				{
 					"directoryIndex" : 3,
-					"id" : "Docme::@be033bf84a7f7780960f",
-					"jsonFile" : "target-Docme-Debug-d3953f69bf0b983fc9ac.json",
-					"name" : "Docme",
+					"id" : "Processor::@b1debf92a2bb7377636f",
+					"jsonFile" : "target-Processor-Debug-b15c58e351d13baeba42.json",
+					"name" : "Processor",
 					"projectIndex" : 0
 				}
 			]

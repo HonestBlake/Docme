@@ -1,6 +1,6 @@
 #pragma once
 
-#include "parser.hpp"
+#include "processor.hpp"
 #include "conceptTypes.hpp"
 
 // #class: g
@@ -20,7 +20,7 @@
 
 // TODO continuation doesnt work and multi line comments are not handled
 
-namespace worTech::docme::genorator::nodes{
+namespace worTech::docme::processor::nodes{
 
     // #namespace: typeEnumerations(type), variable namespace
     namespace typeEnumerations{
@@ -70,7 +70,7 @@ namespace worTech::docme::genorator::nodes{
             PRIVATE_STATIC,
             PROTECTED,
             PROTECTED_STATIC,
-            NON_MEMEBER
+            NON_MEMBER
         };
         // #enum: NodeType(Node), uint8_t enum class
         enum class NodeType: uint8_t{
@@ -159,7 +159,7 @@ namespace worTech::docme::genorator::nodes{
     // #struct: RequiredType, data structure
     struct RequiredType{
         std::string required;                   //              v-required          v-body
-        std::string body;                       // #requires: checkSomthing(), check if something is true
+        std::string body;                       // #requires: checkSomething(), check if something is true
         RequiredType() = default;
         ~RequiredType() = default;
     };
@@ -190,7 +190,7 @@ namespace worTech::docme::genorator::nodes{
         std::optional<std::string> m_brief;
         std::optional<std::string> m_note;
         std::optional<std::string> m_detail;
-        std::vector<FileNode*> m_depenendencies;
+        std::vector<FileNode*> m_dependencies;
         bool m_isComplete;
     // private factory methods
         FileNode() = default;
@@ -207,7 +207,7 @@ namespace worTech::docme::genorator::nodes{
         FileNode& addDependency(FileNode* const p_dependency)noexcept;
         FileNode& setIsComplete(const bool p_isComplete)noexcept;
     };
-    // #class: GlobalSpace, signleton class
+    // #class: GlobalSpace, singleton class
     class GlobalSpace{
     public:
     // public factory methods
@@ -277,7 +277,7 @@ namespace worTech::docme::genorator::nodes{
     // #class: NamespaceNode, class object
     class NamespaceNode: public Node<NamespaceNode>{
     public:
-    // public facotry methods
+    // public factory methods
         ~NamespaceNode() = default;
     // public static methods
         template<StringType T_name, OptionStringType T_alias, OptionStringType T_brief, OptionStringType T_note, OptionStringType T_detail> 
@@ -340,7 +340,7 @@ namespace worTech::docme::genorator::nodes{
     private:
     // private members
         std::optional<type::Class> m_classType;   
-        // TODO add tempalte and other needs specialazation?
+        // TODO add template and other needs specialazation?
         std::vector<TemplateType> m_templates;
         std::vector<InheritType> m_inheritedClasses;
         std::vector<FunctionNode*> m_friendFunctions;
@@ -366,11 +366,11 @@ namespace worTech::docme::genorator::nodes{
         ~FunctionNode() = default;
     // public static methods
         template<StringType T_name, OptionStringType T_alias, OptionStringType T_brief, OptionStringType T_note, OptionStringType T_detail, 
-            DataVectorType T_signiture> static FunctionNode* build(T_name&& p_name, T_alias&& p_alias, T_brief&& p_brief, T_note&& p_note, 
+            DataVectorType T_signature> static FunctionNode* build(T_name&& p_name, T_alias&& p_alias, T_brief&& p_brief, T_note&& p_note, 
             T_detail&& p_detail, const bool p_isVirtual, const bool p_isOverride, const bool p_isInline, const bool p_isConstExpr, 
-            const bool p_isNoExcept, const bool p_isConst, const type::Publicity p_publicityType, T_signiture&& p_signiture, FileNode* const p_file)noexcept;
+            const bool p_isNoExcept, const bool p_isConst, const type::Publicity p_publicityType, T_signature&& p_signature, FileNode* const p_file)noexcept;
         template<StringType T_name, DataVectorType T_signature> static FunctionNode* build(T_name&& p_name, 
-            T_signature&& p_signiture)noexcept;
+            T_signature&& p_signature)noexcept;
     // public methods
         inline type::Node type()const noexcept override;
         template<OptionStringType T_alias, OptionStringType T_brief, OptionStringType T_note, OptionStringType T_detail>
@@ -384,7 +384,7 @@ namespace worTech::docme::genorator::nodes{
         inline bool isNoExcept()const noexcept;
         inline bool isConst()const noexcept;
         inline type::Publicity publicityType()const noexcept;
-        inline const std::vector<DataType>& signiture()const noexcept;
+        inline const std::vector<DataType>& signature()const noexcept;
         inline const std::vector<FunctionNode*>& overloads()const noexcept;
         inline const std::vector<TemplateType>& templates()const noexcept;
         inline const std::vector<ThrowType>& throws()const noexcept;
@@ -401,7 +401,7 @@ namespace worTech::docme::genorator::nodes{
         bool m_isNoExcept;
         bool m_isConst;
         type::Publicity m_publicityType;
-        std::vector<DataType> m_signiture;
+        std::vector<DataType> m_signature;
         std::vector<FunctionNode*> m_overloads;
         std::vector<TemplateType> m_templates;
         std::vector<ThrowType> m_throws;
@@ -419,8 +419,8 @@ namespace worTech::docme::genorator::nodes{
         FunctionNode& setIsNoExcept(const bool p_isNoExcept)noexcept;
         FunctionNode& setIsConst(const bool p_isConst)noexcept;
         FunctionNode& setPublicityType(const type::Publicity p_publicityType)noexcept;
-        FunctionNode& setSigniture(const std::vector<DataType>& p_signiture)noexcept;
-        FunctionNode& setSigniture(std::vector<DataType>&& p_signiture)noexcept;
+        FunctionNode& setSignature(const std::vector<DataType>& p_signature)noexcept;
+        FunctionNode& setSignature(std::vector<DataType>&& p_signature)noexcept;
         FunctionNode& addOverload(FunctionNode* const p_overload)noexcept;
         FunctionNode& addTemplate(const TemplateType& p_template)noexcept;
         FunctionNode& addTemplate(TemplateType&& p_template)noexcept;
@@ -489,4 +489,4 @@ namespace worTech::docme::genorator::nodes{
         ConceptNode& setTemplates(TemplateType&& p_template)noexcept;
     };
 
-} // namespace worTech::cdocs::genorator::nodes
+} // namespace worTech::cdocs::generator::nodes

@@ -1,9 +1,6 @@
 #include "commandLineParser.hpp"
 
-// TODO esure order of cml
-// TODO fix relatice calls to file and dir for json
-
-namespace worTech::docme::genorator::commandLineParser{
+namespace worTech::docme::processor::commandLineParser{
 
 // CommandLineParser singleton class, method definitions
 
@@ -42,9 +39,31 @@ namespace worTech::docme::genorator::commandLineParser{
         }
         setDefaultValues();
         handleCommandLine(tokenizeCommandLine(args)); 
+        if(m_parserInfo.sourceFiles.empty()){ // No source files provided
+            debug::error(error::NO_SOURCE_FILES_PROVIDED);
+        }
+        removeIgnoreFiles(); 
         return *this;
     }
-    #ifdef WT_AUTODOC_DEBUGGING
+    // #func: parserInfo(), public noexcept method
+
+    // #return: ParserInfo, parser info member
+    ParserInfo CommandLineParser::parserInfo()const noexcept{
+        if constexpr(state::TRACING){ // Function tracing
+            debug::trace(std::source_location::current());
+        }
+        return std::move(m_parserInfo);
+    }
+    // #func: generatorInfo(), public noexcept method
+
+    // #return: GeneratorInfo, generator info member
+    GeneratorInfo CommandLineParser::generatorInfo()const noexcept{
+        if constexpr(state::TRACING){ // Function tracing
+            debug::trace(std::source_location::current());
+        }
+        return std::move(m_generatorInfo);
+    }
+    #ifdef WT_DOCME_DEBUGGING
     // #func: printInternalData(), public noexcept method
     void CommandLineParser::printInternalData()noexcept{
         if constexpr(state::TRACING){ // Function tracing
@@ -52,14 +71,14 @@ namespace worTech::docme::genorator::commandLineParser{
         }
         std::cout << "Root Directory: " << m_rootDirectory.string() << std::endl;
         std::cout << "Config File: " << m_configFile.string() << std::endl;
-        std::cout << "Output Directory: " << m_outputDirectory.string() << std::endl;
+        std::cout << "Output Directory: " << m_generatorInfo.outputDirectory.string() << std::endl;
         std::cout << "Packets: ";
-        for(const Packet packet: m_packets){
+        for(const Packet packet: m_parserInfo.packets){
         std::cout << packet.name() << " ";
         }
         std::cout << std::endl;
         std::cout << "Source Files: ";
-        for(const std::filesystem::path& file: m_sourceFiles){
+        for(const std::filesystem::path& file: m_parserInfo.sourceFiles){
             std::cout << file.string() << " ";
         }
         std::cout << std::endl;
@@ -126,7 +145,7 @@ namespace worTech::docme::genorator::commandLineParser{
                 flag = commandLine::FLAGS.at(p_args[arg]); // Set flag to command line flag 
             }else{ // Arg is an argument
                 if(arg == 0){ // Argument has no flag
-                    debug::error(error::UNRECONIZED_COMMAND_LINE_ARGUMENT, p_args[arg]);
+                    debug::error(error::UNRECOGNIZED_COMMAND_LINE_ARGUMENT, p_args[arg]);
                 }
                 commandLine[flag].emplace_back(std::move(p_args[arg])); // Add argument to command line
             }
@@ -139,8 +158,24 @@ namespace worTech::docme::genorator::commandLineParser{
             debug::trace(std::source_location::current());
         }
         m_rootDirectory = std::filesystem::current_path(); // Set default root directory to program call site
-        m_outputDirectory = m_rootDirectory; // Set default output directory to root directory
-        m_packets.emplace(Packet::get(packet::DOCME)); // Add default docme packet to packets
+        m_generatorInfo.outputDirectory = m_rootDirectory; // Set default output directory to root directory
+        m_parserInfo.packets.emplace(Packet::get(packet::DOCME)); // Add default docme packet to packets
+    }
+    // #func: removeIgnoreFiles(), private noexcept method
+    void CommandLineParser::removeIgnoreFiles()noexcept{
+        if constexpr(state::TRACING){ // Function tracing
+            debug::trace(std::source_location::current());
+        }
+        for(const std::filesystem::path& ignore: m_ignoreFiles){ // Remove each ignore file from source files
+            if(!std::filesystem::is_directory(ignore)){ // Ignore is a file
+                m_parserInfo.sourceFiles.erase(ignore);
+            }else{ // Ignore is a directory
+                // For each file in ignore directory, remove from source files
+                for(const std::filesystem::directory_entry& entry: std::filesystem::recursive_directory_iterator(ignore)){
+                    m_parserInfo.sourceFiles.erase(entry.path());
+                }
+            }
+        }
     }
     // #func: isValidFile(const std::filesystem::path&), private noexcept method
 
@@ -151,11 +186,11 @@ namespace worTech::docme::genorator::commandLineParser{
             debug::trace(std::source_location::current());
         }
         // Check file type against each file type in each packet 
-        for(const Packet& packet: m_packets){
+        for(const Packet& packet: m_parserInfo.packets){
             for(const std::string& fileType: packet.fileTypes()){
                 if(p_file.extension().string() == fileType) return true; // File type found in packets 
             }
-        } // for
+        }
         return false; // File type not found in packets
     }
     // #func: handleRootDirectory(std::string&&), private noexcept method
@@ -180,7 +215,7 @@ namespace worTech::docme::genorator::commandLineParser{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
-        m_packets.insert(Packet::get(p_packet)); // Get packet and add to packets
+        m_parserInfo.packets.insert(Packet::get(p_packet)); // Get packet and add to packets
     }
     // #func: handleConfigFile(std::string&&), private noexcept method
 
@@ -199,28 +234,28 @@ namespace worTech::docme::genorator::commandLineParser{
     }
     // #func: handleOutputDirectory(std::string&&), private noexcept method
 
-    // #param: std::string&& p_directory, given ourput directory
+    // #param: std::string&& p_directory, given output directory
     void CommandLineParser::handleOutputDirectory(std::string&& p_directory)noexcept{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
         std::filesystem::path directory = m_rootDirectory / std::filesystem::path(p_directory);
         if(!std::filesystem::exists(directory)){ // Check if output directory cannot be found
-            if(m_outputDirectory.empty()){ // Check if output directory is default set
+            if(m_generatorInfo.outputDirectory.empty()){ // Check if output directory is default set
                 debug::error(error::COULD_NOT_FIND_OUTPUT_DIRECTORY, p_directory);
             }else{
                 debug::warn(error::COULD_NOT_FIND_OUTPUT_DIRECTORY, p_directory); 
                 return;
             }
         }else if(!std::filesystem::is_directory(directory)){ // Check if output directory is valid
-            if(m_outputDirectory.empty()){ // Check if output directory is default set
+            if(m_generatorInfo.outputDirectory.empty()){ // Check if output directory is default set
                 debug::error(error::INVALID_OUTPUT_DIRECTORY, p_directory);
             }else{
                 debug::warn(error::INVALID_OUTPUT_DIRECTORY, p_directory); 
                 return;
             }
         }
-        m_outputDirectory = std::forward<std::filesystem::path>(directory);
+        m_generatorInfo.outputDirectory = std::forward<std::filesystem::path>(directory);
     }
     // #func: handleSource(std::string&&), private noexcept method
 
@@ -238,12 +273,12 @@ namespace worTech::docme::genorator::commandLineParser{
             // Check each file in directory to see if the file type is valid
             for(const std::filesystem::directory_entry& entry: std::filesystem::recursive_directory_iterator(source)){
                 if(isValidFileType(entry.path())){
-                    m_sourceFiles.emplace(std::move(entry.path()));
+                    m_parserInfo.sourceFiles.emplace(std::move(entry.path()));
                 }
             }
         }else{ // Source is a file
             if(isValidFileType(source)){
-                m_sourceFiles.emplace(std::move(source));
+                m_parserInfo.sourceFiles.emplace(std::move(source));
             }else{
                 debug::warn(error::INVALID_SOURCE_FILE_TYPE, p_source);
                 return;
@@ -252,12 +287,12 @@ namespace worTech::docme::genorator::commandLineParser{
     }
     // #func: handleIgnore(std::string&&), private noexcept method
     
-    // #param: std::string&& p_ingore, given ignore
-    void CommandLineParser::handleIgnore(std::string&& p_ingore)noexcept{
+    // #param: std::string&& p_ignore, given ignore
+    void CommandLineParser::handleIgnore(std::string&& p_ignore)noexcept{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
-        std::filesystem::path ignore =  m_rootDirectory / std::filesystem::path(p_ingore);
+        std::filesystem::path ignore =  m_rootDirectory / std::filesystem::path(p_ignore);
         if(!std::filesystem::exists(ignore)){ // Check if ignore cannot be found
             debug::warn(error::COULD_NOT_FIND_IGNORE, ignore.string());
             return;
@@ -340,4 +375,4 @@ namespace worTech::docme::genorator::commandLineParser{
         }
     }
 
-} // namespace worTech::autoDoc::genorator::commandLineProccessor
+} // namespace worTech::autoDoc::generator::commandLineParser

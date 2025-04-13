@@ -28,7 +28,7 @@ namespace worTech::docme::debugging{
 
     // #param: const btr::Level p_logLevel, log level
     // #param: const std::source_location& p_location, call location
-    // #return: std::string, formated location
+    // #return: std::string, formatted location
     std::string AutoDocTracer::formatLocation(const btr::Level p_logLevel, const std::source_location& p_location)const{
         return getLogColor(p_logLevel) + p_location.function_name() + btr::log::SPACE + btr::ansii::RESET;
     }

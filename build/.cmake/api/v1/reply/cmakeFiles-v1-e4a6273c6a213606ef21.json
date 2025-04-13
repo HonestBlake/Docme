@@ -232,7 +232,7 @@
 			"path" : "docme/library/nlohmann_json/json-src/cmake/config.cmake.in"
 		},
 		{
-			"path" : "docme/package/parser/CMakeLists.txt"
+			"path" : "docme/package/processor/CMakeLists.txt"
 		}
 	],
 	"kind" : "cmakeFiles",

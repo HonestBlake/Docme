@@ -8,7 +8,7 @@
 	"installers" : [],
 	"paths" : 
 	{
-		"build" : "docme/package/parser",
-		"source" : "docme/package/parser"
+		"build" : "docme/package/processor",
+		"source" : "docme/package/processor"
 	}
 }

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "parser.hpp"
+#include "processor.hpp"
 
-namespace worTech::docme::genorator::constants{
+namespace worTech::docme::processor::constants{
 
     enum class ReturnType{
         VOID,

@@ -1,6 +1,6 @@
 #include "nodes.hpp"
 
-namespace worTech::docme::genorator::nodes{
+namespace worTech::docme::processor::nodes{
 
 // FileNode, method definitions
 
@@ -98,7 +98,7 @@ namespace worTech::docme::genorator::nodes{
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
         #endif
-        return m_depenendencies;
+        return m_dependencies;
     }
     // #func:
     inline bool FileNode::isComplete()const noexcept{
@@ -198,7 +198,7 @@ namespace worTech::docme::genorator::nodes{
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
         #endif
-        m_depenendencies.push_back(p_dependency);
+        m_dependencies.push_back(p_dependency);
         return *this;
     }
     // #func:
@@ -217,7 +217,7 @@ namespace worTech::docme::genorator::nodes{
 
 // public static methods
 
-    // #func: getInstance(), public static noecxept method
+    // #func: getInstance(), public static noexcept method
     // #return: GlobalSpace&, reference to GlobalSpace instance
     GlobalSpace& GlobalSpace::getInstance()noexcept{
         // function tracing
@@ -230,7 +230,7 @@ namespace worTech::docme::genorator::nodes{
 
 // public methods
 
-    // #func: type(), public noecxept method
+    // #func: type(), public noexcept method
     // #return: type::Node, type of the node
     inline type::Node GlobalSpace::type()const noexcept{
         // function tracing
@@ -887,29 +887,29 @@ namespace worTech::docme::genorator::nodes{
     
     // #
     template<StringType T_name, OptionStringType T_alias, OptionStringType T_brief, OptionStringType T_note, OptionStringType T_detail, 
-    DataVectorType T_signiture> FunctionNode* FunctionNode::build(T_name&& p_name, T_alias&& p_alias, T_brief&& p_brief, 
+    DataVectorType T_signature> FunctionNode* FunctionNode::build(T_name&& p_name, T_alias&& p_alias, T_brief&& p_brief, 
     T_note&& p_note, T_detail&& p_detail, const bool p_isVirtual, const bool p_isOverride, const bool p_isInline, const bool p_isConstExpr, 
-    const bool p_isNoExcept, const bool p_isConst, const type::Publicity p_publicityType, T_signiture&& p_signiture, 
+    const bool p_isNoExcept, const bool p_isConst, const type::Publicity p_publicityType, T_signature&& p_signature, 
     FileNode* const p_file)noexcept{
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
         #endif
         FunctionNode* build = new FunctionNode();
-        build->setName(std::forward<T_name>(p_name)).setSigniture(std::forward<T_signiture>(p_signiture)).complete(std::forward<T_alias>(p_alias), 
+        build->setName(std::forward<T_name>(p_name)).setSignature(std::forward<T_signature>(p_signature)).complete(std::forward<T_alias>(p_alias), 
             std::forward<T_brief>(p_brief), std::forward<T_note>(p_note), std::forward<T_detail>(p_detail), p_isVirtual, p_isOverride, p_isInline, 
             p_isConstExpr, p_isNoExcept, p_isConst, p_publicityType, p_file);
         return build;
     }
     // #
     template<StringType T_name, DataVectorType T_signature> FunctionNode* FunctionNode::build(T_name&& p_name, 
-    T_signature&& p_signiture)noexcept{
+    T_signature&& p_signature)noexcept{
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
         #endif
         FunctionNode* build = new FunctionNode();
-        build->setName(std::forward<T_name>(p_name)).setSigniture(std::forward<T_signature>(p_signiture));
+        build->setName(std::forward<T_name>(p_name)).setSignature(std::forward<T_signature>(p_signature));
         return build;
     }
 
@@ -995,12 +995,12 @@ namespace worTech::docme::genorator::nodes{
         return m_publicityType;
     }
     // #
-    inline const std::vector<DataType>& FunctionNode::signiture()const noexcept{
+    inline const std::vector<DataType>& FunctionNode::signature()const noexcept{
         // function tracing
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
         #endif
-        return m_signiture;
+        return m_signature;
     }
     // #
     inline const std::vector<FunctionNode*>& FunctionNode::overloads()const noexcept{
@@ -1119,19 +1119,19 @@ namespace worTech::docme::genorator::nodes{
         return *this;
     }
     // #
-    FunctionNode& FunctionNode::setSigniture(const std::vector<DataType>& p_signiture)noexcept{
+    FunctionNode& FunctionNode::setSignature(const std::vector<DataType>& p_signature)noexcept{
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
         #endif
-        m_signiture = p_signiture;
+        m_signature = p_signature;
         return *this;
     }
     // #
-    FunctionNode& FunctionNode::setSigniture(std::vector<DataType>&& p_signiture)noexcept{
+    FunctionNode& FunctionNode::setSignature(std::vector<DataType>&& p_signature)noexcept{
         #ifdef WT_AUTODOC_DEBUG_TRACING
         debug::trace(std::source_location::current());
         #endif
-        m_signiture = std::forward<std::vector<DataType>>(p_signiture);
+        m_signature = std::forward<std::vector<DataType>>(p_signature);
         return *this;
     }
     // #
@@ -1406,4 +1406,4 @@ namespace worTech::docme::genorator::nodes{
         return *this;
     }
 
-} // namespace worTech::cdocs::genorator::nodes
+} // namespace worTech::cdocs::processor::nodes

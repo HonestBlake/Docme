@@ -1,4 +1,4 @@
-// #file: genorator.hpp, header file
+// #file: generator.hpp, header file
 
 #pragma once
 
@@ -6,11 +6,11 @@
 
 namespace worTech::docme{
 
-    // #namespace: genorator, inline package namespace
-    inline namespace genorator{
+    // #namespace: processor, inline package namespace
+    inline namespace processor{
         // #namespace: commandLineParser, inline module namespace
         inline namespace commandLineParser{
-            enum class CommandLineToken: uint8_t; 
+            enum class CommandLineToken: std::uint8_t; 
             namespace commandLineVariables{}
             namespace commandLine = commandLineVariables; // alias commandLineVariables to var
             using Token = CommandLineToken; // alias CommandLineTag to Tag
@@ -25,11 +25,27 @@ namespace worTech::docme{
             namespace packetVariables{}
             namespace packet = packetVariables; // alias packetVariables to var
         }
+        // #namespace: docmeInfo, inline module namespace
+        inline namespace docmeInfo{
+            enum class OutputType: std::uint8_t;
+            struct ParserInfo;
+            struct GeneratorInfo;
+        }
+        // #namespace: generator, inline module namespace
+        inline namespace generator{
+            class DocGenerator; 
+            using Generator = DocGenerator; // alias DocGenerator to Generator
+        }
+        // #namespace: parser, inline module namespace
+        inline namespace parser{
+            class ProgramParser; 
+            using Parser = ProgramParser; // alias ProgramParser to Parser
+        }
         // #
         inline namespace helpers{
-            class Genorator; 
-            class NodeStack;
-            class FileStack;
+            // class Generator; 
+            // class NodeStack;
+            // class FileStack;
         }
         // #
         inline namespace conceptTypes{}
@@ -37,19 +53,19 @@ namespace worTech::docme{
         inline namespace nodes{
             // #namespace:
             namespace typeEnumerations{
-                enum class DataType: uint8_t; 
+                enum class DataType: std::uint8_t; 
                 using Data = DataType; // alias DataType to Data
-                enum class TypeSpecifier: uint8_t; 
+                enum class TypeSpecifier: std::uint8_t; 
                 using Specifier = TypeSpecifier; // alias TypeSpecifier to Specifier
-                enum class PublicityType: uint8_t; 
+                enum class PublicityType: std::uint8_t; 
                 using Publicity = PublicityType; // alias PublicityType to Publicity
-                enum class NodeType: uint8_t; 
+                enum class NodeType: std::uint8_t; 
                 using Node = NodeType; // alias NodeType to Node
-                enum class NamespaceType: uint8_t; 
+                enum class NamespaceType: std::uint8_t; 
                 using Namespace = NamespaceType; // alias NamespaceType to Namespace
-                enum class ClassType: uint8_t; 
+                enum class ClassType: std::uint8_t; 
                 using Class = ClassType; // alias ClassType to Class
-                enum class FileType: uint8_t; 
+                enum class FileType: std::uint8_t; 
                 using File = FileType; // alias FileType to File
             } namespace type = typeEnumerations;
             struct DataType;
