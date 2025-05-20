@@ -8,6 +8,7 @@
 
 // #namespace: worTech, inline developer namespace
 inline namespace worTech{
+
     // #namespace: docme, project namespace
     namespace docme{
         // #namespace: programVariables, inline module namespace
@@ -29,14 +30,32 @@ inline namespace worTech{
             class AutoDocDebug;
         }
         // #namespace: jsonTools, inline module namespace
-        inline namespace jsonTools{
-
+        inline namespace jsonTools{}
+        // #namespace: nodes, inline module namespace
+        inline namespace nodes{
+            namespace nodeDefaultValues{}
+            namespace node = nodeDefaultValues; // alias nodeDefaultValues to node
+            class Node;
+            class DirectoryNode;
+            class DocumentedNode;
+            class FileNode;
+            class ComponentNode;
+            class GlobalNode;
         }
+        // #namespace: restrictedTypes, inline component namespace
+        inline namespace restrictedTypes{}
+        // #namespace: config, inline package namespace
         inline namespace config{}
+        // #namespace: processor, inline package namespace
         inline namespace processor{}
     } // namespace docme
 } // inline namespace worTech
 namespace wt = worTech; // alias worTech to wt
 
-#include "debugging.hpp" // include debugging module globally
-#include "programVariables.hpp" // include program variables module globally
+#include "debugging.hpp" // Include debugging module globally
+#include "programVariables.hpp" // Include program variables module globally
+
+#define WT_C_LINKAGE \
+    extern "C" // Force C linkage
+#define WT_PURE_VIRTUAL \
+    0 // Pure virtual marker

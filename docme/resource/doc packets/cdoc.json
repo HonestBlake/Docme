@@ -4,7 +4,7 @@
         "C",
         "C++"
     ],
-    "description": "Adds support for the C and C++ laguages",
+    "description": "Adds support for the C and C++ languages",
     "accepted_file_types": [
         ".cpp",
         ".hpp",
@@ -20,5 +20,18 @@
         ".ipp",
         ".inl",
         ".ixx"
+    ],
+    "single_comment": [
+        "//"
+    ],
+    "multi_comment": [
+        {
+            "start": "/*",
+            "end": "*/"
+        }
+    ],
+    "documentation_tag": [
+        "#",
+        "@"
     ]
 }

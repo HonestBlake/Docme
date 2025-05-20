@@ -17,8 +17,7 @@ namespace worTech::docme::processor::docmeInfo{
     };
     // #struct: ParserInfo, data structure
     struct ParserInfo{
-        std::unordered_set<Packet> packets;
-        std::unordered_set<std::filesystem::path> sourceFiles;
+        std::unordered_map<Packet, std::unordered_set<std::filesystem::path>> fileSets;
     };
     // #struct: GeneratorInfo, data structure
     struct GeneratorInfo{

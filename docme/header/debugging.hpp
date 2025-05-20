@@ -33,7 +33,7 @@ namespace worTech::docme::debugging{
         template<typename... T_args> std::string message(const std::string& p_message, T_args... p_args)noexcept;
         template<typename... T_args> void warn(const std::string& p_warning, T_args... p_args)noexcept;
         template<typename... T_args> void error(const std::string& p_error, T_args... p_args)noexcept;
-        void trace(std::source_location&& p_location)noexcept;
+        void trace(std::source_location&& p_location = std::source_location::current())noexcept;
     }
     // #namespace: loggerValues, variable namespace
     namespace loggerValues{

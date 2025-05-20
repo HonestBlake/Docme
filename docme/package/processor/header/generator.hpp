@@ -22,7 +22,7 @@ namespace worTech::docme::processor::generator{
         void generate(GeneratorInfo&& p_generatorInfo, const void*)noexcept; 
     private:
     // private factory methods
-        DocGenerator();
+        DocGenerator() = default; // default constructor
     };
     
 } // namespace worTech::docme::processor::generator

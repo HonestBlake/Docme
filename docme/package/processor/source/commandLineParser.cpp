@@ -1,4 +1,6 @@
-#include "commandLineParser.hpp"
+// #file: commandLineParser.cpp, source file
+
+#include "commandLineParser.hpp" // declaration header
 
 namespace worTech::docme::processor::commandLineParser{
 
@@ -375,4 +377,4 @@ namespace worTech::docme::processor::commandLineParser{
         }
     }
 
-} // namespace worTech::autoDoc::generator::commandLineParser
+} // namespace worTech::docme::generator::commandLineParser

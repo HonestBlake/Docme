@@ -1,160 +1,70 @@
+// #file: nodes.hpp, header file
+
 #pragma once
 
-#include "processor.hpp"
+#include "processor.hpp" // package header
+
 #include "conceptTypes.hpp"
-
-// #class: g
-// #note: g
-// g
-// g
-// #brief: gff
-
-/*
-
-  
-    #class:  DataType,  data  structure
-    #note:  DataType
-    ffd
-    #brief:  DataType 
-*/
-
-// TODO continuation doesnt work and multi line comments are not handled
 
 namespace worTech::docme::processor::nodes{
 
-    // #namespace: typeEnumerations(type), variable namespace
-    namespace typeEnumerations{
-        // #enum: DataType(Data), uint8_t enum class
-        enum class DataType: uint8_t{
-            VOID,
-            INT,
-            UINT,
-            FLOAT,
-            DOUBLE,
-            CHAR,
-            STRING,
-            BOOL,
-            SHORT,
-            USHORT,
-            LONG,
-            ULONG,
-            LONGLONG,
-            ULONGLONG,
-            UCHAR,
-            LONGDOUBLE,
-            INT64,
-            INT32,
-            INT16,
-            INT8,
-            UINT64,
-            UINT32,
-            UINT16,
-            UINT8,
-            CLASS, // special type for templates
-            TYPENAME, // special type for templates
-            CONSTRUCTOR, // special type for constructor returns
-            DESTRUCTOR // special type for destructor returns
-        };
-        // #TypeSpecifier(Specifier), uint8_t enum class
-        enum class TypeSpecifier: uint8_t{
-            REFERENCE, 
-            RVALUE_REFERENCE,
-            POINTER,
-            POINTER_TO_CONST
-        }; 
-        // #enum: PublicityType(Publicity), uint8_t enum class
-        enum class PublicityType: uint8_t{
-            PUBLIC,
-            PUBLIC_STATIC,
-            PRIVATE,
-            PRIVATE_STATIC,
-            PROTECTED,
-            PROTECTED_STATIC,
-            NON_MEMBER
-        };
-        // #enum: NodeType(Node), uint8_t enum class
-        enum class NodeType: uint8_t{
-            GLOBAL_SPACE,
-            NAMESPACE,
-            CLASS,
-            FUNCTION,
-            ENUM,
-            CONCEPT
-        };
-        // #enum: NamespaceType(Namespace), uint8_t enum class
-        enum class NamespaceType: uint8_t{
-            DEVELOPER,
-            PROJECT,
-            MODULE,
-            COMPONENT,
-            FUNCTION,
-            VARIABLE
-        };
-        // #enum: ClassType(Class), uint8_t enum class
-        enum class ClassType: uint8_t{
-            OBJECT_CLASS, 
-            ABSTRACT_CLASS,
-            STATIC_CLASS,
-            ABSTRACT_STATIC_CLASS,
-            FACTORY_CLASS,
-            ABSTRACT_FACTORY_CLASS,
-            SINGLETON_CLASS,
-            ABSTRACT_SINGLETON_CLASS,  
-            DATA_STRUCT
-        };
-        // #enum: FileType(File), uint8_t enum class
-        enum class FileType: uint8_t{
-            HEADER,
-            EXTERNAL,
-            SOURCE,
-            MAIN
-        };
-    }
-    // #struct: DataType, data structure
-    struct DataType{
-        std::variant<type::Data, std::string> type;
-        bool isConst;                                                                 
-        std::optional<type::Specifier> specifier;
-        DataType() = default;
-        ~DataType() = default;
+    // #enum: MemberType, uint8_t enum class
+    enum class MemberType: uint8_t{
+        PUBLIC,
+        PUBLIC_STATIC,
+        PRIVATE,
+        PRIVATE_STATIC,
+        PROTECTED,
+        PROTECTED_STATIC,
+        NON_MEMBER
+    };
+    // #enum: NodeType, uint8_t enum class
+    enum class NodeType: uint8_t{
+        GLOBAL_SPACE,
+        NAMESPACE,
+        CLASS,
+        FUNCTION,
+        ENUM,
+        CONCEPT
     };
     // #struct: ParameterType, data structure
-    struct ParameterType{
-        DataType type;
+    struct Parameter{
+        std::string type;
         std::string name;
-        std::optional<std::string> body;         //      DataType-v name-v  v-default v-body
-        std::optional<std::string> defaultValue; // #param: const int p_num(0), num param
-        ParameterType() = default;
-        ~ParameterType() = default;
+        std::string body;           //      DataType-v name-v  v-default v-body
+        std::string defaultValue;   // #param: const int p_num(0), num param
+        Parameter() = default;
+        ~Parameter() = default;
     };
     // #struct: ReturnType, data structure
     struct ReturnType{
-        DataType type;                          //             v-DataType         v-body                     
-        std::optional<std::string> body;        // #return: const std::string&, returns value
+        std::string type;                           //             v-DataType         v-body                     
+        std::string body;                           // #return: const std::string&, returns value
         ReturnType() = default;
         ~ReturnType() = default;
     };
     // #stuct: TemplateType, data structure
-    struct TemplateType{  
-        std::string type;                   //         type-v    v-name   v-body
+    struct Template{  
+        std::string type;                  //         type-v    v-name   v-body
         std::string name;                   // #template: class T_name, type of name
-        std::optional<std::string> body;
-        TemplateType() = default;
-        ~TemplateType() = default;
+        std::string body;
+        Template() = default;
+        ~Template() = default;
     };
     // #struct: InheritType, data structure
-    struct InheritType{ 
-        ClassNode* inherits;                //      publicity-v    v-inherits
-        type::Publicity publicity;          // #inherits: public BaseClass, class
-        InheritType() = default;
-        ~InheritType() = default;
+    struct Inherit{ 
+        ClassNode* inherits;                //      publicity-v    v-inherits    v-body
+        PublicityType publicity;          // #inherits: public BaseClass, base class for this class
+        std::string body;
+        Inherit() = default;
+        ~Inherit() = default;
     };
     // #struct: ThrowType, data structure
-    struct ThrowType{
+    struct Throw{
         std::string exception;                  //              v-exception       v-body
-        std::string body;                       // #throw: std::runtime_error, error when lala             
-        ThrowType() = default;
-        ~ThrowType() = default;
+        std::string body;                       // #throws: std::runtime_error, error when lala             
+        Throw() = default;
+        ~Throw() = default;
     };
     // #struct: RequiredType, data structure
     struct RequiredType{
@@ -300,17 +210,17 @@ namespace worTech::docme::processor::nodes{
     // private members
         std::optional<type::Namespace> m_namespaceType;
         bool m_isInline;
-        std::vector<NamespaceNode*> m_heldNamespaces;
-        std::vector<ClassNode*> m_heldClasses;
-        std::vector<FunctionNode*> m_heldFunctions; 
-        std::vector<EnumNode*> m_heldEnums;
-    // private factory methods
+   
         NamespaceNode()noexcept = default;
     // private methods
         NamespaceNode& setNamespaceType(const std::optional<type::Namespace>& p_namespaceType)noexcept;
         NamespaceNode& setIsInline(const bool p_isInline)noexcept;
         NamespaceNode& addHeldNamespace(NamespaceNode* const p_namespaceNode)noexcept;
-        NamespaceNode& addHeldClass(ClassNode* const p_classNode)noexcept;
+        Nam     std::vector<NamespaceNode*> m_heldNamespaces;
+        std::vector<ClassNode*> m_heldClasses;
+        std::vector<FunctionNode*> m_heldFunctions; 
+        std::vector<EnumNode*> m_heldEnums;
+    // private factory methodsespaceNode& addHeldClass(ClassNode* const p_classNode)noexcept;
         NamespaceNode& addHeldFunction(FunctionNode* const p_functionNode)noexcept;
         NamespaceNode& addHeldEnum(EnumNode* const p_enumNode)noexcept;
     };

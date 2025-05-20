@@ -4,7 +4,7 @@
 set(
     SOURCE_FILES ${PROCESSOR}/main.cpp 
     # ${PARSER}/${SOURCE}/helpers.cpp 
-    ${PROCESSOR}/${SOURCE}/nodes.cpp 
+    # ${PROCESSOR}/${SOURCE}/nodes.cpp 
     ${PROCESSOR}/${SOURCE}/commandLineParser.cpp
     ${PROCESSOR}/${SOURCE}/docPackets.cpp 
     ${PROCESSOR}/${SOURCE}/docmeInfo.cpp

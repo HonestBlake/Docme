@@ -17,7 +17,14 @@ namespace worTech::docme::processor::docPackets{
         constexpr std::string NAME = "packet_name";
         const std::string FILE_TYPES = "accepted_file_types";
     }
+    // #struct: MultiLineComment, data structure
+    struct MultiLineComment{
+        std::string start;
+        std::string end;
+    };
     // #class: DocPacket(Packet), class object
+    // TODO support new additions with getters and setters
+    // TODO add parsing and building for new additions
     class DocPacket{
     public:
     // public factory methods
@@ -34,6 +41,9 @@ namespace worTech::docme::processor::docPackets{
     // private members
         std::string m_name;
         std::unordered_set<std::string> m_fileTypes;
+        std::unordered_set<std::string> m_singleComment;
+        std::unordered_set<MultiLineComment> m_multiComment;
+        std::unordered_set<std::string> m_documentationTag;
     };
 
 } // namespace worTech::docme::generator::packetManager

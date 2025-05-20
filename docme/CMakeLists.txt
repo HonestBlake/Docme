@@ -5,8 +5,9 @@ set(PROCESSOR ${COMMON}/${PACKAGE}/processor)
 set(COMMON_SOURCE_FILES 
     ${COMMON}/${SOURCE}/debugging.cpp
     ${COMMON}/${SOURCE}/jsonTools.cpp
+    ${COMMON}/${SOURCE}/nodes.cpp
 )
-set(COMMON_HEADER_INCLUDES ${COMMON}/${HEADER} ${COMMON})
+set(COMMON_HEADER_INCLUDES ${COMMON}/${HEADER} ${COMMON}/${SOURCE} ${COMMON})
 
 # Add the nlohmann_json library to the project
 set(FETCHCONTENT_BASE_DIR ${COMMON}/${LIBRARY}/nlohmann_json)

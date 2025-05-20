@@ -3,6 +3,7 @@
 #pragma once
 
 #include "processor.hpp" // package header
+#include "docmeInfo.hpp" // used for ParserInfo
 
 namespace worTech::docme::processor::parser{
 
@@ -19,10 +20,10 @@ namespace worTech::docme::processor::parser{
     // public static methods
         static ProgramParser& get()noexcept;
     // public methods
-        const void* parse(ParserInfo&& p_parserInfo)noexcept; 
+        const void* parse(ParserInfo&& p_parserInfo)noexcept;
     private:
     // private factory methods
-        ProgramParser();
+        ProgramParser() = default; // default constructor
     };
-
+    
 } // namespace worTech::docme::processor::parser

@@ -24,6 +24,12 @@ namespace worTech::docme::programVariables{
         #else
         constexpr bool WARNING_IS_ERROR = false;
         #endif
+        // set DEBUGGING when macro defined
+        #ifdef WT_DOCME_DEBUGGING
+        constexpr bool DEBUGGING = true;
+        #else
+        constexpr bool DEBUGGING = false;
+        #endif
     }
 
 } // namespace worTech::docme::programVariables
