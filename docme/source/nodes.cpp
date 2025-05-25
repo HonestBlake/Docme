@@ -4,13 +4,32 @@ namespace worTech::docme::nodes{
 
 // Node, method definitions
 
+// public methods
+
+    // #func: Node::name(), public const method
+    // #return: std::string, Name of node
+    std::string Node::name()const{
+        if constexpr(state::TRACING){ // Function tracing
+            debug::trace();
+        }
+        return m_name;
+    }
+    // #func: Node::type(), public const method
+    // #return: std::string, Name of node
+    std::string Node::type()const{
+        if constexpr(state::TRACING){ // Function tracing
+            debug::trace();
+        }
+        return m_type;
+    }
+
 // ------------------------------------------------------------------------------------------------------------------------------------------
 
 // DirectoryNode, method definitions
 
 // public factory methods
 
-    // #func: DirectoryNode(const std::string&), public constructor
+    // #func: DirectoryNode::DirectoryNode(const std::string&), public constructor
     // #param: const std::string& p_name, Name of node
     DirectoryNode::DirectoryNode(const std::string& p_name): Node(p_name, node::DIRECTORY_TYPE){
         if constexpr(state::TRACING){ // Function tracing
@@ -18,7 +37,7 @@ namespace worTech::docme::nodes{
         }
     }
 
-    // #func: DirectoryNode(std::string&&), public constructor
+    // #func: DirectoryNode::DirectoryNode(std::string&&), public constructor
     // #param: std::string&& p_name, Name of node
     DirectoryNode::DirectoryNode(std::string&& p_name): Node(std::forward<std::string>(p_name), node::DIRECTORY_TYPE){
         if constexpr(state::TRACING){ // Function tracing
@@ -40,7 +59,7 @@ namespace worTech::docme::nodes{
 
 // public methods
 
-    // #func: linkFile(FileNode* const p_file), public method
+    // #func: ComponentNode::linkFile(FileNode* const p_file), public method
     void ComponentNode::linkFile(FileNode* const p_file){
         if constexpr(state::TRACING){ // Function tracing
             debug::trace();
@@ -66,7 +85,7 @@ namespace worTech::docme::nodes{
     
 // private factory methods
 
-    // #func: GlobalNode(), private constructor
+    // #func: GlobalNode::GlobalNode(), private constructor
     GlobalNode::GlobalNode(): Node(node::GLOBAL_NAME, node::GLOBAL_TYPE){
         if constexpr(state::TRACING){ // Function tracing
             debug::trace();

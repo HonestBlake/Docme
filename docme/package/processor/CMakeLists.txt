@@ -6,9 +6,8 @@ set(
     # ${PARSER}/${SOURCE}/helpers.cpp 
     # ${PROCESSOR}/${SOURCE}/nodes.cpp 
     ${PROCESSOR}/${SOURCE}/commandLineParser.cpp
-    ${PROCESSOR}/${SOURCE}/docPackets.cpp 
     ${PROCESSOR}/${SOURCE}/docmeInfo.cpp
-    ${PROCESSOR}/${SOURCE}/parser.cpp
+    # ${PROCESSOR}/${SOURCE}/parser.cpp
     ${PROCESSOR}/${SOURCE}/generator.cpp
 )
 

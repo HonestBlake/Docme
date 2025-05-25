@@ -5,20 +5,22 @@
 #include "docme.hpp" // project header
 #include "restrictedTypes.hpp" // used for StringType concept
 
+#include "parser.hpp" // TODO move documentation obj out
+
 namespace worTech::docme{
     class DocLine;
 }
 
 namespace worTech::docme::nodes{
 
-    // #namespace: nodeDefaultValues, inline variable namespace
+    // #namespace: nodes::nodeDefaultValues, inline variable namespace
     namespace nodeDefaultValues{
         constexpr std::string GLOBAL_NAME = "Global";
         constexpr std::string GLOBAL_TYPE = "Scope";
         constexpr std::string DIRECTORY_TYPE = "Directory";
     }
 
-    // #class: Node, abstract class
+    // #class: nodes::Node, abstract class
     class Node{
     public:
     // public factory methods
@@ -30,13 +32,16 @@ namespace worTech::docme::nodes{
     // public operators
         Node& operator=(const Node&) = default; // #default: operator=(const Node&), default copy assignment operator
         Node& operator=(Node&&) = default; // #default: operator=(Node&&), default move assignment operator
+    //public methods
+        std::string name()const;
+        std::string type()const;
     protected:
     // protected members
         std::string m_name;
         std::string m_type; // primary type e.g. class, function, header file
     };
 
-    // #class: DirectoryNode, object class
+    // #class: nodes::DirectoryNode, final object class
     class DirectoryNode final: public Node{
     public:
     // public factory methods
@@ -51,7 +56,7 @@ namespace worTech::docme::nodes{
         DirectoryNode& operator=(DirectoryNode&&) = default; // #default: operator=(DirectoryNode&&), default move assignment operator
     };
 
-    // #class: DocumentedNode, abstract class
+    // #class: nodes::DocumentedNode, abstract class
     class DocumentedNode: public Node{
     public:
     // public factory methods
@@ -63,10 +68,10 @@ namespace worTech::docme::nodes{
         DocumentedNode& operator=(const DocumentedNode&) = default; // #default: operator=(const DocumentedNode&), default copy assignment operator
         DocumentedNode& operator=(DocumentedNode&&) = default; // #default: operator=(DocumentedNode&&), default move assignment operator
     // public methods
-        virtual void addLine(DocLine&& p_line) = WT_PURE_VIRTUAL; // #abstract: addLine(DocLine&&), pure virtual method
+        virtual void addAttribute(DocumentationLine&& p_line) = WT_PURE_VIRTUAL; // #abstract: addAttribute(DocLine&&), pure virtual method
     };
 
-    // #class: FileNode, abstract class
+    // #class: nodes::FileNode, abstract class
     class FileNode: public DocumentedNode{
     public:
     // public factory methods
@@ -79,7 +84,7 @@ namespace worTech::docme::nodes{
         FileNode& operator=(FileNode&&) = default; // #default: operator=(FileNode&&), default move assignment operator
     };
 
-    // #class: ComponentNode, abstract class
+    // #class: nodes::ComponentNode, abstract class
     class ComponentNode: public DocumentedNode{
     public:
     // public factory methods
@@ -97,7 +102,7 @@ namespace worTech::docme::nodes{
         FileNode* m_file;
     };
     
-    // #class: GlobalNode, singleton class
+    // #class: nodes::GlobalNode, final singleton class
     class GlobalNode final: public Node{
     public:
     // public factory methods

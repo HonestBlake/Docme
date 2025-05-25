@@ -2,15 +2,15 @@
 
 #include "processor.hpp"
 
-#include "docPackets.hpp" 
+#include "packets.hpp" 
 #include "docmeInfo.hpp" 
 
 // #file: commandLineParser.hpp, header file
 
 namespace worTech::docme::processor::commandLineParser{
 
-    // #enum: CommandLineToken(Token), uint8_t enum class
-    enum class CommandLineToken: uint8_t{
+    // #enum: CommandLineToken(Token), uint8_t enum struct
+    enum struct CommandLineToken: uint8_t{
         ROOT_DIR,
         DOC_PACKET,
         CONFIG_FILE,
@@ -20,7 +20,8 @@ namespace worTech::docme::processor::commandLineParser{
         HELP,
         VERSION,
         CONFIGURE
-    };
+    }; // #end: CommandLineToken
+
     // #namespace: commandLineVariables(commandLine), variable namespace
     namespace commandLineVariables{
         constexpr std::string COMMAND_SPECIFIER = "--";
@@ -57,6 +58,7 @@ namespace worTech::docme::processor::commandLineParser{
             Token::IGNORE
         };
     }
+
     // #class: CommandLineParser, singleton class
     class CommandLineParser{
     public:
@@ -67,7 +69,8 @@ namespace worTech::docme::processor::commandLineParser{
     // public operators
         CommandLineParser& operator=(const CommandLineParser&) = delete; // delete copy assignment operator
     // public static methods
-        static CommandLineParser& get()noexcept;
+        static CommandLineParser& get(int p_argc = 0, char* p_argv[] = nullptr);
+        static CommandLineParser& get();
     // public methods
         CommandLineParser& parse(int p_argc, char* p_argv[])noexcept;
         ParserInfo parserInfo()const noexcept;
@@ -77,7 +80,7 @@ namespace worTech::docme::processor::commandLineParser{
         #endif
     private:
     // private factory methods
-        CommandLineParser();
+        CommandLineParser(int p_argc, char* p_argv[]);
     // private static methods
         void help()const noexcept;
         void version()const noexcept;
@@ -96,7 +99,10 @@ namespace worTech::docme::processor::commandLineParser{
         void handleSpecialFlag(const Token p_specialFlag)noexcept;
         void handleArgument(const Token p_flag, std::string&& p_arg)noexcept;
         void handleCommandLine(std::unordered_map<Token, std::vector<std::string>>&& p_commandLine)noexcept;
+    // private static members
+        static inline bool s_isInitialized = false; // If object has been initialized
     // private members
+        std::vector<std::string> m_args;
         std::filesystem::path m_rootDirectory;
         std::unordered_set<std::filesystem::path> m_ignoreFiles;
         ParserInfo m_parserInfo;
@@ -106,6 +112,7 @@ namespace worTech::docme::processor::commandLineParser{
         // std::filesystem::path m_outputDirectory;
         // std::unordered_set<Packet> m_packets;
         // std::unordered_set<std::filesystem::path> m_sourceFiles;
-    };
+
+    }; // #end: CommandLineParser
 
 } // namespace worTech::autoDoc::generator::commandLineParser

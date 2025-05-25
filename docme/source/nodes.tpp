@@ -10,7 +10,7 @@ namespace worTech::docme::nodes{
 
 // public factory methods
 
-    // #func: Node(T_name&&, T_type&&), public template constructor
+    // #func: Node::Node(T_name&&, T_type&&), public template constructor
     // #template: StringType T_name, Type of p_name param
     // #template: StringType T_type, Type of p_type param
     // #param: T_name&& p_name, Name of node taken as a universal reference

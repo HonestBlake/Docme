@@ -2,6 +2,10 @@
 
 #include "nodes.hpp"
 
+#include "parser.hpp" 
+
+#include "packets.hpp"
+
 
 
 // struct Dependency{
@@ -34,54 +38,37 @@ namespace dll{
     std::function<ComponentNode*(std::string, std::string)> newComponentNode;
 }
 
-struct DocLine{
-    std::string tag;
-    std::string body;
-};
-
-struct DocSection{
-    std::string name;
-    std::string type;
-    std::vector<DocLine> lines;
-};
-
-struct DocFile{
-    std::optional<DocSection> file;
-    std::vector<DocSection> components;
-};
-
+std::vector<Packet> packets;
 
 void foo(){
 
-    
 // parsing step using gernerics with dll
 
-    
+for(Packet& packet: packets){
 
-    
-    std::vector<DocFile> docFiles;
+    std::vector<DocumentationFile> documentationFiles;
 
-    for(auto& [fileSection, componentSections]: docFiles){
+    for(auto& [fileSection, componentSections]: documentationFiles){
         FileNode* file = nullptr;
         // Create file node
         if(fileSection){ // Checking if fileSection is present
             auto& [fileName, fileType, fileLines] = *fileSection;
-            file = dll::newFileNode(fileName, fileType);
-            for(DocLine& line: fileLines){
-                file->addLine(std::move(line));
+            file = packet.newFileNode(fileName, fileType);
+            for(DocumentationLine& line: fileLines){
+                file->addAttribute(std::move(line));
             }
         }
         // Create component nodes
         for(auto& [componentName, componentType, componentLines]: componentSections){
-            ComponentNode* const component = dll::newComponentNode(componentName, componentType);
+            ComponentNode* const component = packet.newComponentNode(componentName, componentType);
             component->linkFile(file);
-            for(DocLine& line: componentLines){
-                component->addLine(std::move(line));
+            for(DocumentationLine& line: componentLines){
+                component->addAttribute(std::move(line));
             }
         }
     }
 
     
-
+}
 }
 }

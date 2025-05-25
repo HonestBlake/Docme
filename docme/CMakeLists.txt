@@ -6,6 +6,7 @@ set(COMMON_SOURCE_FILES
     ${COMMON}/${SOURCE}/debugging.cpp
     ${COMMON}/${SOURCE}/jsonTools.cpp
     ${COMMON}/${SOURCE}/nodes.cpp
+    ${COMMON}/${SOURCE}/packets.cpp
 )
 set(COMMON_HEADER_INCLUDES ${COMMON}/${HEADER} ${COMMON}/${SOURCE} ${COMMON})
 

@@ -31,6 +31,17 @@ inline namespace worTech{
         }
         // #namespace: jsonTools, inline module namespace
         inline namespace jsonTools{}
+        // #namespace: packets, inline module namespace
+        inline namespace packets{
+            class Packet;
+            struct PacketHasher;
+            namespace packetVariables{}
+            namespace packet = packetVariables; // alias packetVariables to packet
+            namespace packetFileKeys{}
+            namespace key = packetFileKeys; // alias packetFileKeys to key
+            namespace packetFunctions{}
+            namespace func = packetFunctions; // alias packetFunctions to func
+        }
         // #namespace: nodes, inline module namespace
         inline namespace nodes{
             namespace nodeDefaultValues{}

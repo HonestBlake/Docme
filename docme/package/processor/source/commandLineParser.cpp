@@ -8,14 +8,14 @@ namespace worTech::docme::processor::commandLineParser{
 
 // public static methods
 
-    // #func: get(), public static noexcept method
-
-    // #return: CommandLineParser&, singleton instance of CommandLineParser
-    CommandLineParser& CommandLineParser::get()noexcept{
+    CommandLineParser& CommandLineParser::get(int p_argc, char* p_argv[]){
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
-        static CommandLineParser instance = CommandLineParser();
+        if(!s_isInitialized){ // Check if object has been initialized
+            debug::error();
+        }
+        static CommandLineParser instance = CommandLineParser(p_argc, p_argv);
         return instance;
     }
 
@@ -26,20 +26,11 @@ namespace worTech::docme::processor::commandLineParser{
     // #param: p_argc, int, number of command line arguments
     // #param: p_argv, char**, command line arguments
     // #return: CommandLineParser&, reference to current instance
-    CommandLineParser& CommandLineParser::parse(const int p_argc, char* p_argv[])noexcept{
+    CommandLineParser& CommandLineParser::parse()noexcept{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(std::source_location::current());
         }
-        if(p_argc < 2){ // Check if any command line args were provided
-            debug::error(error::NO_COMMAND_LINE_ARGUMENTS);
-        }
-        // Move command line args to to string vector
-        std::vector<std::string> args;
-        args.reserve(p_argc - 1); 
-        for(int i = 1; i < p_argc; i++){
-            args.emplace_back(p_argv[i]);
-        }
-        setDefaultValues();
+        
         handleCommandLine(tokenizeCommandLine(args)); 
         if(m_parserInfo.sourceFiles.empty()){ // No source files provided
             debug::error(error::NO_SOURCE_FILES_PROVIDED);
@@ -94,12 +85,21 @@ namespace worTech::docme::processor::commandLineParser{
 
 // private factory methods
 
-    // #func: CommandLineParser(), private constructor
-    CommandLineParser::CommandLineParser(){
+    // #func: CommandLineParser(int, char*[]), constructor
+    CommandLineParser::CommandLineParser(int p_argc, char* p_argv[]){
         if constexpr(state::TRACING){ // Function tracing
-            debug::trace(std::source_location::current());
+            debug::trace();
         }
-    }
+        s_isInitialized = true; // Set initialized to true
+        if(p_argc < 2){ // Check if any command line args were provided
+            debug::error(error::NO_COMMAND_LINE_ARGUMENTS);
+        }
+        if(p_argv == nullptr){ // Check if command line args are null
+            debug::error(error::NULL_COMMAND_LINE_ARGUMENTS);
+        }
+        m_args = std::vector<std::string>(p_argv, p_argv + p_argc); // Move command line args to string vector
+        setDefaultValues();
+    } // #end: CommandLineParser(int, char*[])
 
 // private static methods
 

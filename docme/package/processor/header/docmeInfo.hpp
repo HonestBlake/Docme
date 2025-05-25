@@ -4,6 +4,8 @@
 
 #include "processor.hpp" // decloation header
 
+#include "packets.hpp" // used for Packet class
+
 namespace worTech::docme::processor::docmeInfo{
 
     // #enum: OutputType, uint8_t enum class
@@ -17,7 +19,7 @@ namespace worTech::docme::processor::docmeInfo{
     };
     // #struct: ParserInfo, data structure
     struct ParserInfo{
-        std::unordered_map<Packet, std::unordered_set<std::filesystem::path>> fileSets;
+        std::unordered_set<Packet> packets;
     };
     // #struct: GeneratorInfo, data structure
     struct GeneratorInfo{

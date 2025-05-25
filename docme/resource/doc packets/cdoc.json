@@ -5,33 +5,5 @@
         "C++"
     ],
     "description": "Adds support for the C and C++ languages",
-    "accepted_file_types": [
-        ".cpp",
-        ".hpp",
-        ".c",
-        ".h",
-        ".cc",
-        ".cxx",
-        ".c++",
-        ".hxx",
-        ".h++",
-        ".hh",
-        ".tpp",
-        ".ipp",
-        ".inl",
-        ".ixx"
-    ],
-    "single_comment": [
-        "//"
-    ],
-    "multi_comment": [
-        {
-            "start": "/*",
-            "end": "*/"
-        }
-    ],
-    "documentation_tag": [
-        "#",
-        "@"
-    ]
+    "dll_name": "cdoc.dll"
 }

@@ -17,14 +17,6 @@ namespace worTech::docme{
             class CommandLineParser; 
             using CommandLine = CommandLineParser; // alias CommandLineParser to CommandLine
         }
-        // #namespace: docPackets, inline module namespace
-        inline namespace docPackets{
-            class DocPacket;
-            struct DocPacketHasher;
-            using Packet = DocPacket; // alias DocPacket to Packet
-            namespace packetVariables{}
-            namespace packet = packetVariables; // alias packetVariables to var
-        }
         // #namespace: docmeInfo, inline module namespace
         inline namespace docmeInfo{
             enum class OutputType: std::uint8_t;
