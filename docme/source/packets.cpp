@@ -53,7 +53,7 @@ namespace worTech::docme::packets{
             debug::error(libraryName.error());
         }
         // Load library
-        m_library = DynamicLibrary::load(packet::PATH_TO / std::filesystem::path(*libraryName));
+        m_library = btr::DynamicLibrary::load(packet::PATH_TO / std::filesystem::path(*libraryName));
         if(!m_library){ // Check if error loading library
             debug::error(error::FAILED_TO_LOAD_DLL, *libraryName);
         }
@@ -214,14 +214,54 @@ namespace worTech::docme::packets{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(); 
         }
-        m_isTagSymbol = m_library.getFunction<IsTagSymbol>(func::IS_TAG_SYMBOL);
-        m_isSingleLineComment = m_library.getFunction<IsSingleLineComment>(func::IS_SINGLE_LINE_COMMENT);
-        m_isMultiLineCommentStart = m_library.getFunction<IsMultiLineCommentStart>(func::IS_MULTI_LINE_COMMENT_START);
-        m_isMultiLineCommentEnd = m_library.getFunction<IsMultiLineCommentEnd>(func::IS_MULTI_LINE_COMMENT_END);
-        m_isValidTag = m_library.getFunction<IsValidTag>(func::IS_VALID_TAG);
-        m_isContinuableTag = m_library.getFunction<IsContinuableTag>(func::IS_CONTINUABLE_TAG);
-        m_isNewFileTag = m_library.getFunction<IsNewFileTag>(func::IS_NEW_FILE_TAG);
-        m_isNewComponentTag = m_library.getFunction<IsNewComponentTag>(func::IS_NEW_COMPONENT_TAG);
+        // Set isTagSymbol function pointer
+        auto isTagSymbol = m_library.getFunction<IsTagSymbol>(func::IS_TAG_SYMBOL);
+        if(!isTagSymbol){ // Check if error getting isTagSymbol function
+            debug::error(isTagSymbol.error());
+        }
+        m_isTagSymbol = *isTagSymbol;
+        // Set isSingleLineComment function pointer
+        auto isSingleLineComment = m_library.getFunction<IsSingleLineComment>(func::IS_SINGLE_LINE_COMMENT);
+        if(!isSingleLineComment){ // Check if error getting isSingleLineComment function
+            debug::error(isSingleLineComment.error());
+        }
+        m_isSingleLineComment = *isSingleLineComment;
+        // Set isMultiLineCommentStart function pointer
+        auto isMultiLineCommentStart = m_library.getFunction<IsMultiLineCommentStart>(func::IS_MULTI_LINE_COMMENT_START);
+        if(!isMultiLineCommentStart){ // Check if error getting isMultiLineCommentStart function
+            debug::error(isMultiLineCommentStart.error());
+        }
+        m_isMultiLineCommentStart = *isMultiLineCommentStart;
+        // Set isMultiLineCommentEnd function pointer
+        auto isMultiLineCommentEnd = m_library.getFunction<IsMultiLineCommentEnd>(func::IS_MULTI_LINE_COMMENT_END);
+        if(!isMultiLineCommentEnd){ // Check if error getting isMultiLineCommentEnd function
+            debug::error(isMultiLineCommentEnd.error());
+        }
+        m_isMultiLineCommentEnd = *isMultiLineCommentEnd;
+        // Set isValidTag function pointer
+        auto isValidTag = m_library.getFunction<IsValidTag>(func::IS_VALID_TAG);
+        if(!isValidTag){ // Check if error getting isValidTag function
+            debug::error(isValidTag.error());
+        }
+        m_isValidTag = *isValidTag;
+        // Set isContinuableTag function pointer
+        auto isContinuableTag = m_library.getFunction<IsContinuableTag>(func::IS_CONTINUABLE_TAG);
+        if(!isContinuableTag){ // Check if error getting isContinuableTag function
+            debug::error(isContinuableTag.error());
+        }
+        m_isContinuableTag = *isContinuableTag;
+        // Set isNewFileTag function pointer
+        auto isNewFileTag = m_library.getFunction<IsNewFileTag>(func::IS_NEW_FILE_TAG);
+        if(!isNewFileTag){ // Check if error getting isNewFileTag function
+            debug::error(isNewFileTag.error());
+        }
+        m_isNewFileTag = *isNewFileTag;
+        // Set isNewComponentTag function pointer
+        auto isNewComponentTag = m_library.getFunction<IsNewComponentTag>(func::IS_NEW_COMPONENT_TAG);
+        if(!isNewComponentTag){ // Check if error getting isNewComponentTag function
+            debug::error(isNewComponentTag.error());
+        }
+        m_isNewComponentTag = *isNewComponentTag;
     } // #end: loadLibraryFunctions()
 
 } // namespace worTech::docme::processor::packetManager

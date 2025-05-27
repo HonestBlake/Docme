@@ -36,7 +36,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 28,
+				"line" : 29,
 				"parent" : 0
 			},
 			{
@@ -102,6 +102,10 @@
 				{
 					"backtrace" : 4,
 					"path" : "C:/Users/blake/Desktop/C++ Projects/Docme/docme/library/nlohmann_json/json-src/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/blake/Desktop/C++ Projects/Docme/docme/library/BetterDynamicLibraries/betterdynamiclibraries-src/better dynamic libraries/../include"
 				}
 			],
 			"language" : "CXX",

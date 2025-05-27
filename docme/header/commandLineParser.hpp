@@ -70,9 +70,8 @@ namespace worTech::docme::processor::commandLineParser{
         CommandLineParser& operator=(const CommandLineParser&) = delete; // delete copy assignment operator
     // public static methods
         static CommandLineParser& get(int p_argc = 0, char* p_argv[] = nullptr);
-        static CommandLineParser& get();
     // public methods
-        CommandLineParser& parse(int p_argc, char* p_argv[])noexcept;
+        CommandLineParser& parse();
         ParserInfo parserInfo()const noexcept;
         GeneratorInfo generatorInfo()const noexcept;
         #ifdef WT_DOCME_DEBUGGING

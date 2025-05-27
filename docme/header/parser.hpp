@@ -49,18 +49,21 @@ namespace worTech::docme::processor::parser{
     // public static methods
         static ProgramParser& get(ParserInfo&& p_parserInfo = ParserInfo());
     // public methods
-        const void* parse();
+        ProgramParser& parse();
     private:
     // private factory methods
         ProgramParser(ParserInfo&& p_parserInfo)noexcept;
     // private static members
         static inline bool s_isInitialized = false; // If object has been initialized
+        static inline bool s_hasParsed = false; // If program files have been parsed
     // private members
         std::unordered_set<Packet> m_packets;
         std::function<FileNode*(std::string, std::string)> m_newFileNode;
         std::function<ComponentNode*(std::string, std::string)> m_newComponentNode;
         
         std::vector<DocumentationFile> m_docFiles;
+
+        void* m_nodes;
     }; // #end: class ProgramParser
     
 } // namespace worTech::docme::processor::parser

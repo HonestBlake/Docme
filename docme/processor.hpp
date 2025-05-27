@@ -25,8 +25,8 @@ namespace worTech::docme{
         }
         // #namespace: generator, inline module namespace
         inline namespace generator{
-            class DocGenerator; 
-            using Generator = DocGenerator; // alias DocGenerator to Generator
+            class DocumentationGenerator; 
+            using Generator = DocumentationGenerator; // alias DocumentationGenerator to Generator
         }
         // #namespace: parser, inline module namespace
         inline namespace parser{

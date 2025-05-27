@@ -5,10 +5,11 @@
 #include "generator.hpp"
 
 int main(int argc, char* argv[]){
-    
-    docme::CommandLineParser commandLine = docme::CommandLineParser::get(argc, argv).parse();
+    docme::CommandLineParser::get(argc, argv).parse();
+    const void* stack = docme::Parser::get(docme::CommandLine::get().parserInfo()).parse();
 
-    docme::Generator::get(commandLine.generatorInfo(), docme::Parser::get(commandLine.parserInfo()).parse()).generate();
+
+    // docme::Generator::get(commandLine.generatorInfo(), ).generate();
 
     docme::CommandLine& commandLine = docme::CommandLine::get().parse(argc, argv);
     

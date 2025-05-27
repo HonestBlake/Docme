@@ -23,7 +23,7 @@ namespace worTech::docme::processor::parser{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace();
         }
-
+        
         for(auto& [packet, files]: m_fileSets){ // Go through each packet and its paired files
 
             // TODOD Load packet dll and assign function pointers

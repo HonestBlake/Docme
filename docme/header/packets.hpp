@@ -98,9 +98,12 @@ namespace worTech::docme::packets{
     // private method
         void loadLibraryFunctions();
     // private members
-        std::string m_name;
-        std::unordered_set<std::filesystem::path> m_files;
-        DynamicLibrary m_library;
+        std::string m_name; // Packet name
+        std::unordered_set<std::filesystem::path> m_files; // Source files
+        btr::DynamicLibrary m_library; // Packet dll library
+        FileManager m_fileManager; // File manager for file nodes
+        CommponentManager m_componentManager; // Component manager for component nodes
+        // External function pointers
         std::function<IsTagSymbol> m_isTagSymbol;
         std::function<IsSingleLineComment> m_isSingleLineComment;
         std::function<IsMultiLineCommentStart> m_isMultiLineCommentStart;

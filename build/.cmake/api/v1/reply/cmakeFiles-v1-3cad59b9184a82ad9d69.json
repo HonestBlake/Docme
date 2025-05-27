@@ -195,6 +195,88 @@
 			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/ExternalProject/stepscript.cmake.in"
 		},
 		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/FindGit.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/FindPackageHandleStandardArgs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/FindPackageMessage.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/ExternalProject/gitclone.cmake.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/ExternalProject/RepositoryInfo.txt.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/ExternalProject/stepscript.cmake.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/FindGit.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/FindPackageHandleStandardArgs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/FindPackageMessage.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/ExternalProject/gitupdate.cmake.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/ExternalProject/UpdateInfo.txt.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/ExternalProject/stepscript.cmake.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/ExternalProject/PatchInfo.txt.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-3.31/Modules/ExternalProject/stepscript.cmake.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/fc-tmp/betterdynamiclibraries/update.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/fc-tmp/betterdynamiclibraries/betterdynamiclibraries-gitupdate.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/fc-tmp/betterdynamiclibraries/patch.cmake"
+		},
+		{
 			"path" : "docme/library/nlohmann_json/json-src/CMakeLists.txt"
 		},
 		{
@@ -230,6 +312,12 @@
 		},
 		{
 			"path" : "docme/library/nlohmann_json/json-src/cmake/config.cmake.in"
+		},
+		{
+			"path" : "docme/library/BetterDynamicLibraries/betterdynamiclibraries-src/CMakeLists.txt"
+		},
+		{
+			"path" : "docme/library/BetterDynamicLibraries/betterdynamiclibraries-src/better dynamic libraries/CMakeLists.txt"
 		},
 		{
 			"path" : "docme/package/processor/CMakeLists.txt"

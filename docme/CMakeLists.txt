@@ -2,7 +2,7 @@
 
 # Common module variables
 set(PROCESSOR ${COMMON}/${PACKAGE}/processor)
-set(COMMON_SOURCE_FILES 
+set(SOURCE_FILES 
     ${COMMON}/${SOURCE}/debugging.cpp
     ${COMMON}/${SOURCE}/jsonTools.cpp
     ${COMMON}/${SOURCE}/nodes.cpp
@@ -14,6 +14,13 @@ set(COMMON_HEADER_INCLUDES ${COMMON}/${HEADER} ${COMMON}/${SOURCE} ${COMMON})
 set(FETCHCONTENT_BASE_DIR ${COMMON}/${LIBRARY}/nlohmann_json)
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
 FetchContent_MakeAvailable(json)
+set(FETCHCONTENT_BASE_DIR ${COMMON}/${LIBRARY}/BetterDynamicLibraries)
+FetchContent_Declare(
+    BetterDynamicLibraries
+    GIT_REPOSITORY https://github.com/HonestBlake/Better-Dynamic-Libraries.git
+    GIT_TAG v1.0.5
+)
+FetchContent_MakeAvailable(BetterDynamicLibraries)
 
 # Add the BetterLogger library to the project
 add_library(BetterLogger INTERFACE)

@@ -21,6 +21,7 @@ target_link_libraries(Processor PRIVATE
     # better_logger::better_logger
     BetterLogger
     nlohmann_json::nlohmann_json
+    BetterDynamicLibraries
 )
 
 
