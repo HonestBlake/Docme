@@ -1,8 +1,8 @@
 # Project Cmake Lists file
 
 set(PROJECT_NAME Docme)
-set(PROJECT_DESCRIPTION "An automatic documentation tool for C/C++ programs, uses unique but standard style comment tags to help generate documentation files." )
-set(PROJECT_VERSION 1.0)
+set(PROJECT_DESCRIPTION "An automatic documentation tool for software, provides built in as well as a platform to create customizable documentation parsing and generation" )
+set(PROJECT_VERSION 0.0.0)
 
 # setup Docme project
 cmake_minimum_required(VERSION 3.31)
