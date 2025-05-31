@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "processor.hpp" // package header
+#include "docme.hpp" // Project header
 
-namespace worTech::docme::processor::generator{
+namespace worTech::docme::generator{
 
     // #class: DocGenerator, singleton class
     class DocGenerator{

@@ -11,7 +11,7 @@ namespace worTech::docme::debugging{
         inline const std::string UNNAMED_ERROR = "An unnamed error occurred";
         inline const std::string UNNAMED_WARNING = "An unnamed warning occurred";
         inline const std::string NO_COMMAND_LINE_ARGUMENTS = "No command line arguments provided";
-        inline const std::string UNRECOGNIZED_COMMAND_LINE_ARGUMENT = "Unrecognized command line argument: {}";
+        inline const std::string ARGUMENT_HAS_NO_FLAG = "Command line argument has no flag: {}";
         inline const std::string UNRECOGNIZED_DOC_PACKET = "Unrecognized doc packet: {}";
         inline const std::string COULD_NOT_FIND_CONFIG_FILE = "Could not locate config file: {}";
         inline const std::string INVALID_CONFIG_FILE_TYPE = "Provided config file is not a valid {} file: {}";
@@ -27,10 +27,11 @@ namespace worTech::docme::debugging{
         inline const std::string COULD_NOT_FIND_JSON_KEY = "Could not find json key: {}, in file: {}";
         inline const std::string JSON_TYPE_ERROR_STRING = "Json type error, expected string from key: {}, in file: {}";
         inline const std::string JSON_TYPE_ERROR_ARRAY = "Json type error, expected array from key: {}, in file: {}";
-        inline const std::string ARGS_WITH_SPECIAL_FLAG_CALL = "Cannot call a command line special flag with any arguments or flags";
+        inline const std::string ARGS_WITH_SPECIAL_FLAG = "Cannot use any other arguments or flags when using special flag: {}";
         inline const std::string NO_SOURCE_FILES_PROVIDED = "No source files provided";
         inline const std::string FAILED_TO_LOAD_DLL = "Failed to load dynamic link library: {}";
         inline const std::string NULL_COMMAND_LINE_ARGUMENTS = "Command line arguments cannot be null";
+        inline const std::string FAILED_TO_PARSE_CONFIG_FILE = "Failed to parse config file: {}";
     }
     // #namespace: debugTools, function namespace
     namespace debugTools{

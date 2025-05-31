@@ -27,17 +27,12 @@ namespace worTech::docme::packets{
 
 // #div: public factory methods
 
-    // #func: Packet(std::string&&), noexcept constructor
-    // #param: std::string&& p_name, given packet name
-    // #brief: Constructs a packet object from packet name
-    // #detail: Constructs a packet object from packet name, loading packet json file and getting packet name and library name from json
-    // then loads the dynamic library from library name calls loadExternalFunctions() to load external functions from the library
-    Packet::Packet(std::string&& p_name)noexcept: m_name(std::forward<std::string>(p_name)){
+    Packet::Packet(const std::string& p_packetFile)noexcept{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace();
         }
         // Parse json file
-        std::expected<Json, std::string> json = Json::parse(packet::PATH_TO / std::filesystem::path(m_name + packet::FILE_EXTENSION));
+        std::expected<Json, std::string> json = Json::parse(packet::PATH_TO / std::filesystem::path(p_packetFile + packet::FILE_EXTENSION));
         if(!json){ // Check if error parsing json file
             debug::error(json.error());
         }
@@ -58,7 +53,7 @@ namespace worTech::docme::packets{
             debug::error(error::FAILED_TO_LOAD_DLL, *libraryName);
         }
         loadLibraryFunctions();
-    } // #end: Packet(std::string&&)
+    } // #end: Packet(const std::string&)
 
 // #div: public operators
 
@@ -86,22 +81,42 @@ namespace worTech::docme::packets{
 
     // #func: files(), const method
     // #return: const std::unordered_set<std::filesystem::path>&, packet files
-    const std::unordered_set<std::filesystem::path>& Packet::files()const{
+    std::vector<std::filesystem::path>& Packet::files(){
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(); 
-        }        return m_files;
+        }        
+        return m_files;
     } // #end: files()
 
-    // #func: addFile(const std::filesystem::path&), method
+    // #func: addFileIfValid(const std::filesystem::path&), method
     // #param: const std::filesystem::path& p_file, given file path
     // #return: Packet&, reference to current packet
-    Packet& Packet::addFile(const std::filesystem::path& p_file){
+    Packet& Packet::addFileIfValid(const std::filesystem::path& p_file){
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(); 
         }
-        m_files.insert(p_file);
+        if(m_isValidFileType(p_file.extension().string().c_str())){ 
+            m_files.emplace_back(p_file);
+        }
         return *this;
-    } // #end: addFile(const std::filesystem::path&)
+    } // #end: addFileIfValid(const std::filesystem::path&)
+
+    // #func: removeIfContainsFile(const std::filesystem::path&), method
+    Packet& Packet::removeIfContainsFile(const std::filesystem::path& p_file){
+        if constexpr(state::TRACING){ // Function tracing
+            debug::trace(); 
+        }
+        m_files.erase(std::remove(m_files.begin(), m_files.end(), p_file), m_files.end());
+        return *this;
+    } // #end: removeIfContainsFile(const std::filesystem::path&)
+
+    // #func: hasNoFiles(), const method
+    bool Packet::hasNoFiles()const{
+        if constexpr(state::TRACING){ // Function tracing
+            debug::trace(); 
+        }
+        return m_files.empty();
+    } // #end: hasNoFiles()
 
     // #func: isTagSymbol(const char), const method
     // #param: const char p_char, given character
@@ -214,6 +229,12 @@ namespace worTech::docme::packets{
         if constexpr(state::TRACING){ // Function tracing
             debug::trace(); 
         }
+        // Set isValidFileType function pointer
+        auto isValidFileType = m_library.getFunction<IsValidFileType>(func::IS_VALID_FILE_TYPE);
+        if(!isValidFileType){ // Check if error getting isValidFileType function
+            debug::error(isValidFileType.error());
+        }
+        m_isValidFileType = *isValidFileType;
         // Set isTagSymbol function pointer
         auto isTagSymbol = m_library.getFunction<IsTagSymbol>(func::IS_TAG_SYMBOL);
         if(!isTagSymbol){ // Check if error getting isTagSymbol function

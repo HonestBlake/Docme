@@ -2,7 +2,7 @@
 
 #include "parser.hpp" // declaration header
 
-namespace worTech::docme::processor::parser{
+namespace worTech::docme::parser{
 
 // public static methods
 

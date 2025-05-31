@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "processor.hpp" // decloation header
+#include "docme.hpp" // decloation header
 
 #include "packets.hpp" // used for Packet class
 
-namespace worTech::docme::processor::docmeInfo{
+namespace worTech::docme::docmeInfo{
 
     // #enum: OutputType, uint8_t enum class
     enum class OutputType: uint8_t{
@@ -19,7 +19,7 @@ namespace worTech::docme::processor::docmeInfo{
     };
     // #struct: ParserInfo, data structure
     struct ParserInfo{
-        std::unordered_set<Packet> packets;
+        std::vector<Packet> packets;
     };
     // #struct: GeneratorInfo, data structure
     struct GeneratorInfo{

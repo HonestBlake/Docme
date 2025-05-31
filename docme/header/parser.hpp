@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "processor.hpp" // package header
+#include "docme.hpp" // project header
 #include "docmeInfo.hpp" // used for ParserInfo
 #include "packets.hpp" // used for Packet class
 
-namespace worTech::docme::processor::parser{
+namespace worTech::docme::parser{
 
     // #struct: DocumentationLine, data structure
     struct DocumentationLine{

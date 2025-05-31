@@ -11,7 +11,7 @@
 #pragma once
 
 #include "docme.hpp" // Project header
-//#include "dynamicLibraries.hpp" // TODO make extern lib
+#include "nodeManagers.hpp" // Node managers header
 
 namespace std{
 
@@ -41,6 +41,7 @@ namespace worTech::docme::packets{
 
     // #namespace: packetFunctions(func), variable namespace
     namespace packetFunctions{
+        inline constexpr std::string IS_VALID_FILE_TYPE = "isValidFileType";
         inline constexpr std::string IS_TAG_SYMBOL = "isTagSymbol";
         inline const std::string IS_SINGLE_LINE_COMMENT = "isSingleLineComment";
         inline const std::string IS_MULTI_LINE_COMMENT_START = "isMultiLineCommentStart";
@@ -54,6 +55,7 @@ namespace worTech::docme::packets{
     } // #end: packetFunctions
 
     // Function type aliases
+    using IsValidFileType = bool(const char*); 
     using IsTagSymbol = bool(const char);
     using IsSingleLineComment = bool(const char*);
     using IsMultiLineCommentStart = bool(const char*);
@@ -71,7 +73,7 @@ namespace worTech::docme::packets{
         friend struct std::hash<Packet>; // #friend: std::hash<Packet>, friend class
     public:
     // public factory methods
-        Packet(std::string&& p_name)noexcept;
+        Packet(const std::string& p_name)noexcept;
         Packet()noexcept = default; // #default: Packet(), default constructor
         Packet(const Packet&)noexcept = default; // #default: Packet(const Packet&), default copy constructor
         Packet(Packet&&)noexcept = default; // #default: Packet(Packet&&), default move constructor
@@ -82,8 +84,10 @@ namespace worTech::docme::packets{
         bool operator==(const Packet& p_packet)const;
     // public methods
         const std::string& name()const;
-        const std::unordered_set<std::filesystem::path>& files()const;
-        Packet& addFile(const std::filesystem::path& p_file);
+        std::vector<std::filesystem::path>& files();
+        Packet& addFileIfValid(const std::filesystem::path& p_file);
+        Packet& removeIfContainsFile(const std::filesystem::path& p_file);
+        bool hasNoFiles()const;
         bool isTagSymbol(const char p_char)const;
         bool isSingleLineComment(const std::string& p_line)const;
         bool isMultiLineCommentStart(const std::string& p_line)const;
@@ -99,11 +103,12 @@ namespace worTech::docme::packets{
         void loadLibraryFunctions();
     // private members
         std::string m_name; // Packet name
-        std::unordered_set<std::filesystem::path> m_files; // Source files
+        std::vector<std::filesystem::path> m_files; // Source files
         btr::DynamicLibrary m_library; // Packet dll library
         FileManager m_fileManager; // File manager for file nodes
-        CommponentManager m_componentManager; // Component manager for component nodes
+        ComponentManager m_componentManager; // Component manager for component nodes
         // External function pointers
+        std::function<IsValidFileType> m_isValidFileType;
         std::function<IsTagSymbol> m_isTagSymbol;
         std::function<IsSingleLineComment> m_isSingleLineComment;
         std::function<IsMultiLineCommentStart> m_isMultiLineCommentStart;

@@ -5,10 +5,9 @@
 #include "docme.hpp" // project header
 #include "restrictedTypes.hpp" // used for StringType concept
 
-#include "parser.hpp" // TODO move documentation obj out
-
+// TODO put somewhere else
 namespace worTech::docme{
-    class DocLine;
+    class DocumentationLine;
 }
 
 namespace worTech::docme::nodes{

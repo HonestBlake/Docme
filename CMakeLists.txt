@@ -1,15 +1,10 @@
-# Project Cmake Lists file
+# Project cmake Lists file
 
-set(PROJECT_NAME Docme)
-set(PROJECT_DESCRIPTION "An automatic documentation tool for software, provides built in as well as a platform to create customizable documentation parsing and generation" )
-set(PROJECT_VERSION 0.0.0)
-
-# setup Docme project
-cmake_minimum_required(VERSION 3.31)
+cmake_minimum_required(VERSION 4.0.2)
 project(
-    ${PROJECT_NAME} 
-    VERSION ${PROJECT_VERSION}
-    DESCRIPTION ${PROJECT_DESCRIPTION}
+    "Docme"
+    VERSION 0.0.0
+    DESCRIPTION "An automatic documentation tool for software, provides built in as well as a platform to create customizable documentation parsing and generation"
     LANGUAGES CXX 
 )
 set(CMAKE_CXX_STANDARD 23)
@@ -17,17 +12,25 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 include(FetchContent)
 
+add_compile_options(
+    -Wno-inline-namespace-reopened-noninline 
+    -Wall 
+    -Wextra 
+    -Wpedantic
+    -Wno-switch
+)
+
+
 # Project wide variables
-set(COMMON ${CMAKE_SOURCE_DIR}/docme)
-set(BINARY ${CMAKE_SOURCE_DIR}/binary)
-set(SOURCE source)
-set(HEADER header)
-set(LIBRARY library)
-set(TEST test)
-set(PACKAGE package)
+set(ROOT_DIR ${CMAKE_SOURCE_DIR})
+set(BINARY "${ROOT_DIR}/binary")
+set(DOCME "${ROOT_DIR}/docme")
+set(SOURCE "source")
+set(HEADER "header")
+set(LIBRARY "library")
+set(TEST "test")
 
 # Set project wide output directories
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY})
 
-# Connect the common module to the project
-add_subdirectory(${COMMON})
+add_subdirectory(${DOCME}) # Add docme package cmake list file

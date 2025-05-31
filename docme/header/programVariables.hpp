@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "docme.hpp" // project header
+
 namespace worTech::docme::programVariables{
     
     // #namespace: programStates(state), inline variable namespace

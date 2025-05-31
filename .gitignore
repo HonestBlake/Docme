@@ -113,3 +113,10 @@ CMakeUserPresets.json
 # ADDED BY ME
 # ignore .vscode folder
 .vscode/
+
+# ignore build folder
+build/*
+
+# ignore .clangd and .clang-tidy files
+.clangd
+.clang-tidy
