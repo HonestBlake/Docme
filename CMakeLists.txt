@@ -1,4 +1,4 @@
-# Project cmake Lists file
+# Project cmake list file
 
 cmake_minimum_required(VERSION 4.0.2)
 project(
@@ -10,27 +10,18 @@ project(
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_INCLUDES OFF)
 include(FetchContent)
-
-add_compile_options(
-    -Wno-inline-namespace-reopened-noninline 
-    -Wall 
-    -Wextra 
-    -Wpedantic
-    -Wno-switch
-)
+include(CTest)
 
 
-# Project wide variables
 set(ROOT_DIR ${CMAKE_SOURCE_DIR})
-set(BINARY "${ROOT_DIR}/binary")
 set(DOCME "${ROOT_DIR}/docme")
+set(BIN "${ROOT_DIR}/bin")
+set(LIB "${ROOT_DIR}/lib")
 set(SOURCE "source")
 set(HEADER "header")
-set(LIBRARY "library")
 set(TEST "test")
 
-# Set project wide output directories
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY})
-
-add_subdirectory(${DOCME}) # Add docme package cmake list file
+add_subdirectory(${DOCME}) # Add project cmake list file

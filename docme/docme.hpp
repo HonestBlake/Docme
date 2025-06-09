@@ -1,116 +1,63 @@
-// #file: docme.hpp, project header file
+// #file: docme.hpp, Project header file
 
-#pragma once
+#pragma once // Include guard
 
-// include libraries globally
-#include "standardLibs.hpp"
-#include "externalLibs.hpp"
+#include "header/standardLibs.hpp" // #include: header/standardLibs.hpp, Standard library headers
+#include "header/externalLibs.hpp" // #include: header/externalLibs.hpp, External library headers
+#include "header/cppTools.hpp" // #include: header/cppTools.hpp, C++ dev tools
 
-#include "cppTools.hpp" // C++ dev tools
+// #namespace: docme, project namespace
+namespace docme{
 
-// #namespace: worTech, inline developer namespace
-inline namespace worTech{
+    // #namespace: programVariables, inline module namespace
+    inline namespace programVariables{
+        namespace programConstants{}
+        namespace program = programConstants; // alias programConstants to program
+        namespace programStates{}
+        namespace state = programStates; // alias programStates to state
+    } // #end: programVariables
 
-    // #namespace: docme, project namespace
-    namespace docme{
+    // #namespace: debugging, inline module namespace
+    inline namespace debugging{
+        namespace errorMessages{}
+        namespace error = errorMessages; // alias errorMessages to error
+        namespace debugTools{}
+        namespace debug = debugTools; // alias debugTools to debug
+        namespace loggerValues{}
+        namespace logger = loggerValues; // alias loggerValues to logger
+        class DocmeTracer;
+        class DocmeDebug;
+    } // #end: debugging
 
-        // #namespace: programVariables, inline module namespace
-        inline namespace programVariables{
-            namespace programConstants{}
-            namespace program = programConstants; // alias programConstants to program
-            namespace programStates{}
-            namespace state = programStates; // alias programStates to state
-        } // #end: programVariables
+    // #namespace: restrictedTypes, inline module namespace
+    inline namespace restrictedTypes{
 
-        // #namespace: debugging, inline module namespace
-        inline namespace debugging{
-            namespace errorMessages{}
-            namespace error = errorMessages; // alias errorMessages to error
-            namespace debugTools{}
-            namespace debug = debugTools; // alias debugTools to debug
-            namespace loggerValues{}
-            namespace logger = loggerValues; // alias loggerValues to logger
-            class AutoDocTracer;
-            class AutoDocDebug;
-        } // #end: debugging
+    } // #end: restrictedTypes
 
-        // #namespace: restrictedTypes, inline module namespace
-        inline namespace restrictedTypes{
+    // #namespace: jsonTools, inline module namespace
+    inline namespace jsonTools{
+        class Json;
+    } // #end: jsonTools
 
-        } // #end: restrictedTypes
+    // #namespace: engine, inline package namespace
+    inline namespace engine{
+        inline namespace packets{}
+        inline namespace nodes{}
+        inline namespace nodeManagers{}
+        inline namespace parser{}
+        inline namespace generator{}
+        inline namespace docmeEngine{}
+        inline namespace commandLine{}
+    } // #end: engine
 
-        // #namespace: jsonTools, inline module namespace
-        inline namespace jsonTools{
-            class Json;
-        } // #end: jsonTools
+    // #namespace: cdoc, inline package namespace
+    inline namespace cdoc{
 
-        // #namespace: packets, inline module namespace
-        inline namespace packets{
-            class Packet;
-            struct PacketHasher;
-            namespace packetVariables{}
-            namespace packet = packetVariables; // alias packetVariables to packet
-            namespace packetFileKeys{}
-            namespace key = packetFileKeys; // alias packetFileKeys to key
-            namespace packetFunctions{}
-            namespace func = packetFunctions; // alias packetFunctions to func
-        } // #end: packets
+    } // #end: cdoc
 
-        // #namespace: nodes, inline module namespace
-        inline namespace nodes{
-            namespace nodeDefaultValues{}
-            namespace node = nodeDefaultValues; // alias nodeDefaultValues to node
-            class Node;
-            class DirectoryNode;
-            class DocumentedNode;
-            class FileNode;
-            class ComponentNode;
-            class GlobalNode;
-        } // #end: nodes
+} // #end: docme
 
-        // #namespace: nodeManagers, inline module namespace
-        inline namespace nodeManagers{
-            class ComponentManager;
-            class FileManager;
-        } // #end: nodeManagers
+// Globally included modules
+#include "header/programVariables.hpp" // #include: header/programVariables.hpp, Module header file
+#include "header/debugging.hpp" // #include: header/debugging.hpp, Module header file
 
-        // #namespace: commandLine, inline module namespace
-        inline namespace commandLine{
-            enum struct CommandLineFlag: std::uint8_t; 
-            using Flag = CommandLineFlag; // alias CommandLineFlag to Flag
-            namespace commandLineVariables{}
-            namespace cmdLine = commandLineVariables; // alias commandLineVariables to cmdLine
-            namespace configFileKeys{}
-            namespace key = configFileKeys; // alias configFileKeys to key
-            struct CommandLineFlagComparer;
-            using FlagComparer = CommandLineFlagComparer; // alias CommandLineFlagComparer to FlagComparer
-            class CommandLineParser; 
-            using CommandLine = CommandLineParser; // alias CommandLineParser to CommandLine
-        } // #end: commandLine
-
-        // #namespace: docmeInfo, inline module namespace
-        inline namespace docmeInfo{
-            enum class OutputType: std::uint8_t;
-            struct ParserInfo;
-            struct GeneratorInfo;
-        } // #end: docmeInfo
-
-        // #namespace: parser, inline module namespace
-        inline namespace parser{
-            class ProgramParser; 
-            using Parser = ProgramParser; // alias ProgramParser to Parser
-        } // #end: parser
-
-        // #namespace: generator, inline module namespace
-        inline namespace generator{
-            class DocumentationGenerator; 
-            using Generator = DocumentationGenerator; // alias DocumentationGenerator to Generator
-        } // #end: generator
-
-    } // #end: docme
-    
-} // #end: worTech
-namespace wt = worTech; // alias worTech to wt
-
-#include "debugging.hpp" // Include debugging module globally
-#include "programVariables.hpp" // Include program variables module globally

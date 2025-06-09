@@ -1,6 +1,6 @@
-// #file: standardLibs.hpp, header file
+// #file: header/standardLibs.hpp, header file
 
-#pragma once
+#pragma once // Include guard
 
 #include <string>
 #include <vector>

@@ -1,12 +1,12 @@
-// #file: programVariables.hpp, header file
+// #file: header/programVariables.hpp, Module header file
 
-#pragma once
+#pragma once // Include guard
 
-#include "docme.hpp" // project header
+#include "docme.hpp" // #include: Project header file
 
-namespace worTech::docme::programVariables{
+namespace docme::programVariables{ // #scope: docme::programVariables
     
-    // #namespace: programStates(state), inline variable namespace
+    // #namespace: programStates, inline variable namespace
     namespace programStates{
         // set TRACING when macro defined 
         #ifdef WT_DOCME_DEBUG_TRACING
@@ -32,6 +32,6 @@ namespace worTech::docme::programVariables{
         #else
         constexpr bool DEBUGGING = false;
         #endif
-    }
+    } // #end: programStates
 
-} // namespace worTech::docme::programVariables
+} // #end: docme::programVariables

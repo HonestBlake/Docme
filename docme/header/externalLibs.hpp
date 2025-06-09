@@ -1,7 +1,7 @@
-// #file: externalLibs.hpp, header file
+// #file: header/externalLibs.hpp, Header file
 
-#pragma once
+#pragma once // Include guard
 
-#include <better/logger.hpp> // used for logging api
-#include <nlohmann/json.hpp> // used for json parsing
-#include <better/dynamicLibraries.hpp> // used for dynamic library loading
+#include <better/logger.hpp> // #include: better/logger.hpp, logging api 
+#include <nlohmann/json.hpp> // #include: nlohmann/json.hpp, json parsing library
+#include <better/dynamicLibraries.hpp> // #include: better/dynamicLibraries.hpp, dynamic library tools

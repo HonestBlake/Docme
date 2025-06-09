@@ -1,0 +1,66 @@
+{
+    "version": 4,
+    "cmakeMinimumRequired": {
+        "major": 4,
+        "minor": 0,
+        "patch": 2
+    },
+    "configurePresets": [
+        {
+            "name": "Release Config",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build/release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin/release",
+                "CMAKE_C_COMPILER": "C:/Program Files/MSYS2/mingw64/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/Program Files/MSYS2/mingw64/bin/g++.exe",
+                "CMAKE_MAKE_PROGRAM": "C:/Program Files/MSYS2/usr/bin/make.exe",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true
+            }
+        },
+        {
+            "name": "Debug Config",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build/debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin/debug",
+                "CMAKE_C_COMPILER": "C:/Program Files/MSYS2/mingw64/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/Program Files/MSYS2/mingw64/bin/g++.exe",
+                "CMAKE_MAKE_PROGRAM": "C:/Program Files/MSYS2/usr/bin/make.exe",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "Release Build",
+            "configurePreset": "Release Config",
+            "targets": [
+                "DocmeEngine"
+            ],
+            "configuration": "Release"
+        },
+        {
+            "name": "Debug Build",
+            "configurePreset": "Debug Config",
+            "targets": [
+                "DocmeEngine"
+            ],
+            "configuration": "Debug"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "Debug Tests",
+            "configurePreset": "Debug Config",
+            "output": {
+                "outputOnFailure": true
+            },
+            "environment": {
+                "GTEST_COLOR": "1"
+            }
+        }
+    ]
+}

@@ -1,10 +1,10 @@
-// #file: debugging.hpp
+// #file: header/debugging.hpp, Module header file
 
-#pragma once
+#pragma once // Include guard
 
-#include "docme.hpp" // project general header
+#include "docme.hpp" // Project header file
 
-namespace worTech::docme::debugging{
+namespace docme::debugging{ // #scope: docme::debugging
 
     // #namespace: errorMessages, variable namespace
     namespace errorMessages{
@@ -32,18 +32,22 @@ namespace worTech::docme::debugging{
         inline const std::string FAILED_TO_LOAD_DLL = "Failed to load dynamic link library: {}";
         inline const std::string NULL_COMMAND_LINE_ARGUMENTS = "Command line arguments cannot be null";
         inline const std::string FAILED_TO_PARSE_CONFIG_FILE = "Failed to parse config file: {}";
-    }
+        inline const std::string COMMAND_LINE_NOT_INITIALIZED_WITH_ARGS = "Command line parser has not been initialized with necessary parameters";
+        inline const std::string PARSER_NOT_INITIALIZED_WITH_ARGS = "Program parser has not been initialized with necessary parameters";
+    } // #end: errorMessages
+
     // #namespace: debugTools, function namespace
     namespace debugTools{
-        template<typename... T_args> std::string message(const std::string& p_message, T_args... p_args)noexcept;
-        template<typename... T_args> void warn(const std::string& p_warning = error::UNNAMED_WARNING, T_args... p_args)noexcept;
-        template<typename... T_args> void error(const std::string& p_error = error::UNNAMED_ERROR, T_args... p_args)noexcept;
-        void trace(std::source_location&& p_location = std::source_location::current())noexcept;
-    }
+        template<typename... T_args> std::string message(const std::string& p_message, T_args... p_args);
+        template<typename... T_args> void warn(const std::string& p_warning = error::UNNAMED_WARNING, T_args... p_args);
+        template<typename... T_args> void error(const std::string& p_error = error::UNNAMED_ERROR, T_args... p_args);
+        void trace(std::source_location&& p_location = std::source_location::current());
+    } // #end: debugTools
+
     // #namespace: loggerValues, variable namespace
     namespace loggerValues{
-        const std::string TRACER_NAME = "AutoDoc Tracer";
-        const std::string DEBUG_NAME = "AutoDoc";
+        const std::string TRACER_NAME = "DocmeTrace";
+        const std::string DEBUG_NAME = "Docme";
         const std::array<btr::Format, 5> TRACER_FORMAT = {
             btr::Format::LOGGER, 
             btr::Format::LEVEL, 
@@ -51,22 +55,24 @@ namespace worTech::docme::debugging{
             btr::Format::TIME, 
             btr::Format::MESSAGE
         };
-    }
-    // #class: AutoDocTracer, singleton class 
-    class AutoDocTracer: public btr::Logger{
+    } // #end: loggerValues
+
+    // #class: DocmeTracer, singleton class 
+    class DocmeTracer: public btr::Logger{
     public:
-        AutoDocTracer();
+        DocmeTracer();
     private:
         std::string formatLocation(const btr::Level p_logLevel, const std::source_location& p_location)const override;
-    };
-    // #class: AutoDocError, singleton class
-    class AutoDocDebug: public btr::Logger{
+    }; // #end: DocmeTracer
+    
+    // #class: DocmeDebug, singleton class
+    class DocmeDebug: public btr::Logger{
     public: 
-        AutoDocDebug();
+        DocmeDebug();
     private:
         const Logger& sendLog(std::string&& p_log)const override;
-    };
+    }; // #end: DocmeDebug
 
-} // namespace worTech::autoDoc::debugging
+} // #end: autoDoc::debugging
 
-#include "source/debugging.tpp" // template function definitions
+#include "source/debugging.tpp" // #include: source/debugging.tpp, template source file

@@ -1,56 +1,53 @@
-// #file: debugging.cpp, source file
+// #file: source/debugging.cpp, Module source file
 
-#include "debugging.hpp"
+#include "header/debugging.hpp" // #include: Module header file
 
-namespace worTech::docme::debugging{
+namespace docme::debugging{ // #scope: docme::debugging
 
-// debugTools, function definitions
+// #scope: debugTools, function definitions
 
-    // #func: trace(std::source_location&&), noexcept function
+    // #func: trace(std::source_location&&), Function
+    void debugTools::trace(std::source_location&& p_location){
+        btr::Logger::get<DocmeTracer>().log<btr::Level::TRACE>("", std::forward<std::source_location>(p_location));
+    } // #end: trace(std::source_location&&)
 
-    // #param: std::source_location&& p_location, call location
-    void debugTools::trace(std::source_location&& p_location)noexcept{
-        btr::Logger::get<AutoDocTracer>().log<btr::Level::TRACE>("", std::forward<std::source_location>(p_location));
-    }
+// #end: debugTools
 
-// --------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------
 
-// AutoDocTracer, method definitions
+// #scope: DocmeTracer, Method definitions
 
-// public factory methods
+// #div: Public factory methods
 
-    // #func: AutoDocTracer(), public constructor
-    AutoDocTracer::AutoDocTracer(): Logger(logger::TRACER_NAME, logger::TRACER_FORMAT){}
+    // #func: DocmeTracer(), constructor
+    DocmeTracer::DocmeTracer(): Logger(logger::TRACER_NAME, logger::TRACER_FORMAT){} // #end: DocmeTracer()
 
-// private methods
+// #div: Private methods
 
-    // #func: formatLocation(const btr::Level, const std::source_location&), private const override method
-
-    // #param: const btr::Level p_logLevel, log level
-    // #param: const std::source_location& p_location, call location
-    // #return: std::string, formatted location
-    std::string AutoDocTracer::formatLocation(const btr::Level p_logLevel, const std::source_location& p_location)const{
+    // #func: formatLocation(const btr::Level, const std::source_location&), Const override method
+    std::string DocmeTracer::formatLocation(const btr::Level p_logLevel, const std::source_location& p_location)const{
         return getLogColor(p_logLevel) + p_location.function_name() + btr::log::SPACE + btr::ansii::RESET;
-    }
+    } // #end: formatLocation(const btr::Level, const std::source_location&)
 
-// --------------------------------------------------------------------------------------------------------------------------------
+// #end: DocmeTracer
 
-// AutoDocError, method definitions
+// ----------------------------------------------------------------------------------------------------------------------------------------
 
-// public factory methods
+// #scope: DocmeDebug, Method definitions
 
-    // #func: AutoDocError(), public constructor
-    AutoDocDebug::AutoDocDebug(): Logger(logger::DEBUG_NAME){}
+// #div: Public factory methods
 
-// private methods
+    // #func: DocmeDebug(), Constructor
+    DocmeDebug::DocmeDebug(): Logger(logger::DEBUG_NAME){} // #end: DocmeDebug()
 
-    // #func: sendLog(std::string&&), private const override method
+// #div: Private methods
 
-    // #param: std::string&& p_log, log message
-    // #return: const Logger&, reference to current instance
-    const btr::Logger& AutoDocDebug::sendLog(std::string&& p_log)const{
+    // #func: sendLog(std::string&&), Const override method
+    const btr::Logger& DocmeDebug::sendLog(std::string&& p_log)const{
         btr::LogStack::get<btr::TerminateFlush>().pushLog(std::forward<std::string>(p_log));
         return *this;
-    }
+    } // #end: sendLog(std::string&&)
 
-} // namespace worTech::autoDoc::debugging
+// #end: DocmeDebug
+
+} // namespace autoDoc::debugging

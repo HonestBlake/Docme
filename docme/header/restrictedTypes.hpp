@@ -1,10 +1,10 @@
-#pragma once
+// #file: header/restrictedTypes.hpp, Module header file
 
-#include "docme.hpp"
+#pragma once // Include guard
 
-// #file: conceptTypes.hpp, header file
+#include "docme.hpp" // #include: docme.hpp, Project header file
 
-namespace worTech::docme::restrictedTypes{
+namespace docme::restrictedTypes{ // #scope: docme::restrictedTypes
 
     // #concept: StringType, type concept
     template<typename Type> concept StringType = std::is_same<std::decay_t<Type>, std::string>::value;
@@ -13,4 +13,4 @@ namespace worTech::docme::restrictedTypes{
     // #concept: OptionStringType, type concept
     template<typename Type> concept OptionStringType = std::is_same<std::decay_t<Type>, std::optional<std::string>>::value || std::is_same<std::decay_t<Type>, std::string>::value;
 
-} // namespace worTech::docme::restrictedTypes
+} // #end: docme::restrictedTypes

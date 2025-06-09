@@ -1,26 +1,27 @@
-// #file: jsonTools.hpp, header file
+// #file: header/jsonTools.hpp, Module header file
+
+#pragma once // Include guard
 
 #include "docme.hpp" // project general header
 
-#pragma once
+namespace docme::jsonTools{ // #scope: docme::jsonTools
 
-namespace worTech::docme::jsonTools{
-
-    class Json{
+    // #class: Json, Final object class
+    class Json final{
     public:
-    // public factory methods
+    // Public factory methods
         Json(const std::string& p_file, nlohmann::json&& p_json);
-    // public static methods
+    // Public static methods
         static std::expected<Json, std::string> parse(const std::filesystem::path& p_filePath); 
-    // public methods
+    // Public methods
         const std::string& file()const;
         std::expected<std::string, std::string> getString(const std::string& p_key)const;
         std::expected<std::unordered_set<std::string>, std::string> getUnorderedStringSet(const std::string& p_key)const;
         std::expected<std::vector<std::string>, std::string> getStringArray(const std::string& p_key)const;
     private:
-    // private members
+    // Private members
         std::string m_file;
         nlohmann::json m_json;
-    };
+    }; // #end: class Json
     
-} // namespace worTech::docme::jsonTools
+} // #end: docme::jsonTools
