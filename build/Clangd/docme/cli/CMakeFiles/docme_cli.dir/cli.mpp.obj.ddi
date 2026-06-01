@@ -1,0 +1,16 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "docme\\cli\\CMakeFiles\\docme_cli.dir\\cli.mpp.obj",
+      "provides": [
+        {
+          "is-interface": true,
+          "logical-name": "docme.cli",
+          "source-path": "C:/Users/blake/Programing/Personal Projects/Docme/docme/cli/cli.mpp"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

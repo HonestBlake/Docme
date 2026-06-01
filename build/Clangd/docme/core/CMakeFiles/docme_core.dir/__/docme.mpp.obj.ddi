@@ -1,0 +1,21 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "docme\\core\\CMakeFiles\\docme_core.dir\\__\\docme.mpp.obj",
+      "provides": [
+        {
+          "is-interface": true,
+          "logical-name": "docme",
+          "source-path": "C:/Users/blake/Programing/Personal Projects/Docme/docme/docme.mpp"
+        }
+      ],
+      "requires": [
+        {
+          "logical-name": "docme:error"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

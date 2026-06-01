@@ -1,0 +1,17 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "docme\\engine\\CMakeFiles\\docme_engine.dir\\configFile.cpp.obj",
+      "requires": [
+        {
+          "logical-name": "docme.engine:configFile"
+        },
+        {
+          "logical-name": "docme.engine"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

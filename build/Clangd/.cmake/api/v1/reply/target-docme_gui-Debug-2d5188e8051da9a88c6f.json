@@ -1,0 +1,295 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "docme/gui/docme-gui.exe"
+		},
+		{
+			"path" : "docme/gui/docme-gui.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_include_directories",
+			"target_precompile_headers",
+			"target_sources"
+		],
+		"files" : 
+		[
+			"docme/gui/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 19,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 27,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 28,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 20,
+				"parent" : 0
+			}
+		]
+	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -std=c++23"
+				},
+				{
+					"fragment" : "-Winvalid-pch -fpch-instantiate-templates -Xclang -emit-pch -Xclang -include -Xclang \"C:/Users/blake/Programing/Personal Projects/Docme/build/Clangd/docme/gui/CMakeFiles/docme_gui.dir/cmake_pch.hxx\" -x c++-header"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "C:/Users/blake/Programing/Personal Projects/Docme/docme"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "C:/Users/blake/Programing/Personal Projects/Docme/docme/gui"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "23"
+			},
+			"precompileHeaders" : 
+			[
+				{
+					"backtrace" : 3,
+					"header" : "C:/Users/blake/Programing/Personal Projects/Docme/docme/std.hpp"
+				}
+			],
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -std=c++23"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "C:/Users/blake/Programing/Personal Projects/Docme/docme"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "C:/Users/blake/Programing/Personal Projects/Docme/docme/gui"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "23"
+			},
+			"precompileHeaders" : 
+			[
+				{
+					"backtrace" : 3,
+					"header" : "C:/Users/blake/Programing/Personal Projects/Docme/docme/std.hpp"
+				}
+			],
+			"sourceIndexes" : 
+			[
+				1,
+				4,
+				5,
+				6
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -std=c++23"
+				},
+				{
+					"fragment" : "-Winvalid-pch -Xclang -include-pch -Xclang \"C:/Users/blake/Programing/Personal Projects/Docme/build/Clangd/docme/gui/CMakeFiles/docme_gui.dir/cmake_pch.hxx.pch\" -Xclang -include -Xclang \"C:/Users/blake/Programing/Personal Projects/Docme/build/Clangd/docme/gui/CMakeFiles/docme_gui.dir/cmake_pch.hxx\""
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "C:/Users/blake/Programing/Personal Projects/Docme/docme"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "C:/Users/blake/Programing/Personal Projects/Docme/docme/gui"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "23"
+			},
+			"precompileHeaders" : 
+			[
+				{
+					"backtrace" : 3,
+					"header" : "C:/Users/blake/Programing/Personal Projects/Docme/docme/std.hpp"
+				}
+			],
+			"sourceIndexes" : 
+			[
+				2
+			]
+		}
+	],
+	"fileSets" : 
+	[
+		{
+			"baseDirectories" : 
+			[
+				"docme"
+			],
+			"name" : "cxx_modules",
+			"type" : "CXX_MODULES",
+			"visibility" : "PRIVATE"
+		}
+	],
+	"id" : "docme_gui::@e9b77eb4e40a702bb4e1",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "docme_gui",
+	"nameOnDisk" : "docme-gui.exe",
+	"paths" : 
+	{
+		"build" : "docme/gui",
+		"source" : "docme/gui"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				4,
+				5,
+				6
+			]
+		},
+		{
+			"name" : "Precompile Header File",
+			"sourceIndexes" : 
+			[
+				3
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : "build/Clangd/docme/gui/CMakeFiles/docme_gui.dir/cmake_pch.hxx.cxx",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 1,
+			"path" : "docme/error.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 2,
+			"path" : "docme/gui/main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"path" : "build/Clangd/docme/gui/CMakeFiles/docme_gui.dir/cmake_pch.hxx",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 1,
+			"fileSetIndex" : 0,
+			"path" : "docme/docme.mpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 1,
+			"fileSetIndex" : 0,
+			"path" : "docme/error.mpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 1,
+			"fileSetIndex" : 0,
+			"path" : "docme/gui/gui.mpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

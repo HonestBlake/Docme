@@ -1,0 +1,12 @@
+ninja_dyndep_version = 1.0
+build docme/generator/CMakeFiles/docme_generator.dir/__/error.cpp.obj: dyndep | docme/generator/CMakeFiles/docme_generator.dir/docme-error.pcm docme/generator/CMakeFiles/docme_generator.dir/docme.pcm
+
+build docme/generator/CMakeFiles/docme_generator.dir/__/docme.mpp.obj | docme/generator/CMakeFiles/docme_generator.dir/docme.pcm: dyndep | docme/generator/CMakeFiles/docme_generator.dir/docme-error.pcm
+  restat = 1
+
+build docme/generator/CMakeFiles/docme_generator.dir/__/error.mpp.obj | docme/generator/CMakeFiles/docme_generator.dir/docme-error.pcm: dyndep
+  restat = 1
+
+build docme/generator/CMakeFiles/docme_generator.dir/generator.mpp.obj | docme/generator/CMakeFiles/docme_generator.dir/docme.generator.pcm: dyndep
+  restat = 1
+

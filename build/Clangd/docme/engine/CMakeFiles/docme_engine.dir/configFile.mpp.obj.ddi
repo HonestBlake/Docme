@@ -1,0 +1,21 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "docme\\engine\\CMakeFiles\\docme_engine.dir\\configFile.mpp.obj",
+      "provides": [
+        {
+          "is-interface": true,
+          "logical-name": "docme.engine:configFile",
+          "source-path": "C:/Users/blake/Programing/Personal Projects/Docme/docme/engine/configFile.mpp"
+        }
+      ],
+      "requires": [
+        {
+          "logical-name": "docme"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

@@ -1,0 +1,14 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "docme\\gui\\CMakeFiles\\docme_gui.dir\\main.cpp.obj",
+      "requires": [
+        {
+          "logical-name": "docme.gui"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

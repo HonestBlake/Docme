@@ -1,0 +1,17 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "docme\\cli\\CMakeFiles\\docme_cli.dir\\__\\error.cpp.obj",
+      "requires": [
+        {
+          "logical-name": "docme:error"
+        },
+        {
+          "logical-name": "docme"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

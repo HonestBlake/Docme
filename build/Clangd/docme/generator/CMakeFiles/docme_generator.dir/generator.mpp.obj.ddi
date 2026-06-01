@@ -1,0 +1,16 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "docme\\generator\\CMakeFiles\\docme_generator.dir\\generator.mpp.obj",
+      "provides": [
+        {
+          "is-interface": true,
+          "logical-name": "docme.generator",
+          "source-path": "C:/Users/blake/Programing/Personal Projects/Docme/docme/generator/generator.mpp"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

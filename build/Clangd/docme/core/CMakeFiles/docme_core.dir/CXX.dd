@@ -1,0 +1,12 @@
+ninja_dyndep_version = 1.0
+build docme/core/CMakeFiles/docme_core.dir/__/error.cpp.obj: dyndep | docme/core/CMakeFiles/docme_core.dir/docme-error.pcm docme/core/CMakeFiles/docme_core.dir/docme.pcm
+
+build docme/core/CMakeFiles/docme_core.dir/__/docme.mpp.obj | docme/core/CMakeFiles/docme_core.dir/docme.pcm: dyndep | docme/core/CMakeFiles/docme_core.dir/docme-error.pcm
+  restat = 1
+
+build docme/core/CMakeFiles/docme_core.dir/__/error.mpp.obj | docme/core/CMakeFiles/docme_core.dir/docme-error.pcm: dyndep
+  restat = 1
+
+build docme/core/CMakeFiles/docme_core.dir/core.mpp.obj | docme/core/CMakeFiles/docme_core.dir/docme.core.pcm: dyndep
+  restat = 1
+

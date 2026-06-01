@@ -1,0 +1,45 @@
+{
+	"modules" : 
+	{
+		"docme" : 
+		{
+			"bmi" : "C:/Users/blake/Programing/Personal Projects/Docme/build/Clangd/docme/generator/CMakeFiles/docme_generator.dir/docme.pcm",
+			"is-private" : false
+		},
+		"docme.generator" : 
+		{
+			"bmi" : "C:/Users/blake/Programing/Personal Projects/Docme/build/Clangd/docme/generator/CMakeFiles/docme_generator.dir/docme.generator.pcm",
+			"is-private" : false
+		},
+		"docme:error" : 
+		{
+			"bmi" : "C:/Users/blake/Programing/Personal Projects/Docme/build/Clangd/docme/generator/CMakeFiles/docme_generator.dir/docme-error.pcm",
+			"is-private" : false
+		}
+	},
+	"references" : 
+	{
+		"docme" : 
+		{
+			"lookup-method" : "by-name",
+			"path" : "docme/generator/CMakeFiles/docme_generator.dir/docme.pcm"
+		},
+		"docme.generator" : 
+		{
+			"lookup-method" : "by-name",
+			"path" : "docme/generator/CMakeFiles/docme_generator.dir/docme.generator.pcm"
+		},
+		"docme:error" : 
+		{
+			"lookup-method" : "by-name",
+			"path" : "docme/generator/CMakeFiles/docme_generator.dir/docme-error.pcm"
+		}
+	},
+	"usages" : 
+	{
+		"docme" : 
+		[
+			"docme:error"
+		]
+	}
+}

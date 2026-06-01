@@ -1,0 +1,2 @@
+-x c++-module
+-fmodule-output="docme/core/CMakeFiles/docme_core.dir/docme.core.pcm"

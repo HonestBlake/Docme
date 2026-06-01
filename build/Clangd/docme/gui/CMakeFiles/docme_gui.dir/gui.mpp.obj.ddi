@@ -1,0 +1,16 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "docme\\gui\\CMakeFiles\\docme_gui.dir\\gui.mpp.obj",
+      "provides": [
+        {
+          "is-interface": true,
+          "logical-name": "docme.gui",
+          "source-path": "C:/Users/blake/Programing/Personal Projects/Docme/docme/gui/gui.mpp"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

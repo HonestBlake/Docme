@@ -1,0 +1,105 @@
+{
+	"kind" : "toolchains",
+	"toolchains" : 
+	[
+		{
+			"compiler" : 
+			{
+				"implicit" : {},
+				"path" : "C:/Program Files/MSYS2/mingw64/bin/cc.exe"
+			},
+			"language" : "C"
+		},
+		{
+			"compiler" : 
+			{
+				"id" : "Clang",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"C:/Program Files/MSYS2/mingw64/include/c++/16.1.0",
+						"C:/Program Files/MSYS2/mingw64/include/c++/16.1.0/x86_64-w64-mingw32",
+						"C:/Program Files/MSYS2/mingw64/include/c++/16.1.0/backward",
+						"C:/Program Files/MSYS2/mingw64/lib/clang/22/include",
+						"C:/Program Files/MSYS2/mingw64/include"
+					],
+					"linkDirectories" : 
+					[
+						"C:/Program Files/MSYS2/mingw64/lib/gcc/x86_64-w64-mingw32/16.1.0",
+						"C:/Program Files/MSYS2/mingw64/x86_64-w64-mingw32/lib",
+						"C:/Program Files/MSYS2/mingw64/x86_64-w64-mingw32/mingw/lib",
+						"C:/Program Files/MSYS2/mingw64/lib"
+					],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : 
+					[
+						"stdc++",
+						"mingw32",
+						"gcc_s",
+						"gcc",
+						"moldname",
+						"mingwex",
+						"pthread",
+						"advapi32",
+						"shell32",
+						"user32",
+						"kernel32",
+						"mingw32",
+						"gcc_s",
+						"gcc",
+						"moldname",
+						"mingwex",
+						"kernel32"
+					]
+				},
+				"path" : "C:/Program Files/MSYS2/mingw64/bin/clang++.exe",
+				"version" : "22.1.4"
+			},
+			"language" : "CXX",
+			"sourceFileExtensions" : 
+			[
+				"C",
+				"M",
+				"c++",
+				"cc",
+				"cpp",
+				"cxx",
+				"m",
+				"mm",
+				"mpp",
+				"CPP",
+				"ixx",
+				"cppm",
+				"ccm",
+				"cxxm",
+				"c++m"
+			]
+		},
+		{
+			"compiler" : 
+			{
+				"implicit" : {}
+			},
+			"language" : "NONE"
+		},
+		{
+			"compiler" : 
+			{
+				"implicit" : {},
+				"path" : "C:/Program Files/MSYS2/mingw64/bin/windres.exe"
+			},
+			"language" : "RC",
+			"sourceFileExtensions" : 
+			[
+				"rc",
+				"RC"
+			]
+		}
+	],
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 1
+	}
+}

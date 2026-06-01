@@ -1,0 +1,14 @@
+ninja_dyndep_version = 1.0
+build docme/gui/CMakeFiles/docme_gui.dir/__/error.cpp.obj: dyndep | docme/gui/CMakeFiles/docme_gui.dir/docme-error.pcm docme/gui/CMakeFiles/docme_gui.dir/docme.pcm
+
+build docme/gui/CMakeFiles/docme_gui.dir/main.cpp.obj: dyndep | docme/gui/CMakeFiles/docme_gui.dir/docme.gui.pcm
+
+build docme/gui/CMakeFiles/docme_gui.dir/__/docme.mpp.obj | docme/gui/CMakeFiles/docme_gui.dir/docme.pcm: dyndep | docme/gui/CMakeFiles/docme_gui.dir/docme-error.pcm
+  restat = 1
+
+build docme/gui/CMakeFiles/docme_gui.dir/__/error.mpp.obj | docme/gui/CMakeFiles/docme_gui.dir/docme-error.pcm: dyndep
+  restat = 1
+
+build docme/gui/CMakeFiles/docme_gui.dir/gui.mpp.obj | docme/gui/CMakeFiles/docme_gui.dir/docme.gui.pcm: dyndep
+  restat = 1
+

@@ -1,0 +1,45 @@
+{
+	"modules" : 
+	{
+		"docme" : 
+		{
+			"bmi" : "C:/Users/blake/Programing/Personal Projects/Docme/build/Clangd/docme/gui/CMakeFiles/docme_gui.dir/docme.pcm",
+			"is-private" : true
+		},
+		"docme.gui" : 
+		{
+			"bmi" : "C:/Users/blake/Programing/Personal Projects/Docme/build/Clangd/docme/gui/CMakeFiles/docme_gui.dir/docme.gui.pcm",
+			"is-private" : true
+		},
+		"docme:error" : 
+		{
+			"bmi" : "C:/Users/blake/Programing/Personal Projects/Docme/build/Clangd/docme/gui/CMakeFiles/docme_gui.dir/docme-error.pcm",
+			"is-private" : true
+		}
+	},
+	"references" : 
+	{
+		"docme" : 
+		{
+			"lookup-method" : "by-name",
+			"path" : "docme/gui/CMakeFiles/docme_gui.dir/docme.pcm"
+		},
+		"docme.gui" : 
+		{
+			"lookup-method" : "by-name",
+			"path" : "docme/gui/CMakeFiles/docme_gui.dir/docme.gui.pcm"
+		},
+		"docme:error" : 
+		{
+			"lookup-method" : "by-name",
+			"path" : "docme/gui/CMakeFiles/docme_gui.dir/docme-error.pcm"
+		}
+	},
+	"usages" : 
+	{
+		"docme" : 
+		[
+			"docme:error"
+		]
+	}
+}

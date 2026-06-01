@@ -1,0 +1,14 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "docme\\cli\\CMakeFiles\\docme_cli.dir\\cli.cpp.obj",
+      "requires": [
+        {
+          "logical-name": "docme.cli"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

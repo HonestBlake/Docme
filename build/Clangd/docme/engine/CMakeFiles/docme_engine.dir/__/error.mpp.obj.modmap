@@ -1,0 +1,2 @@
+-x c++-module
+-fmodule-output="docme/engine/CMakeFiles/docme_engine.dir/docme-error.pcm"

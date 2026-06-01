@@ -1,0 +1,16 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "docme\\generator\\CMakeFiles\\docme_generator.dir\\__\\error.mpp.obj",
+      "provides": [
+        {
+          "is-interface": true,
+          "logical-name": "docme:error",
+          "source-path": "C:/Users/blake/Programing/Personal Projects/Docme/docme/error.mpp"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}
