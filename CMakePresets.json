@@ -1,0 +1,56 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 4,
+        "minor": 3,
+        "patch": 3
+    },
+    "configurePresets": [
+        {
+            "name": "Clangd",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_COMPILER": "C:/Program Files/MSYS2/mingw64/bin/clang++.exe",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            }
+        },
+        {
+            "name": "Release",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin/release",
+                "CMAKE_LIBRARY_OUTPUT_DIRECTORY": "${sourceDir}/lib/release",
+                "CMAKE_ARCHIVE_OUTPUT_DIRECTORY": "${sourceDir}/lib/release"
+            }
+        },
+        {
+            "name": "Debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",  
+                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin/debug",
+                "CMAKE_LIBRARY_OUTPUT_DIRECTORY": "${sourceDir}/lib/debug",
+                "CMAKE_ARCHIVE_OUTPUT_DIRECTORY": "${sourceDir}/lib/debug"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "Release",
+            "configurePreset": "Release"
+        },
+        {
+            "name": "Debug",
+            "configurePreset": "Debug"
+        },
+        {
+            "name": "Clangd",
+            "configurePreset": "Clangd"
+        }
+    ]
+}

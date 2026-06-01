@@ -1,0 +1,61 @@
+module;
+
+// #FILE: configFile.mpp, Component Module Interface File
+// #BRIEF: Module interface file for loading and parsing program config file
+
+#include "docme.hpp" // #INCLUDE: docme.hpp, Project Header File
+
+export module docme.engine:configFile;
+
+import docme;
+
+namespace docme::engine{ // #SCOPE: docme::engine
+
+    // #CLASS: ConfigFile, Exported Class
+    export class ConfigFile{
+    public:
+        class Error;
+    // Public Factory Methods
+        ~ConfigFile() = default; // #DEFAULT: ~ConfigFile(), Destructor
+        ConfigFile(const ConfigFile&) = delete; // #DELETE: ConfigFile(const ConfigFile&), Copy Constructor
+        ConfigFile(ConfigFile&&) = delete; // #DELETE: ConfigFile(ConfigFile&&), Move Constructor
+    // Public Operators
+        ConfigFile& operator=(const ConfigFile&) = delete;
+        ConfigFile& operator=(ConfigFile&&) = delete;
+    // Public Static Methods
+        static std::expected<void, Error> createTemplate();
+        static std::expected<void, Error> createTemplate(const std::filesystem::path& path);
+        static std::expected<ConfigFile, Error> load();
+        static std::expected<ConfigFile, Error> load(const std::filesystem::path& path);
+        static bool foundDefault();
+    // Public Methods
+        
+    private:
+    // Private Factory Methods
+        ConfigFile() = default; // #DEFAULT: ConfigFile(), Constructor
+    // Private Methods
+
+    // Private Static Fields
+        static inline const std::string CONFIG_FILE_EXTENSION = ".json";
+        static inline const std::filesystem::path DEFAULT_CONFIG_FILE = "docme" + CONFIG_FILE_EXTENSION;
+        static inline const std::filesystem::path TEMPLATE_CONFIG_FILE = {};
+    // Private Fields
+
+    }; // #END: ConfigFile
+
+    // #CLASS: ConfigFile::Error
+    class ConfigFile::Error: public docme::Error{
+    public:
+    // Public Factory Methods
+        Error() = default; // #DEFAULT: Error(), Constructor
+        ~Error() = default; // #DEFAULT: ~Error(), Destructor
+        Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy Constructor
+        Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move Constructor
+    // Public Operators
+        Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy Assignment Operator
+        Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move Assignment Operator
+    // Public Methods
+        std::string message()override;
+    }; // #END: Config::Error
+ 
+} // namespace docme::engine

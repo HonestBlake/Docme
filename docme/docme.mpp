@@ -1,0 +1,14 @@
+// #FILE: docme.mpp, Project Module Interface File
+// #BRIEF: Project main module interface file
+
+// #MODULE: docme, Project Module
+// #BRIEF: Main project module
+export module docme;
+
+export import :error; // #IMPORT: error, Project Module Partition
+
+namespace docme{ // #SCOPE: docme
+    
+    class Error;
+
+} // #END: docme

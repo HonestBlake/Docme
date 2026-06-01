@@ -1,0 +1,11 @@
+module;
+
+// #FILE: cli.mpp, Package Module Interface File
+// #BRIEF: Command Line Interface package module interface file
+
+#include "cli.hpp" // #INCLUDE: cli.hpp, Package Header File
+
+// #MODULE: docme.cli, Package Module
+// #BRIEF: Command Line Interface package
+export module docme.cli;
+

@@ -1,0 +1,8 @@
+// #FILE: gui.mpp, Package Module Interface File
+
+module;
+
+#include "gui.hpp"
+
+export module docme.gui;
+

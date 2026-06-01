@@ -1,0 +1,19 @@
+{
+    "project_name": "MyProject",
+    "sources": [
+        "path/to/source1.cpp",
+        "path/to/src/dir"
+    ],
+    "ignore": [
+        "path/to/ignore/file.cpp",
+        "path/to/ignore/dir"
+    ],
+    "output": "path/to/output/dir",
+    "language_handlers": [
+        "CDoc"
+    ],
+    "renderers": [
+        "Markdown",
+        "Json"
+    ]
+}

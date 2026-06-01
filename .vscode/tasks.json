@@ -1,0 +1,52 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CMake: Select Compiler",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/.vscode/scripts/select-cmake-compiler.ps1",
+                "-Compiler",
+                "${input:cmakeCompiler}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "CMake: Configure",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/.vscode/scripts/configure-cmake-preset.ps1",
+                "-Preset",
+                "${input:cmakeConfigurePreset}"
+            ],
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "cmakeConfigurePreset",
+            "type": "command",
+            "command": "cmake.selectConfigurePreset"
+        },
+        {
+            "id": "cmakeCompiler",
+            "type": "pickString",
+            "description": "Select the compiler CMake should use.",
+            "options": [
+                "Clang 22.1.4",
+                "GCC 16.1.0"
+            ],
+            "default": "Clang 22.1.4 - MSYS2 mingw64"
+        }
+    ]
+}

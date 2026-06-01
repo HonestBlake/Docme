@@ -1,0 +1,8 @@
+// #FILE: generator.mpp, Package Module Interface File
+
+module;
+
+#include "generator.hpp"
+
+export module docme.generator;
+

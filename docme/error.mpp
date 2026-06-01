@@ -1,0 +1,48 @@
+module;
+
+#include "docme.hpp" // #INCLUDE: docme.hpp, Project Header File
+
+// #FILE: error.mpp, Component Module Interface File
+// #BRIEF: Module interface file for project error type
+
+// #MODULE: docme:error
+export module docme:error;
+
+namespace docme{ // #SCOPE: docme
+
+    // #CLASS: Error, Exported Class
+    // #BRIEF: Class that represents an error state with code, message, and context
+    export class Error{
+    public:
+    // Public Types
+        enum Code: std::uint16_t;
+    // Public Factory Methods
+        Error() = default; // #DEFAULT: Error(), Constructor
+        virtual ~Error() = default; // #DEFAULT: ~Error(), Virtual Destructor
+        Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy Constructor
+        Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move Constructor
+    // Public Operators
+        Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy Assignment Operator
+        Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move Assignment Operator
+    // Public Methods
+        virtual std::string message();
+        Error& addContext(std::string&& p_context);
+        Error& addContext(const std::string& p_context);
+    // Public Types
+        Code code;
+        std::string body;
+        std::vector<std::string> context;
+    private:
+    // Private Static Fields
+        inline constexpr static std::string DEFAULT_MESSAGE_FORMAT = "{}: {}"; 
+    }; // #END: Error
+
+    // #ENUM: Code, Exported std::uint16_t Enum class
+    // #BRIEF: Enumeration of docme error code
+    enum Error::Code: std::uint16_t{
+    // Engine 100
+        DOCME_100 = 100,
+        DOCME_101 = 101
+    }; // #END: Code
+
+} // #END: docme`
