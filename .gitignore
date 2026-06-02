@@ -64,6 +64,13 @@ _deps
 better Log/
 
 # build directories
-build/
+build/*
+build/*/
+build/Clangd
+build/Clangd/
+build/Release
+build/Release/
+build/Debug
+build/Debug/
 
 dependencies/*
