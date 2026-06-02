@@ -1,3 +1,0 @@
--x c++-module
--fmodule-output="docme/generator/CMakeFiles/docme_generator.dir/docme.pcm"
--fmodule-file="docme:error=docme/generator/CMakeFiles/docme_generator.dir/docme-error.pcm"

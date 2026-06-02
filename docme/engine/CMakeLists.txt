@@ -27,6 +27,10 @@ target_sources(docme_engine PRIVATE ${DOCME_SRC_FILES} ${ENGINE_SRC_FILES}
 )
 target_include_directories(docme_engine PUBLIC ${DOCME_INCLUDE_DIRS} ${ENGINE_INCLUDE_DIRS})
 target_precompile_headers(docme_engine PRIVATE ${DOCME_PCH_FILES} ${ENGINE_PCH_FILES})
+target_link_libraries(docme_engine PRIVATE
+    Boost::dll
+    Boost::filesystem
+)
 set_target_properties(docme_engine PROPERTIES
     OUTPUT_NAME "docme-engine"
     PREFIX ""

@@ -4,10 +4,13 @@ module;
 // #BRIEF: Module interface file for loading and parsing program config file
 
 #include "docme.hpp" // #INCLUDE: docme.hpp, Project Header File
+#include <boost/dll/runtime_symbol_info.hpp> // #INCLUDE: boost/dll/runtime_symbol_info.hpp, External Library Header File
 
-export module docme.engine:configFile;
+// #MODULE: docme.engine:configFile, Component Module Partition
+// #BRIEF: Module partition for ConfigFile class in docme engine module
+export module docme.engine:configFile; 
 
-import docme;
+export import docme; // #IMPORT: docme, Project Module
 
 namespace docme::engine{ // #SCOPE: docme::engine
 
@@ -18,15 +21,13 @@ namespace docme::engine{ // #SCOPE: docme::engine
     // Public Factory Methods
         ~ConfigFile() = default; // #DEFAULT: ~ConfigFile(), Destructor
         ConfigFile(const ConfigFile&) = delete; // #DELETE: ConfigFile(const ConfigFile&), Copy Constructor
-        ConfigFile(ConfigFile&&) = delete; // #DELETE: ConfigFile(ConfigFile&&), Move Constructor
+        ConfigFile(ConfigFile&&) = default; // #DELETE: ConfigFile(ConfigFile&&), Move Constructor
     // Public Operators
         ConfigFile& operator=(const ConfigFile&) = delete;
-        ConfigFile& operator=(ConfigFile&&) = delete;
+        ConfigFile& operator=(ConfigFile&&) = default;
     // Public Static Methods
-        static std::expected<void, Error> createTemplate();
-        static std::expected<void, Error> createTemplate(const std::filesystem::path& path);
-        static std::expected<ConfigFile, Error> load();
-        static std::expected<ConfigFile, Error> load(const std::filesystem::path& path);
+        static std::expected<void, Error> createTemplate(const std::filesystem::path& path = std::filesystem::current_path() / DEFAULT_CONFIG_FILE);
+        static std::expected<ConfigFile, Error> load(const std::filesystem::path& path = std::filesystem::current_path() / DEFAULT_CONFIG_FILE);
         static bool foundDefault();
     // Public Methods
         
@@ -36,9 +37,11 @@ namespace docme::engine{ // #SCOPE: docme::engine
     // Private Methods
 
     // Private Static Fields
+        static inline const std::filesystem::path BIN_DIR = boost::dll::program_location().parent_path().string();
+        static inline const std::filesystem::path RESOURCES_DIR = BIN_DIR / ".." / ".." / "resources";
         static inline const std::string CONFIG_FILE_EXTENSION = ".json";
         static inline const std::filesystem::path DEFAULT_CONFIG_FILE = "docme" + CONFIG_FILE_EXTENSION;
-        static inline const std::filesystem::path TEMPLATE_CONFIG_FILE = {};
+        static inline const std::filesystem::path TEMPLATE_CONFIG_FILE = RESOURCES_DIR / ("templateConfigFile" + CONFIG_FILE_EXTENSION);
     // Private Fields
 
     }; // #END: ConfigFile
@@ -48,6 +51,8 @@ namespace docme::engine{ // #SCOPE: docme::engine
     public:
     // Public Factory Methods
         Error() = default; // #DEFAULT: Error(), Constructor
+        Error(const Code p_code);
+        Error(const Code p_code, const std::string& p_context);
         ~Error() = default; // #DEFAULT: ~Error(), Destructor
         Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy Constructor
         Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move Constructor
@@ -56,6 +61,15 @@ namespace docme::engine{ // #SCOPE: docme::engine
         Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move Assignment Operator
     // Public Methods
         std::string message()override;
-    }; // #END: Config::Error
+    // Private Static Fields
+        inline const static std::string MESSAGE_FORMAT = "{}: {}";
+        inline const static std::string MESSAGE_FORMAT_CONTEXT_1 = "{}: {} {}";
+        inline const static std::map<Code, std::string> ERROR_MESSAGES = {
+            {DOCME_100, "Could not locate template config file in"},
+            {DOCME_101, "Could not create new template config file in"},
+            {DOCME_102, "Given config file is not a " + CONFIG_FILE_EXTENSION + " file at"},
+            {DOCME_103, "Given config file already exists at"}
+        };
+    }; // #END: ConfigFile::Error
  
 } // namespace docme::engine

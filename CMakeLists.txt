@@ -19,6 +19,8 @@ include(FetchContent) # For fetching dependencies
 
 # Show selected compiler
 message(STATUS "Selected C++ Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS "Selected Build Mode: ${CMAKE_BUILD_TYPE}")
+
 
 # Create project directories
 set(ROOT ${CMAKE_SOURCE_DIR})

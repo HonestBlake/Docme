@@ -26,6 +26,7 @@ target_sources(docme_cli PRIVATE ${DOCME_SRC_FILES} ${CLI_SRC_FILES}
 )
 target_include_directories(docme_cli PUBLIC ${DOCME_INCLUDE_DIRS} ${CLI_INCLUDE_DIRS})
 target_precompile_headers(docme_cli PRIVATE ${DOCME_PCH_FILES} ${CLI_PCH_FILES})
+target_link_libraries(docme_cli PRIVATE docme_engine)
 set_target_properties(docme_cli PROPERTIES
     OUTPUT_NAME "docme"
     PREFIX ""
