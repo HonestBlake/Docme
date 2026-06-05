@@ -1,8 +1,28 @@
 // #FILE: core.mpp, Package Module Interface File
+// #BRIEF: Module interface file for the core package
 
 module;
 
-#include "core.hpp"
+#include "docme.hpp" // #INCLUDE: docme.hpp, Project Header File
 
+// #MODULE: docme.core, Package Module
 export module docme.core;
 
+export import :errors; // #IMPORT: :errors, errors component
+export import :json; // #IMPORT: :json, json component
+export import :logging; // #IMPORT: :logging, logging component
+
+namespace docme{ // #SCOPE: docme
+    
+    // #NAMESPACE: core, Package Namespace
+    namespace core{
+
+        export class Error;
+
+        export class Json;
+
+        export class Logger;
+
+    } // #END: core
+
+} // #END: docme

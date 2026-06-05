@@ -1,14 +1,18 @@
 // #FILE: docme.mpp, Project Module Interface File
 // #BRIEF: Project main module interface file
 
+module;
+
+#include "docme.hpp" // #INCLUDE: docme.hpp, Project Header File
+
 // #MODULE: docme, Project Module
 // #BRIEF: Main project module
 export module docme;
 
-export import :error; // #IMPORT: error, Project Module Partition
+export import docme.core;
+export import docme.cli;
+export import docme.engine;
 
 namespace docme{ // #SCOPE: docme
-    
-    class Error;
 
 } // #END: docme

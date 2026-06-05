@@ -1,21 +1,22 @@
+// #FILE: configFile.mpp, Component Module Interface File
+// #BRIEF: Module interface file for configFile component
+
 module;
 
-// #FILE: configFile.mpp, Component Module Interface File
-// #BRIEF: Module interface file for loading and parsing program config file
-
-#include "docme.hpp" // #INCLUDE: docme.hpp, Project Header File
-#include <boost/dll/runtime_symbol_info.hpp> // #INCLUDE: boost/dll/runtime_symbol_info.hpp, External Library Header File
+#include "docme.hpp" // #INCLUDE: docme.hpp, Project wide header
+#include <boost/dll/runtime_symbol_info.hpp> // #INCLUDE: boost/dll/runtime_symbol_info.hpp, External lib for getting binary location
 
 // #MODULE: docme.engine:configFile, Component Module Partition
 // #BRIEF: Module partition for ConfigFile class in docme engine module
 export module docme.engine:configFile; 
 
-export import docme; // #IMPORT: docme, Project Module
+export import docme.core; // #IMPORT: docme, For Error type
 
 namespace docme::engine{ // #SCOPE: docme::engine
 
-    // #CLASS: ConfigFile, Exported Class
-    export class ConfigFile{
+    // #CLASS: ConfigFile, Exported Final Class
+    // #BRIEF: Represents config file state with loading and creating
+    export class ConfigFile final{
     public:
         class Error;
     // Public Factory Methods
@@ -46,29 +47,28 @@ namespace docme::engine{ // #SCOPE: docme::engine
 
     }; // #END: ConfigFile
 
-    // #CLASS: ConfigFile::Error
-    class ConfigFile::Error: public docme::Error{
+    // #CLASS: ConfigFile::Error, Final Class
+    // #BRIEF: ConfigFile error specialization
+    // #DERIVES, public docme::core::Error, Base project error type
+    class ConfigFile::Error final: public docme::core::Error{
     public:
     // Public Factory Methods
         Error() = default; // #DEFAULT: Error(), Constructor
         Error(const Code p_code);
-        Error(const Code p_code, const std::string& p_context);
+        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&&... p_contextArgs);
         ~Error() = default; // #DEFAULT: ~Error(), Destructor
         Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy Constructor
         Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move Constructor
     // Public Operators
         Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy Assignment Operator
         Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move Assignment Operator
-    // Public Methods
-        std::string message()override;
     // Private Static Fields
-        inline const static std::string MESSAGE_FORMAT = "{}: {}";
-        inline const static std::string MESSAGE_FORMAT_CONTEXT_1 = "{}: {} {}";
         inline const static std::map<Code, std::string> ERROR_MESSAGES = {
-            {DOCME_100, "Could not locate template config file in"},
-            {DOCME_101, "Could not create new template config file in"},
-            {DOCME_102, "Given config file is not a " + CONFIG_FILE_EXTENSION + " file at"},
-            {DOCME_103, "Given config file already exists at"}
+            {DOCME_200, "Could not locate template config file in {}"},
+            {DOCME_201, "Could not create new template config file in {}"},
+            {DOCME_202, "Given config file is not a " + CONFIG_FILE_EXTENSION + " file at {}"},
+            {DOCME_203, "Given config file already exists at {}"},
+            {DOCME_204, "Failed to load config file at {}"}
         };
     }; // #END: ConfigFile::Error
  

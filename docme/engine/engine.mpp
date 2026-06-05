@@ -1,21 +1,21 @@
-module;
-
 // #FILE: engine.mpp, Package Module Interface File
+// #BRIEF: Module interface file for engine package
+module;
 
 #include "docme.hpp" // #INCLUDE: docme.hpp, Project Header File
 
 // #MODULE: docme.engine, Package Module
-// #BRIEF: Package module for 
+// #BRIEF: Package module for core program logic
 export module docme.engine;
 
-export import :configFile; // #IMPORT: config, Package Module Partition
+export import :configFile; // #IMPORT: :configFile
 
 namespace docme{ // #SCOPE: docme
 
     // #NAMESPACE: engine, Package Namespace
     namespace engine{
 
-        export class Config;
+        export class ConfigFile;
 
     } // #END: engine
 

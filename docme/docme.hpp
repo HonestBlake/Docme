@@ -18,11 +18,9 @@
 // #BRIEF: Main project namespace
 namespace docme{
 
-    
     namespace std_fs = std::filesystem; // #ALIAS: std_fs = std::filesystem, alias for std::filesystem
 
     namespace cli{}
-    namespace core{}
     namespace engine{}
     namespace generator{}
     namespace gui{}

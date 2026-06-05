@@ -1,0 +1,61 @@
+// #FILE: errors.mpp, Component Module Interface File
+// #BRIEF: Module interface file for errors component
+
+module;
+
+#include "docme.hpp" // #INCLUDE: docme.hpp, Project wide header
+
+// #MODULE: docme.core:errors, Component Module Partition
+// #BRIEF: Module partition for error types
+export module docme.core:errors;
+
+namespace docme::core{ // #SCOPE: docme::core
+
+    // #CLASS: Error, Exported Class
+    // #BRIEF: Class that represents an error state with code, message, and context
+    export class Error{
+    public:
+    // Public Types
+        enum Code: std::uint16_t;
+    // Public Factory Methods
+        Error(const std::string& p_codeFormat = DEFALT_CODE_FORMAT, const std::string& p_messageFormat = DEFAULT_MESSAGE_FORMAT);
+        virtual ~Error() = default; // #DEFAULT: ~Error(), Virtual Destructor
+        Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy Constructor
+        Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move Constructor
+    // Public Operators
+        Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy Assignment Operator
+        Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move Assignment Operator
+        bool operator==(const Error::Code& p_code)const;
+    // Public Methods
+        std::string message()const;
+    // Public Types
+        Code code;
+        std::string body;
+    protected:
+    // Protected Methods
+        std::string formatCode()const;
+        std::string formatMessage()const;
+    // Protected Static Fields
+        inline constexpr static std::string DEFAULT_MESSAGE_FORMAT = "({}) {}"; // {} = formatted code, {} = body
+        inline constexpr static std::string DEFALT_CODE_FORMAT = "DOCME_{}"; // {} = code
+    // Protected Fields 
+        std::string m_codeFormat = DEFALT_CODE_FORMAT;
+        std::string m_messageFormat = DEFAULT_MESSAGE_FORMAT;
+    }; // #END: Error
+
+    // #ENUM: Code, Exported std::uint16_t Enum class
+    // #BRIEF: Enumeration of docme error code
+    enum Error::Code: std::uint16_t{
+    // Core 100
+        
+    // Engine 200
+        DOCME_200 = 200, // Failed to load template config file
+        DOCME_201 = 201, // Failed to create new template config file
+        DOCME_202 = 202, // Given config file is not correct type
+        DOCME_203 = 203, // Given config file already exists at given path
+        DOCME_204 = 204, // Failed to load config file
+    // Generator 300
+    // CLI 400
+    }; // #END: Code
+
+} // #END: docme::core
