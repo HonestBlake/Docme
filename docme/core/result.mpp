@@ -1,0 +1,72 @@
+// #FILE: result.mpp, Component Module Interface File
+// #BRIEF: Module interface file for result component
+
+module;
+
+#include "core.hpp" // #INCLUDE: core.hpp, Package wide header
+
+// #MODULE: docme.core:json, Component Module Partition
+// #BRIEF: Module partition for result tools
+export module docme.core:result;
+
+import :errors; // #IMPORT: errors, Project error type
+
+namespace docme::core{ // #SCOPE: docme::core
+
+    // #CLASS: Result<T_Return>, Exported Final Template Class
+    // #BRIEF: Project result type, wrapping a success and error type
+    // #TEMPLATE: class T_Return = void, Success type default to void
+    export template<class T_Return = void> class Result final{
+    public:
+    // Public Factory Methods
+        Result() = default; // #DEFAULT: Result(), Public Default Constructor
+        Result(const T_Return& p_success);
+        Result(T_Return&& p_success);
+        Result(const Error& p_error);
+        Result(Error&& p_error);
+        Result(const Result&) = default; // #DEFAULT: Result(const Result&), Public Copy Constructor
+        Result(Result&&) = default; // #DEFAULT: Result(Result&&), Public Move Constructor
+        ~Result() = default; // #DEFAULT: ~Result(), Public Destructor
+    // Public Operators
+        Result& operator=(const Result&) = default; // #DEFAULT: operator=(const Result&), Public Copy Assignment Operator
+        Result& operator=(Result&&) = default; // #DEFAULT: operator=(Result&&), Public Move Assignment
+        explicit operator bool()const;
+        T_Return operator*()const&;
+        T_Return operator*()&&;
+    // Public Methods
+        const Error& error()const;
+    private:
+    // Private Fields
+        std::variant<T_Return, Error> m_result; 
+    }; // #END: Result
+
+    // #CLASS: Result<void>, Exported Final Template Class Specialization
+    // #BRIEF: Final template class specialization for void type
+    // #SPECIALIZES: Result<T_Return>
+    template<> class Result<void> final{
+    public:
+    // Public Factory Methods
+        Result() = default; // #DEFAULT: Result(), Public Default Constructor
+        Result(const Error& p_error);
+        Result(Error&& p_error);
+        Result(const Result&) = default; // #DEFAULT: Result(const Result&), Public Copy Constructor
+        Result(Result&&) = default; // #DEFAULT: Result(Result&&), Public Move Constructor
+        ~Result() = default; // #DEFAULT: ~Result(), Public Destructor
+    // Public Operators
+        Result& operator=(const Result&) = default; // #DEFAULT: operator=(const Result&), Public Copy Assignment Operator
+        Result& operator=(Result&&) = default; // #DEFAULT: operator=(Result&&), Public Move Assignment
+        explicit operator bool()const;
+    // Public Methods
+        const Error& error()const;
+    private:
+    // Private Fields
+        std::optional<Error> m_result; 
+    }; // #END: Result<void>
+
+} // #END: docme::core
+
+#define COMPILED_WITH_MODULE // Close in editor
+
+#include "result.tpp" // #INCLUDE: result.tpp, Result template definitions
+
+#undef COMPILED_WITH_MODULE

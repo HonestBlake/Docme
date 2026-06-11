@@ -12,7 +12,3 @@ export module docme;
 export import docme.core;
 export import docme.cli;
 export import docme.engine;
-
-namespace docme{ // #SCOPE: docme
-
-} // #END: docme

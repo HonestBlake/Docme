@@ -3,7 +3,7 @@
 
 module;
 
-#include "docme.hpp" // #INCLUDE: docme.hpp, Project wide header
+#include "core.hpp" // #INCLUDE: core.hpp, Package wide header
 
 // #MODULE: docme.core:errors, Component Module Partition
 // #BRIEF: Module partition for error types
@@ -26,6 +26,7 @@ namespace docme::core{ // #SCOPE: docme::core
         Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy Assignment Operator
         Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move Assignment Operator
         bool operator==(const Error::Code& p_code)const;
+        bool operator!=(const Error::Code& p_code)const;
     // Public Methods
         std::string message()const;
     // Public Types
@@ -47,15 +48,23 @@ namespace docme::core{ // #SCOPE: docme::core
     // #BRIEF: Enumeration of docme error code
     enum Error::Code: std::uint16_t{
     // Core 100
-        
+        DOCME_100 = 100, // Failed to load json file
+        DOCME_101 = 101, // Could not find json key
+        DOCME_102 = 102, // Json type error string
+        DOCME_103 = 103, // Json type error list
+        DOCME_104 = 104, // Failed to parse json
     // Engine 200
         DOCME_200 = 200, // Failed to load template config file
         DOCME_201 = 201, // Failed to create new template config file
         DOCME_202 = 202, // Given config file is not correct type
         DOCME_203 = 203, // Given config file already exists at given path
         DOCME_204 = 204, // Failed to load config file
+        DOCME_205 = 205, // Config file type error string
+        DOCME_206 = 206 // Config file type error list of strings
     // Generator 300
+
     // CLI 400
+    
     }; // #END: Code
 
 } // #END: docme::core

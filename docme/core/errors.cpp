@@ -3,8 +3,7 @@
 
 module;
 
-#include "docme.hpp" // #INCLUDE: docme.hpp, Project wide header
-
+#include "core.hpp" // #INCLUDE: core.hpp, Package wide header
 
 module docme.core; // #IMPLEMENTS: docme.core:errors
 import :errors; 
@@ -25,13 +24,21 @@ namespace docme::core{ // #SCOPE: docme::core
 
 // #DIV: Public Operators
 
-    // #METHOD: operator==(const Error::Code&), Equality Operator
+    // #METHOD: operator==(const Error::Code&), Operator
     // #BRIEF: Checks if error code is equal to given code
     // #PARAM: p_code, Code to compare error code to
     // #RETURN: bool, True if error code is equal to given code, false otherwise
     bool Error::operator==(const Error::Code& p_code)const{
         return code == p_code;
     } // #END: operator==(const Error::Code&)
+
+    // #METHOD: operator!=(const Error::Code&), Operator
+    // #BRIEF: Checks if error code is not equal to given code
+    // #PARAM: p_code, Code to compare error code to
+    // #RETURN: bool, True if error code is not
+    bool Error::operator!=(const Error::Code& p_code)const{
+        return code != p_code;
+    } // #END: operator!=(const Error::Code&)
 
 // #DIV: Public Methods
 

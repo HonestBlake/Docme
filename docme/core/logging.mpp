@@ -3,13 +3,13 @@
 
 module;
 
-#include "docme.hpp" // #INCLUDE: docme.hpp, Project wide header
+#include "core.hpp" // #INCLUDE: core.hpp, Package wide header
 
 // #MODULE: docme.core:logging, Component Module Partition
 // #BRIEF: Module partition for logging
 export module docme.core:logging;
 
-import pureLog;
+import pureLog; // #IMPORT: pureLog, External logging lib
 
 namespace docme::core{ // #SCOPE: docme::core
 

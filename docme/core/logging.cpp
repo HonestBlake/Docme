@@ -3,30 +3,25 @@
 
 module;
 
-#include "docme.hpp" // #INCLUDE: docme.hpp, Project wide header
-
+#include "core.hpp" // #INCLUDE: core.hpp, Package wide header
+ 
 module docme.core; // #IMPLEMENTS: docme.core:logging
 import :logging;
 
 namespace docme::core{ // #SCOPE: docme::core
-
-// #SCOPE: Logger
-
+    
     // #METHOD: Logger(), Private Constructor
-    // #BRIEF:
+    // #BRIEF: Default constructor for logger 
     Logger::Logger(): LoggerBase(NAME, s_outputStream){
         levelSpecificLogColor(pureLog::Log::Level::WARN, pureLog::Color::YELLOW);
         levelSpecificLogColor(pureLog::Log::Level::ERROR, pureLog::Color::RED);
-    } // #END: logger
+    } // #END: Logger()
 
-    // #METHOD: get(), Public Static Method
-    // #BRIEF: Gets logger instance
-    // #RETURN: Logger&, Reference to logger
+    // #METHOD: get(), Public Method
+    // #BRIEF: Returns the instance of the logger 
+    // #RETURN: Logger&, Reference to current logger
     Logger& Logger::get(){
         return LoggerBase::get();
     } // #END: get()
 
-
-// #END: Logger
-    
 } // #END: docme::core

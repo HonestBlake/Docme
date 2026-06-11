@@ -12,9 +12,12 @@ set(GUI_MOD_FILES
 set(GUI_PCH_FILES
 
 )
-set_source_files_properties(${DOCME_SRC_FILES} ${DOCME_MOD_FILES} ${GUI_MOD_FILES}
-    PROPERTIES SKIP_PRECOMPILE_HEADERS ON
-)
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set_source_files_properties(${GUI_SRC_FILES} ${DOCME_MOD_FILES} ${GUI_MOD_FILES}
+        PROPERTIES SKIP_PRECOMPILE_HEADERS ON
+    )
+endif()
 
 add_executable(docme_gui)
 target_sources(docme_gui PRIVATE ${DOCME_SRC_FILES} ${GUI_SRC_FILES}
@@ -25,7 +28,9 @@ target_sources(docme_gui PRIVATE ${DOCME_SRC_FILES} ${GUI_SRC_FILES}
     FILES ${DOCME_MOD_FILES} ${GUI_MOD_FILES}
 )
 target_include_directories(docme_gui PUBLIC ${DOCME_INCLUDE_DIRS} ${GUI_INCLUDE_DIRS})
-target_precompile_headers(docme_gui PRIVATE ${DOCME_PCH_FILES} ${GUI_PCH_FILES})
+if(NOT DOCME_CLANGD_BUILD)
+    target_precompile_headers(docme_gui PRIVATE ${DOCME_PCH_FILES} ${GUI_PCH_FILES})
+endif()
 target_link_libraries(docme_cli PRIVATE nlohmann_json_modules)
 set_target_properties(docme_gui PROPERTIES
     OUTPUT_NAME "docme-gui"

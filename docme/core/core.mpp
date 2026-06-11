@@ -3,26 +3,12 @@
 
 module;
 
-#include "docme.hpp" // #INCLUDE: docme.hpp, Project Header File
+#include "core.hpp" // #INCLUDE: docme.hpp, Package wide header
 
 // #MODULE: docme.core, Package Module
 export module docme.core;
 
-export import :errors; // #IMPORT: :errors, errors component
-export import :json; // #IMPORT: :json, json component
-export import :logging; // #IMPORT: :logging, logging component
-
-namespace docme{ // #SCOPE: docme
-    
-    // #NAMESPACE: core, Package Namespace
-    namespace core{
-
-        export class Error;
-
-        export class Json;
-
-        export class Logger;
-
-    } // #END: core
-
-} // #END: docme
+export import :errors; // #EXPORT: :errors, Import export errors component
+export import :json; // #EXPORT: :json, Import export json component
+export import :logging; // #EXPORT: :logging, Import export logging component
+export import :result; // #EXPORT: :result, Import export result component

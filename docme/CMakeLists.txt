@@ -1,4 +1,4 @@
-# CMakeLists.txt for docme common
+# CMakeLists.txt for docme base
 
 # Package dirs
 set(CLI "${DOCME}/cli")
@@ -21,9 +21,12 @@ set(DOCME_PCH_FILES
     "${DOCME}/std.hpp"
 )
 
-set_source_files_properties(${DOCME_SRC_FILES} ${DOCME_MOD_FILES}
-    PROPERTIES SKIP_PRECOMPILE_HEADERS ON
-)
+# PCH not supported with modules on gcc
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set_source_files_properties(${DOCME_MOD_FILES}
+        PROPERTIES SKIP_PRECOMPILE_HEADERS ON
+    )
+endif()
 
 # Add package subdirectories
 add_subdirectory(${CLI})
@@ -40,8 +43,10 @@ target_sources(docme PRIVATE ${DOCME_SRC_FILES}
     BASE_DIRS ${DOCME}
     FILES ${DOCME_MOD_FILES}
 )
-target_include_directories(docme PUBLIC ${DOCME_INCLUDE_DIRS})
-target_precompile_headers(docme PRIVATE ${DOCME_PCH_FILES})
+target_include_directories(docme PRIVATE ${DOCME_INCLUDE_DIRS})
+if(NOT DOCME_CLANGD_BUILD)
+    target_precompile_headers(docme PRIVATE ${DOCME_PCH_FILES})
+endif()
 target_link_libraries(docme PRIVATE 
     docme_cli 
 )

@@ -1,6 +1,6 @@
 {
     "project_name": "MyProject",
-    "sources": [
+    "source": [
         "path/to/source1.cpp",
         "path/to/src/dir"
     ],
@@ -9,10 +9,10 @@
         "path/to/ignore/dir"
     ],
     "output": "path/to/output/dir",
-    "language_handlers": [
+    "language_handler": [
         "CDoc"
     ],
-    "renderers": [
+    "renderer": [
         "Markdown",
         "Json"
     ]

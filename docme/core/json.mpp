@@ -3,13 +3,15 @@
 
 module;
 
-#include "docme.hpp" // #INCLUDE: docme.hpp, Project wide header
+#include "core.hpp" // #INCLUDE: core.hpp, Package wide header
 
 // #MODULE: docme.core:json, Component Module Partition
 // #BRIEF: Module partition for json tools
 export module docme.core:json;
 
-import :errors; // #IMPORT: 
+import :errors; // #IMPORT: docme.core:errors, Project error type
+import :result; // #IMPORT: docme.core:result, Project result type
+
 import nlohmann.json; // #IMPORT: nlohmann.json, External json library
 
 namespace docme::core{ // #SCOPE: docme::core
@@ -19,6 +21,14 @@ namespace docme::core{ // #SCOPE: docme::core
     export class Json final{
     public:
     // Public Types
+
+        // #STRUCT: Node, Struct
+        // #BRIEF: Holds json node key
+        struct Node{
+            Node(const std::string& p_key);
+            std::string key;
+        }; // #END: Node
+        
         class Error;
     // Public Factory Methods
         Json() = default; // #DEFAULT: Json(), Default Constructor
@@ -26,22 +36,32 @@ namespace docme::core{ // #SCOPE: docme::core
         Json(nlohmann::json&& p_json);
         Json(const Json&) = default; // #DEFAULT: Json(const Json&), Copy Constructor
         Json(Json&&) = default; // #DEFAULT: Json(Json&&), Move Constructor
+    // Public Operators
+        Json& operator=(const Json&) = default; // #DEFAULT: Json& operator=(const Json&), Copy Assignment
+        Json& operator=(Json&&) = default; // #DEFAULT: Json& operator=(Json&&), Move Assignment
     // Public Static Methods
-        static std::expected<Json, Error> parse(const std_fs::path& p_file);
+        static Result<Json> parse(const std_fs::path& p_file);
+    // Public Methods
+        template<class T_Value> Result<T_Value> get(const std::string_view p_key)const = delete; // #DELETE: get<T_Value>(const std::string_view), Non-specialized method
+        std::vector<Node> nodes()const;
     private:
     // Private Fields
         nlohmann::json m_json;
     }; // #END: Json
 
+    // Json template specialization decorations
+    template<> Result<std::string> Json::get<std::string>(const std::string_view p_key)const;
+    template<> Result<std::vector<std::string>> Json::get<std::vector<std::string>>(const std::string_view p_key)const;
+
     // #CLASS: Json::Error, Final Class
     // #BRIEF: Json error specialization
     // #DERIVES, public docme::core::Error, Base project error type
-    class Json::Error final: public docme::core::Error{
+    class Json::Error final: public docme::Error{
     public:
     // Public Factory Methods
         Error() = default; // #DEFAULT: Error(), Constructor
         Error(const Code p_code);
-        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&&... p_contextArgs);
+        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
         ~Error() = default; // #DEFAULT: ~Error(), Destructor
         Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy Constructor
         Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move Constructor
@@ -49,9 +69,13 @@ namespace docme::core{ // #SCOPE: docme::core
         Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy Assignment Operator
         Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move Assignment Operator
     // Private Static Fields
-        inline const static std::map<Code, std::string> ERROR_MESSAGES = {
-            
+        inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
+            {DOCME_100, "Failed to load json file at {}"},
+            {DOCME_101, "While parsing json could not find key {}"},
+            {DOCME_102, "While parsing json expected string at {} but got wrong type"},
+            {DOCME_103, "While parsing json expected list at {} but got wrong type"},
+            {DOCME_104, "Failed to parse json file at {}"},
         };
-    }; // #END: ConfigFile::Error
+    }; // #END: Json::Error
 
 } // #END: docme::core

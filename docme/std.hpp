@@ -1,21 +1,14 @@
 // #FILE: std.hpp, Header File
-// #BRIEF: Project wide standard library includes
+// #BRIEF: Includes all std headers
 
 #pragma once
 
-#include <iostream> // #INCLUDE: iostream, Standard I/O Stream Library
-#include <string> // #INCLUDE: string, Standard Library
-#include <vector> // #INCLUDE: vector, Standard Library
-#include <filesystem> // #INCLUDE: filesystem, Standard Library
-#include <fstream> // #INCLUDE: fstream, Standard File Stream Library
-#include <optional> // #INCLUDE: optional, Standard Library
-#include <unordered_map> // #INCLUDE: unordered_map, Standard Library
-#include <unordered_set> // #INCLUDE: unordered_set, Standard Library
-#include <expected> // #INCLUDE: expected, Standard Library
-#include <variant> // #INCLUDE: variant, Standard Library
-#include <cstdint> // #INCLUDE: cstdint, Standard Library
-#include <memory> // #INCLUDE: memory, Standard Library
-#include <cstdlib> // #INCLUDE: cstdlib, Standard Library
-#include <filesystem> // #INCLUDE: filesystem, Standard Library
-#include <format> // #INCLUDE: format, Standard Library
-#include <map> // #INCLUDE: map, Standard Library
+#include <string> // #INCLUDE: string, Standard library
+#include <format> // #INCLUDE: format, Standard library
+#include <array> // #INCLUDE: array, Standard library
+#include <set> // #INCLUDE: set, Standard library
+#include <vector> // #INCLUDE: vector, Standard library
+#include <filesystem> // #INCLUDE: filesystem, Standard library
+#include <unordered_map> // #INCLUDE: unordered_map, Standard library
+#include <variant> // #INCLUDE: variant, Standard library
+#include <cstdlib> // #INCLUDE: cstdlib, Standard library

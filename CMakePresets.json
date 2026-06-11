@@ -13,7 +13,7 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_CXX_COMPILER": "C:/Program Files/MSYS2/mingw64/bin/clang++.exe",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+                "DOCME_CLANGD_BUILD": "ON"
             }
         },
         {

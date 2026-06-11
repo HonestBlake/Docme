@@ -3,14 +3,14 @@
 
 module;
 
-#include "docme.hpp" // #INCLUDE: docme.hpp, Project wide header
-#include <boost/dll/runtime_symbol_info.hpp> // #INCLUDE: boost/dll/runtime_symbol_info.hpp, External lib for getting binary location
+#include "engine.hpp" // #INCLUDE: engine.hpp, Package wide header
+#include <cpplocate/cpplocate.h> // #INCLUDE: cpplocate/cpplocate.h, External lib for bin dir
 
 // #MODULE: docme.engine:configFile, Component Module Partition
 // #BRIEF: Module partition for ConfigFile class in docme engine module
 export module docme.engine:configFile; 
 
-export import docme.core; // #IMPORT: docme, For Error type
+import docme.core; // #IMPORT: docme, For Error type
 
 namespace docme::engine{ // #SCOPE: docme::engine
 
@@ -20,56 +20,81 @@ namespace docme::engine{ // #SCOPE: docme::engine
     public:
         class Error;
     // Public Factory Methods
-        ~ConfigFile() = default; // #DEFAULT: ~ConfigFile(), Destructor
-        ConfigFile(const ConfigFile&) = delete; // #DELETE: ConfigFile(const ConfigFile&), Copy Constructor
-        ConfigFile(ConfigFile&&) = default; // #DELETE: ConfigFile(ConfigFile&&), Move Constructor
+        ~ConfigFile() = default; // #DEFAULT: ~ConfigFile(), Public Destructor
+        ConfigFile(const ConfigFile&) = default; // #DELETE: ConfigFile(const ConfigFile&), Public Copy Constructor
+        ConfigFile(ConfigFile&&) = default; // #DELETE: ConfigFile(ConfigFile&&), Public Move Constructor
     // Public Operators
-        ConfigFile& operator=(const ConfigFile&) = delete;
+        ConfigFile& operator=(const ConfigFile&) = default;
         ConfigFile& operator=(ConfigFile&&) = default;
     // Public Static Methods
-        static std::expected<void, Error> createTemplate(const std::filesystem::path& path = std::filesystem::current_path() / DEFAULT_CONFIG_FILE);
-        static std::expected<ConfigFile, Error> load(const std::filesystem::path& path = std::filesystem::current_path() / DEFAULT_CONFIG_FILE);
+        static Result<> createTemplate(const std_fs::path& path = std_fs::current_path() / DEFAULT_CONFIG_FILE);
+        static Result<ConfigFile> load(const std_fs::path& path = std_fs::current_path() / DEFAULT_CONFIG_FILE);
         static bool foundDefault();
-    // Public Methods
-        
     private:
     // Private Factory Methods
         ConfigFile() = default; // #DEFAULT: ConfigFile(), Constructor
+    // Private Static Methods
+        static void check(const Json& p_json, const std_fs::path& p_file);
     // Private Methods
-
+        Result<> setValues(const Json& p_json, const std_fs::path& p_file);
     // Private Static Fields
-        static inline const std::filesystem::path BIN_DIR = boost::dll::program_location().parent_path().string();
-        static inline const std::filesystem::path RESOURCES_DIR = BIN_DIR / ".." / ".." / "resources";
+        // File Vars
+        static inline const std_fs::path RESOURCES_DIR = std_fs::path(cpplocate::getExecutablePath()).parent_path().parent_path().parent_path() / "resources";
         static inline const std::string CONFIG_FILE_EXTENSION = ".json";
-        static inline const std::filesystem::path DEFAULT_CONFIG_FILE = "docme" + CONFIG_FILE_EXTENSION;
-        static inline const std::filesystem::path TEMPLATE_CONFIG_FILE = RESOURCES_DIR / ("templateConfigFile" + CONFIG_FILE_EXTENSION);
-    // Private Fields
+        static inline const std_fs::path DEFAULT_CONFIG_FILE = "docme" + CONFIG_FILE_EXTENSION;
+        static inline const std_fs::path TEMPLATE_CONFIG_FILE = RESOURCES_DIR / ("templateConfigFile" + CONFIG_FILE_EXTENSION);
+        // Json Keys
+        static inline constexpr std::string PROJECT_NAME_KEY = "project_name";
+        static inline constexpr std::string SOURCE_KEY = "source";
+        static inline constexpr std::string IGNORE_KEY = "ignore";
+        static inline constexpr std::string OUTPUT_KEY = "output";
+        static inline const std::string LANGUAGE_HANDLER_KEY = "language_handler";
+        static inline constexpr std::string RENDERER_KEY = "renderer";
 
+        static inline const std::set<std::string> VALID_KEYS = {
+            PROJECT_NAME_KEY,
+            SOURCE_KEY,
+            IGNORE_KEY,
+            OUTPUT_KEY,
+            LANGUAGE_HANDLER_KEY,
+            RENDERER_KEY
+        };
+
+        static inline const std::string UNKNOWN_ENTRY_MESSAGE = "Unkown entry with the key \"{}\" in config file \"{}\"";
+    // Private Fields
+        std::string m_projectName;
+        std::vector<std::string> m_sources;
+        std::vector<std::string> m_ignores;
+        std::string m_output;
+        std::vector<std::string> m_languageHandlers;
+        std::vector<std::string> m_renderers;
     }; // #END: ConfigFile
 
     // #CLASS: ConfigFile::Error, Final Class
     // #BRIEF: ConfigFile error specialization
-    // #DERIVES, public docme::core::Error, Base project error type
-    class ConfigFile::Error final: public docme::core::Error{
+    // #DERIVES, public core::Error, Base project error type
+    class ConfigFile::Error final: public core::Error{
     public:
     // Public Factory Methods
-        Error() = default; // #DEFAULT: Error(), Constructor
+        Error() = default; // #DEFAULT: Error(), Public Constructor
         Error(const Code p_code);
-        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&&... p_contextArgs);
-        ~Error() = default; // #DEFAULT: ~Error(), Destructor
-        Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy Constructor
-        Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move Constructor
+        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
+        ~Error() = default; // #DEFAULT: ~Error(), Public Destructor
+        Error(const Error&) = default; // #DEFAULT: Error(const Error&), Public Copy Constructor
+        Error(Error&&) = default; // #DEFAULT: Error(Error&&), Public Move Constructor
     // Public Operators
-        Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy Assignment Operator
-        Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move Assignment Operator
+        Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Public Copy Assignment Operator
+        Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Public Move Assignment Operator
     // Private Static Fields
-        inline const static std::map<Code, std::string> ERROR_MESSAGES = {
-            {DOCME_200, "Could not locate template config file in {}"},
-            {DOCME_201, "Could not create new template config file in {}"},
-            {DOCME_202, "Given config file is not a " + CONFIG_FILE_EXTENSION + " file at {}"},
-            {DOCME_203, "Given config file already exists at {}"},
-            {DOCME_204, "Failed to load config file at {}"}
+        inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
+            {DOCME_200, "Could not locate template config file in \"{}\""},
+            {DOCME_201, "Could not create new template config file in \"{}\""},
+            {DOCME_202, "Given config file is not a " + CONFIG_FILE_EXTENSION + " file at \"{}\""},
+            {DOCME_203, "Given config file already exists at \"{}\""},
+            {DOCME_204, "Failed to load config file at \"{}\""},
+            {DOCME_205, "Expected a string from the key \"{}\" in config file at \"{}\" but got wrong type"},
+            {DOCME_206, "Expected a list of string from the key \"{}\" in config file at \"{}\" but got wrong type"},
         };
     }; // #END: ConfigFile::Error
- 
+
 } // namespace docme::engine
