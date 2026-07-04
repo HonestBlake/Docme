@@ -10,9 +10,15 @@ import :errors;
 
 namespace docme::core{ // #SCOPE: docme::core
 
+// ------------------------------------------------------------------------------
+//                                  class Error
+// ------------------------------------------------------------------------------
+
 // #SCOPE: Error
 
-// #DIV: Public Factory Methods
+// #DIV: Public
+
+// ---- Public Factory Methods ----
 
     // #METHOD: Error(const std::string&, const std::string&), Constructor
 
@@ -22,7 +28,7 @@ namespace docme::core{ // #SCOPE: docme::core
 
     } // #END: Error(const Code, const std::string&)
 
-// #DIV: Public Operators
+// ---- Public Operators ----
 
     // #METHOD: operator==(const Error::Code&), Operator
     // #BRIEF: Checks if error code is equal to given code
@@ -40,18 +46,20 @@ namespace docme::core{ // #SCOPE: docme::core
         return code != p_code;
     } // #END: operator!=(const Error::Code&)
 
-// #DIV: Public Methods
+// ---- Public Methods ----
 
-    // #METHOD: message(), Const Method
+    // #METHOD: message(), Const Instance Method
     // #BRIEF: Returns a constructed error message
     // #RETURN: std::string, Constructed error message
     std::string Error::message()const{
         return formatMessage();
     } // #END: message
 
-// #DIV: Protected Methods
+// #DIV: Protected
 
-    // #METHOD: formatCode(), Const Method
+// ---- Protected Methods ----
+
+    // #METHOD: formatCode(), Const Instance Method
     // #BRIEF: Formats the error code into a string
     // #RETURN: std::string, Formatted error code string
     std::string Error::formatCode()const{
@@ -59,7 +67,7 @@ namespace docme::core{ // #SCOPE: docme::core
         return std::vformat(m_codeFormat, std::make_format_args(codeString));
     } // #END: formatCode()
 
-    // #METHOD: formatMessage(), Const Method
+    // #METHOD: formatMessage(), Const Instance Method
     // #BRIEF: Formats the error code and body
     // #RETURN: std::string, Formatted message
     std::string Error::formatMessage()const{

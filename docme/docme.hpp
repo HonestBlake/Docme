@@ -1,7 +1,7 @@
 // #FILE: docme.hpp, Project Header File
 // #BRIEF: Project wide header file
 
-//  ██████████                                             
+//  ██████████                  
 // ▒▒███▒▒▒▒███                                            
 //  ▒███   ▒▒███  ██████   ██████  █████████████    ██████ 
 //  ▒███    ▒███ ███▒▒███ ███▒▒███▒▒███▒▒███▒▒███  ███▒▒███
@@ -15,13 +15,16 @@
 
 #include "std.hpp" // #INCLUDE: std.hpp, Project wide std libs
 
-namespace std{ namespace filesystem{} } // Forward delc for filesystem alias
+namespace std{ namespace filesystem{} } // Forward decl for filesystem alias
 
 // #NAMESPACE: docme, Project Namespace
 // #BRIEF: Main project namespace
 namespace docme{
 
-    namespace std_fs = std::filesystem; // #ALIAS: std_fs = std::filesystem, Alias for std::filesystem
+    inline constexpr bool DEBUGGING = DOCME_DEBUG; // Set debugging state
+    
+    namespace std_fs = std::filesystem; // #ALIAS: std_fs = std::filesystem, Alias for std::filesystem.
+    // using std_location = std::source_location; // #ALIAS: std_loc = std::source_location, Alias for std::source_location.
 
     namespace cli{}
     inline namespace core{}

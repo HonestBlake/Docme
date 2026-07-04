@@ -1,0 +1,86 @@
+// #FILE: commands.mpp, Component Module Interface File
+// #BRIEF: Module interface file for commands component
+
+module;
+
+#include "engine.hpp" // #INCLUDE: engine.hpp, Package wide header
+
+// #MODULE: docme.engine:commands, Component Module Partition
+// #BRIEF: Module partition for Command class in docme engine module
+export module docme.engine:commands; 
+
+import :configFile; // #IMPORT: configFile, Internal configFile component
+import docme.core; // #IMPORT: docme.core, Internal core library
+
+
+namespace docme::engine{ // #SCOPE: docme::engine
+
+    // #CLASS: Command, Exported Final Static Class
+    // #BRIEF: Class that holds docme commands
+    export class Command final{
+    public: // #DIV: Public
+    // Public Types
+        class Error;
+        class Warn;
+    // Public Factory Methods
+        Command() = delete; // #DELETE: Command(), Default constructor
+        Command(const Command&) = delete; // #DELETE: Command(const Command&), Copy constructor
+        Command(Command&&) = delete; // #DELETE: Command(Command&&), Move constructor
+        ~Command() = delete; // #DELETE: Command(), Destructor
+    // Public Operators
+        void operator=(const Command&) = delete; // #DELETE: operator=(const Command&), Copy assignment
+        void operator=(Command&&) = delete; // #DELETE: operator=(Command&&), Move assignment
+    // Public Static Methods
+        static Result<> init(const std::optional<std_fs::path>& p_config);
+        static Result<> build(const std::optional<std_fs::path>& p_config);
+        static Result<> render();
+        static Result<> generate();
+        static Result<> check();
+    // Private Static Methods
+        static Result<ConfigFile> loadConfig(const std::optional<std_fs::path>& p_config);
+    }; // #END: Command
+
+    // #CLASS: Command::Error, Final Class
+    // #BRIEF: Error type specialization for command component
+    // #DERIVES: core::Error
+    class Command::Error final: public core::Error{
+    public: // #DIV: Public
+    // Public Factory Methods
+        Error() = default; // #DEFAULT: Error(), Constructor
+        Error(const Code p_code);
+        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
+        ~Error() = default; // #DEFAULT: ~Error(), Destructor
+        Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy constructor
+        Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move constructor
+    // Public Operators
+        Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy assignment operator
+        Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move assignment operator
+    // Private Static Fields
+        inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
+            {DOCME_E207, "Failed to initialize the default config file as a default config file already exists at location \"" + (std_fs::current_path() / ConfigFile::DEFAULT_CONFIG_FILE).string() + "\""},
+        };
+    }; // #END: Command::Error
+
+    // #CLASS: Command::Warn, Final Class
+    // #BRIEF: Warn type specialization for command component
+    // #DERIVES: core::Warn
+    class Command::Warn final: public core::Warn{
+    public: // #DIV: Public
+    // Public Factory Methods
+        Warn() = default; // #DEFAULT: Warn(), Constructor
+        Warn(const Code p_code);
+        template<class... T_ContextArgs> Warn(const Code p_code, const T_ContextArgs&... p_contextArgs);
+        Warn(const Warn&) = default; // #DEFAULT: Warn(const Warn&), Copy constructor
+        Warn(Warn&&) = default; // #DEFAULT: Warn(Warn&&), Move constructor
+        ~Warn() = default; // #DEFAULT: ~Warn(), Destructor
+    // Public Operators
+        Warn& operator=(const Warn&) = default; // #DEFAULT: operator=(const Warn&), Copy assignment operator
+        Warn& operator=(Warn&&) = default; // #DEFAULT: operator=(Warn&&), Move assignment operator
+    // Private Static Fields
+        inline const static std::unordered_map<Code, std::string> WARN_MESSAGES = {
+            {DOCME_W201, "Creating the confile file \"{}\" when a config file already exists at \"" + (std_fs::current_path() / ConfigFile::DEFAULT_CONFIG_FILE).string() + "\""},
+        };
+    }; // #END: Command::Warn
+
+
+} // END: docme::engine

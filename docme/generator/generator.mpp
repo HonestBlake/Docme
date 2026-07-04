@@ -6,3 +6,5 @@ module;
 
 export module docme.generator;
 
+export import :generatorInfo; // #EXPORT: docme.generator:generatorInfo
+export import :parser; // #EXPORT: docme.generator:parser

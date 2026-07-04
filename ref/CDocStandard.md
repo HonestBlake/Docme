@@ -88,7 +88,7 @@ When the first body part contains commas as part of C++ syntax, the parser shoul
 | `#CLASS` | Declaration | Declares a class element. |
 | `#STRUCT` | Declaration | Declares a struct element. |
 | `#ENUM` | Declaration | Declares an enum element. |
-| `#FUNCTION` | Declaration | Declares a free function element. |
+| `#FUNC` | Declaration | Declares a free function element. |
 | `#METHOD` | Declaration | Declares a member function, constructor, destructor, or operator element. |
 | `#ALIAS` | Declaration | Declares an alias element. |
 | `#BRIEF` | Attribute | Adds a short description. |
@@ -518,22 +518,21 @@ Callable elements document free functions, member functions, constructors, destr
 
 ### Declaration Tags
 
-#### `#FUNCTION`
+#### `#FUNC`
 
 Declares a free function element.
 
-The first body part is the function signature. The second body part is optional and may describe the function role.
+The first body part is the function signature. The second body part is the function type. Use `Function` for ordinary free functions.
 
 **Syntax**
 
-    #FUNCTION: <function_signature>
-    #FUNCTION: <function_signature>, <function_type>
+    #FUNC: <function_signature>, Function
 
 **Examples**
 
 ```cpp
-// #FUNCTION: main(int, int**)
-// #FUNCTION: main, Main function
+// #FUNC: main(int, int**), Function
+// #FUNC: optionalStringConverter(const std::string&), Function
 ```
 
 #### `#METHOD`
@@ -541,6 +540,8 @@ The first body part is the function signature. The second body part is optional 
 Declares a member function, constructor, destructor, or operator element.
 
 The first body part is the method signature. The second body part is the method type or role.
+
+For ordinary member functions, use `Instance Method`, `Const Instance Method`, or `Static Method`. Static methods should include `Static` in the type even when placed under a static `#DIV`.
 
 **Syntax**
 
@@ -550,9 +551,9 @@ The first body part is the method signature. The second body part is the method 
 
 ```cpp
 // #METHOD: Json(const nlohmann::json&), Constructor
-// #METHOD: operator bool(), Const Operator
-// #METHOD: error(), Const Method
-// #METHOD: Error<T_ContextArgs>(const Code, const std::string&), Constructor
+// #METHOD: parse(const std_fs::path&), Static Method
+// #METHOD: error(), Const Instance Method
+// #METHOD: setValues(const Json&, const std_fs::path&), Instance Method
 ```
 
 ### Attribute Tags
@@ -655,6 +656,22 @@ Logger(Logger&&) = delete; // #DELETE: Logger(Logger&&), Move Constructor
 ## Compatibility Tags And Current Variants
 
 The following spellings are present in the current codebase or may be useful for compatibility, but the canonical standard should prefer the forms above.
+
+### `#FUNCTION`
+
+Legacy alias for `#FUNC`.
+
+Prefer `#FUNC` in new documentation.
+
+**Syntax**
+
+    #FUNC: <function_signature>, Function
+
+**Example**
+
+```cpp
+// #FUNC: main(int, int**), Function
+```
 
 ### `#RETURNS`
 

@@ -1,14 +1,13 @@
 # CMakeLists.txt for CLI package
 
 # Add Simple CLI dependency
-set(DEPS_SIMPLECLI "${DEPS}/Simple CLI")
 set(SIMPLE_CLI_USE_MODULES ON CACHE BOOL "" FORCE) # Use modules for simple cli
 fetchcontent_declare(
     SimpleCLI
     GIT_REPOSITORY https://github.com/HonestBlake/Simple-CLI.git
-    GIT_TAG v1.1.0
-    SOURCE_DIR "${DEPS_SIMPLECLI}"
-    BINARY_DIR "${DEPS_SIMPLECLI}/build"
+    GIT_TAG v1.2.1
+    SOURCE_DIR "${DEPS}/Simple CLI"
+    BINARY_DIR "${DEPS_BUILD}/simple-cli-build"
 )
 fetchcontent_makeavailable(SimpleCLI)
 
@@ -16,9 +15,11 @@ set(CLI_INCLUDE_DIRS
     ${CLI}
 )
 set(CLI_SRC_FILES
+    "${CLI}/application.cpp"
 )
 set(CLI_MOD_FILES
     "${CLI}/cli.mpp"
+    "${CLI}/application.mpp"
 )
 set(CLI_PCH_FILES
 
@@ -46,6 +47,7 @@ endif()
 target_link_libraries(docme_cli PUBLIC 
     docme_core 
     docme_engine
+    SimpleCLI
 )
 set_target_properties(docme_cli PROPERTIES
     OUTPUT_NAME "docme-cli"

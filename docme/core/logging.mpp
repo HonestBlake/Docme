@@ -17,28 +17,29 @@ namespace docme::core{ // #SCOPE: docme::core
     // #BRIEF: Logger class implementing pureLog Logger
     // #DERIVES: public pureLog::Logger<Logger>, Base logger
     export class Logger final: public pureLog::Logger<Logger>{
-    public:
+    public: // #DIV: Public
     // Public Types
         using LoggerBase = pureLog::Logger<Logger>;
         using ConsoleOutput = pureLog::StdCout<pureLog::OutputStream::UNBUFFERED>;
     // Public Friends
         friend LoggerBase;
     // Public Factory Methods
-        Logger(const Logger&) = delete; // #DELETE: Logger(const Logger&), Copy Constructor
-        Logger(Logger&&) = delete; // #DELETE: Logger(Logger&&), Move Constructor
+        Logger(const Logger&) = delete; // #DELETE: Logger(const Logger&), Copy constructor
+        Logger(Logger&&) = delete; // #DELETE: Logger(Logger&&), Move constructor
     // Public Operators
-        Logger& operator=(const Logger&) = delete; // #DELETE: operator=(const Logger&), Copy Assignment
-        Logger& operator=(Logger&&) = delete; // #DELETE: operator=(Logger&&), Copy Assignment
+        Logger& operator=(const Logger&) = delete; // #DELETE: operator=(const Logger&), Copy assignment
+        Logger& operator=(Logger&&) = delete; // #DELETE: operator=(Logger&&), Copy assignment
     // Public Static Methods
         static Logger& get();
-    private:
+        static std::string makeCommaSeparated(const std::vector<std::string>& p_list);
+    private: // #DIV: Private
     // Private Factory Methods
         Logger();
     // Private Static Fields
-        static inline constexpr std::string NAME = "Docme";
+        static constexpr std::string NAME = "Docme";
         static inline pureLog::OutputStream& s_outputStream = pureLog::OutputStream::get<ConsoleOutput>();
     }; // #END: Logger
 
-    export Logger& logger = Logger::get();
+    export inline Logger& logger = Logger::get();
 
 } // #END: docme::core

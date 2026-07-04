@@ -2,7 +2,7 @@
 
 import docme.gui; // #IMPORT: docme.gui, Package Module
 
-// #FUNCTION: main, Main function
+// #FUNC: main, Function
 // #BRIEF: Entry point for gui application
 // #PARAM: argc, Argument count
 // #PARAM: argv, Argument array

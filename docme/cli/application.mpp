@@ -1,0 +1,99 @@
+// #FILE: application.mpp, Component Module Interface File
+// #BRIEF: Module interface file for application component
+
+module;
+
+#include "cli.hpp" // #INCLUDE: cli.hpp, Package wide header
+
+// #MODULE: docme.cli:application, Component Module Partition
+// #BRIEF: Module partition for Application class in docme cli module
+export module docme.cli:application; 
+
+import docme.core; // #IMPORT: docme, Internal core library
+import simpleCli; // #IMPORT: simpleCLI, External CLI library
+
+namespace docme::cli{ // #SCOPE: docme::cli
+
+    simpleCli::Result<std::optional<std::string>> optionalStringConverter(const std::string& p_string);
+
+    // #CLASS: Application, Exported Final Class
+    export class Application final{
+    public: // #DIV: Public
+    // Public Types
+        class Error;
+        class Warn;
+    // Public Factory Methods
+        Application(int p_argc, char** p_argv);
+        Application(const Application&) = delete; // #DELETE: Application(const Application&), Copy constructor
+        Application(Application&&) = delete; // #DELETE: Application(const Application&), Move constructor
+        ~Application() = default;
+    // Public Operators
+        Application& operator=(const Application&); // #DELETE: operator=(const Application&), Copy assignment
+        Application& operator=(Application&&); // #DELETE: operator=(Application&&), Move assignment
+    // Public Methods
+        void run();
+    private: // #DIV: Private
+    // Private Methods
+        void init();
+        void build();
+        Result<std::optional<std::string>> getConfigOrPositional()const;
+    // Private Static Fields
+        inline const static std::array<std::string, 1> INIT_COMMAND = {"init"};
+        inline const static std::array<std::string, 1> BUILD_COMMAND = {"build"};
+        inline const static std::array<std::string, 1> RENDER_COMMAND = {"render"};
+        inline const static std::array<std::string, 1> GENERATE_COMMAND = {"generate"};
+        inline const static std::array<std::string, 1> CHECK_COMMAND = {"check"};
+        inline const static std::array<std::string, 2> HELP_FLAGS = {"--help", "-h"};
+        inline const static std::array<std::string, 2> VERSION_FLAGS = {"--version", "-v"};
+        inline const static std::array<std::string, 2> CONFIG_TAGS = {"--config", "-c"};
+    // Private Fields
+        std::vector<std::string> m_args;
+        simpleCli::Parser m_parser = simpleCli::Parser();
+        std::vector<std::string> m_positionals;
+        std::optional<std::string> m_config = std::nullopt;
+    }; // #END: Application
+
+    // #CLASS: Application::Error, Final Class
+    // #BRIEF: Error type specialization for application component.
+    // #DERIVES: core::Error
+    class Application::Error final: public core::Error{
+    public: // #DIV: Public
+    // Public Factory Methods
+        Error() = default; // #DEFAULT: Error(), Constructor
+        Error(const Code p_code);
+        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
+        Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy constructor
+        Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move constructor
+        ~Error() = default; // #DEFAULT: ~Error(), Destructor
+    // Public Operators
+        Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy assignment operator
+        Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move assignment operator
+    // Private Static Fields
+        inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
+            {DOCME_E400, "Positional arguments provided but aren't being used"},
+            {DOCME_E401, "Too many positional arguments provided"},
+        };
+    }; // #END: Application::Error
+
+    // #CLASS: Application::Warn, Final Class
+    // #BRIEF: Warn type specialization for application component.
+    // #DERIVES: core::Warn
+    class Application::Warn final: public core::Warn{
+    public: // #DIV: Public
+    // Public Factory Methods
+        Warn() = default; // #DEFAULT: Warn(), Constructor
+        Warn(const Code p_code);
+        template<class... T_ContextArgs> Warn(const Code p_code, const T_ContextArgs&... p_contextArgs);
+        Warn(const Warn&) = default; // #DEFAULT: Warn(const Warn&), Copy constructor
+        Warn(Warn&&) = default; // #DEFAULT: Warn(Warn&&), Move constructor
+        ~Warn() = default; // #DEFAULT: ~Warn(), Destructor
+    // Public Operators
+        Warn& operator=(const Warn&) = default; // #DEFAULT: operator=(const Warn&), Copy assignment operator
+        Warn& operator=(Warn&&) = default; // #DEFAULT: operator=(Warn&&), Move assignment operator
+    // Private Static Fields
+        inline const static std::unordered_map<Code, std::string> WARN_MESSAGES = {
+            {DOCME_W300, "Command line arguments parsed with warnings"},
+        };
+    }; // #END: Application::Warn
+
+} // #END: docme::cli

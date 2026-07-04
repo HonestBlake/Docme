@@ -1,0 +1,30 @@
+// #FILE: settings.mpp, Component Module Interface File
+// #BRIEF: Module interface file for settings component
+
+module;
+
+#include "engine.hpp" // #INCLUDE: engine.hpp, Package wide header
+
+// #MODULE: docme.engine:settings, Component Module Partition
+// #BRIEF: Module partition for settings component in docme engine module
+export module docme.engine:settings;
+
+namespace docme::engine{ // #SCOPE: docme::engine
+
+    // #CLASS: settings, Exported Final Class
+    export class Settings final{
+    public: // #DIV: Public
+        Settings();
+    // Public Fields
+        std::string projectName;
+        std::vector<std::string> sources;
+        std::vector<std::string> ignores;
+        std::string output;
+        std::vector<std::string> languageHandlers;
+        std::vector<std::string> renderers;
+        // TODO other global settings
+    private: // #DIV: Private
+
+    }; // #END: settings
+
+} // #END: docme::engine

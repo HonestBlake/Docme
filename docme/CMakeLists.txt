@@ -33,7 +33,7 @@ add_subdirectory(${CLI})
 # add_subdirectory(${GUI})
 add_subdirectory(${CORE})
 add_subdirectory(${ENGINE})
-# add_subdirectory(${GENERATOR})
+add_subdirectory(${GENERATOR})
 
 add_executable(docme)
 target_sources(docme PRIVATE ${DOCME_SRC_FILES}

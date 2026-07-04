@@ -8,5 +8,7 @@ module;
 // #BRIEF: Package module for core program logic
 export module docme.engine;
 
-export import :configFile; // #IMPORT: :configFile
-
+export import :configFile; // #EXPORT: docme.engine:configFile
+export import :commands; // #EXPORT: docme.engine:commands
+export import :options; // #EXPORT: docme.engine:options
+export import :settings; // #EXPORT: docme.engine:settings

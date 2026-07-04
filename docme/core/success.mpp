@@ -1,0 +1,59 @@
+// #FILE: success.mpp, Component Module Interface File
+// #BRIEF: Module interface file for success component.
+
+module;
+
+#include "core.hpp" // #INCLUDE: core.hpp, Package wide header
+
+// #MODULE: docme.core:success, Component Module Partition
+// #BRIEF: Module partition for success tools.
+export module docme.core:success;
+
+import :warnings; // #IMPORT: docme.core:warnings, Project warning type
+
+namespace docme::core{ // #SCOPE: docme::core
+
+    // #CLASS: Success<T_Success>, Exported Final Template Class
+    // #BRIEF: 
+    // #TEMPLATE: class T_Success = void, Success type default to void
+    export template<class T_Success = void> class Success final{
+    public: // #DIV: Public
+    // Public Factory Methods
+
+    // Public Operators
+        const T_Success& operator*()const&;
+        T_Success operator*()&&;
+    // Public Methods
+        bool hasWarnings()const;
+        const Warnings::Buffer& warnings()const;
+        Warnings::Buffer warnings()&&;
+        Warnings::Buffer takeWarnings();
+        void propagateWarnings(const std::source_location& p_callSite = std::source_location::current());
+        const T_Success& value()const;
+        T_Success takeValue();
+    private: // #DIV: Private
+    // Private Fields
+        T_Success m_success;
+        Warnings::Buffer m_warnings;
+    }; // #END: Success<T_Success>
+
+    // #CLASS: Success<void>, Exported Final Template Class Specialization
+    // #BRIEF: 
+    // #SPECIAL: Success<T_Success>
+    template<> class Success<void> final{
+    public: // #DIV: Public
+    // Public Factory Methods
+        Success(const std::source_location& p_callSite = std::source_location::current());
+        Success(Warnings::Buffer&& p_warnings);
+    // Public Methods
+        bool hasWarnings()const;
+        const Warnings::Buffer& warnings()const;
+        Warnings::Buffer warnings()&&;
+        Warnings::Buffer takeWarnings();
+        void propagateWarnings(const std::source_location& p_callSite = std::source_location::current());
+    private: // #DIV: Private
+    // Private Fields
+        Warnings::Buffer m_warnings;
+    }; // #END: Success<void>
+
+} // #END: docme::core

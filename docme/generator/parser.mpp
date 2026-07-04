@@ -1,0 +1,31 @@
+// #FILE: parser.mpp, Component Module Interface File
+// #BRIEF: Module interface file for parser component
+
+module;
+
+#include "generator.hpp" // #INCLUDE: generator.hpp, Package wide header
+
+// #MODULE: docme.generator:parser, Component Module Partition
+// #BRIEF: Module partition for parser component in docme generator module
+export module docme.generator:parser;
+
+namespace docme::generator{ // #SCOPE: docme::generator
+
+    // #CLASS: Parser, Exported Final Class
+    // #BRIEF: 
+    export class Parser final{
+    public: // #DIV: Public
+    // Public Types
+        struct Info;
+
+    private: // #DIV: Private
+    }; // #END: Parser
+
+    // #STRUCT: Parser::Info, Struct
+    // #BRIEF:
+    struct Parser::Info{
+        std::string languageHandler;
+        std::vector<std_fs::path> sources;
+    }; // #END: Parser::Info
+
+} // #END: docme::generator

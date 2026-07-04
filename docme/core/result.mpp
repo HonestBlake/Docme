@@ -1,71 +1,98 @@
 // #FILE: result.mpp, Component Module Interface File
-// #BRIEF: Module interface file for result component
+// #BRIEF: Module interface file for result component.
 
 module;
 
 #include "core.hpp" // #INCLUDE: core.hpp, Package wide header
+#include <source_location>
 
 // #MODULE: docme.core:json, Component Module Partition
-// #BRIEF: Module partition for result tools
+// #BRIEF: Module partition for result tools.
 export module docme.core:result;
 
-import :errors; // #IMPORT: errors, Project error type
+import :errors; // #IMPORT: docme.core:errors, Project error type
+import :warnings; // #IMPORT: docme.core:warnings, Project warning type
+import :failure; // #IMPORT: docme.core:failure, Project failure type
+import :success; // #IMPORT: docme.core:success, Project success type
+import :logging; // #IMPORT: docme.core:logging, Project logger
 
 namespace docme::core{ // #SCOPE: docme::core
 
-    // #CLASS: Result<T_Return>, Exported Final Template Class
-    // #BRIEF: Project result type, wrapping a success and error type
-    // #TEMPLATE: class T_Return = void, Success type default to void
-    export template<class T_Return = void> class Result final{
-    public:
+    // #CLASS: Result<T_Success>, Exported Final Template Class
+    // #BRIEF: Project result type, wrapping a success and error type.
+    // #TEMPLATE: class T_Success = void, Success type default to void
+    export template<class T_Success = void> class Result final{
+    public: // #DIV: Public
     // Public Factory Methods
-        Result() = default; // #DEFAULT: Result(), Public Default Constructor
-        Result(const T_Return& p_success);
-        Result(T_Return&& p_success);
-        Result(const Error& p_error);
-        Result(Error&& p_error);
-        Result(const Result&) = default; // #DEFAULT: Result(const Result&), Public Copy Constructor
-        Result(Result&&) = default; // #DEFAULT: Result(Result&&), Public Move Constructor
-        ~Result() = default; // #DEFAULT: ~Result(), Public Destructor
+        Result(const std::source_location& p_callSite = std::source_location::current());
+        Result(const T_Success& p_success, const std::source_location& p_callSite = std::source_location::current());
+        Result(T_Success&& p_success, const std::source_location& p_callSite = std::source_location::current());
+        Result(const Error& p_error, const std::source_location& p_callSite = std::source_location::current());
+        Result(Error&& p_error, const std::source_location& p_callSite = std::source_location::current());
+        Result(Failure&& p_failure, const std::source_location& p_callSite = std::source_location::current());
+        Result(const Result&) = default; // #DEFAULT: Result(const Result&), Copy constructor
+        Result(Result&&) = default; // #DEFAULT: Result(Result&&), Move constructor
+        ~Result() = default; // #DEFAULT: ~Result(), Destructor
     // Public Operators
-        Result& operator=(const Result&) = default; // #DEFAULT: operator=(const Result&), Public Copy Assignment Operator
-        Result& operator=(Result&&) = default; // #DEFAULT: operator=(Result&&), Public Move Assignment
+        Result& operator=(const Result&) = default; // #DEFAULT: operator=(const Result&), Copy assignment
+        Result& operator=(Result&&) = default; // #DEFAULT: operator=(Result&&), Move assignment
         explicit operator bool()const;
-        T_Return operator*()const&;
-        T_Return operator*()&&;
+        const T_Success& operator*()const&;
+        T_Success operator*()&&;
     // Public Methods
+        bool isError()const;
+        bool hasWarnings()const;
         const Error& error()const;
-    private:
+        const Warnings::Buffer& warnings()const;
+        Warnings::Buffer warnings()&&;
+        Warnings::Buffer takeWarnings();
+        Failure failure();
+        Success<> success();
+        void propagateWarnings(const std::source_location& p_callSite = std::source_location::current());
+        const T_Success& value()const;
+        T_Success takeValue();
+    private: // #DIV: Private
     // Private Fields
-        std::variant<T_Return, Error> m_result; 
-    }; // #END: Result
+        Warnings::Buffer m_warnings; // #FIELD: Warnings::Buffer m_warnings, Attached warnings
+        std::variant<T_Success, Error> m_result; // #FIELD: std::variant<T_Success, Error>, Holds success state or error state
+    }; // #END: Result<T_Success>
 
     // #CLASS: Result<void>, Exported Final Template Class Specialization
-    // #BRIEF: Final template class specialization for void type
-    // #SPECIALIZES: Result<T_Return>
+    // #BRIEF: Final template class specialization for void type.
+    // #SPECIAL: Result<T_Success>
     template<> class Result<void> final{
-    public:
+    public: // #DIV: Public
     // Public Factory Methods
-        Result() = default; // #DEFAULT: Result(), Public Default Constructor
-        Result(const Error& p_error);
-        Result(Error&& p_error);
-        Result(const Result&) = default; // #DEFAULT: Result(const Result&), Public Copy Constructor
-        Result(Result&&) = default; // #DEFAULT: Result(Result&&), Public Move Constructor
-        ~Result() = default; // #DEFAULT: ~Result(), Public Destructor
+        Result(const std::source_location& p_callSite = std::source_location::current());
+        Result(const Error& p_error, const std::source_location& p_callSite = std::source_location::current());
+        Result(Error&& p_error, const std::source_location& p_callSite = std::source_location::current());
+        Result(Failure&& p_failure, const std::source_location& p_callSite = std::source_location::current());
+        Result(const Result&) = default; // #DEFAULT: Result(const Result&), Copy constructor
+        Result(Result&&) = default; // #DEFAULT: Result(Result&&), Move constructor
+        ~Result() = default; // #DEFAULT: ~Result(), Destructor
     // Public Operators
-        Result& operator=(const Result&) = default; // #DEFAULT: operator=(const Result&), Public Copy Assignment Operator
-        Result& operator=(Result&&) = default; // #DEFAULT: operator=(Result&&), Public Move Assignment
+        Result& operator=(const Result&) = default; // #DEFAULT: operator=(const Result&), Copy assignment operator
+        Result& operator=(Result&&) = default; // #DEFAULT: operator=(Result&&), Move assignment
         explicit operator bool()const;
     // Public Methods
+        bool isError()const;
+        bool hasWarnings()const;
         const Error& error()const;
-    private:
+        const Warnings::Buffer& warnings()const;
+        Warnings::Buffer warnings()&&;
+        Warnings::Buffer takeWarnings();
+        Failure failure();
+        Success<> success();
+        void propagateWarnings(const std::source_location& p_callSite = std::source_location::current());
+    private: // #DIV: Private
     // Private Fields
-        std::optional<Error> m_result; 
+        Warnings::Buffer m_warnings; // #FIELD: Warnings::Buffer m_warnings, Attached warnings
+        std::optional<Error> m_error; // #FIELD: std::optional<Error> m_error, Holds error state or is empty
     }; // #END: Result<void>
 
 } // #END: docme::core
 
-#define COMPILED_WITH_MODULE // Close in editor
+#define COMPILED_WITH_MODULE
 
 #include "result.tpp" // #INCLUDE: result.tpp, Result template definitions
 

@@ -22,9 +22,9 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin/release",
-                "CMAKE_LIBRARY_OUTPUT_DIRECTORY": "${sourceDir}/lib/release",
-                "CMAKE_ARCHIVE_OUTPUT_DIRECTORY": "${sourceDir}/lib/release"
+                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin",
+                "CMAKE_LIBRARY_OUTPUT_DIRECTORY": "${sourceDir}/lib",
+                "CMAKE_ARCHIVE_OUTPUT_DIRECTORY": "${sourceDir}/lib"
             }
         },
         {
@@ -42,15 +42,21 @@
     "buildPresets": [
         {
             "name": "Release",
-            "configurePreset": "Release"
+            "configurePreset": "Release",
+            "targets": ["docme"],
+            "jobs": 22
         },
         {
             "name": "Debug",
-            "configurePreset": "Debug"
+            "configurePreset": "Debug",
+            "targets": ["docme"],
+            "jobs": 22
         },
         {
             "name": "Clangd",
-            "configurePreset": "Clangd"
+            "configurePreset": "Clangd",
+            "targets": ["docme"],
+            "jobs": 22
         }
     ]
 }

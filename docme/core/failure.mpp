@@ -1,0 +1,41 @@
+// #FILE: failure.mpp, Component Module Interface File
+// #BRIEF: Module interface file for failure component.
+
+module;
+
+#include "core.hpp" // #INCLUDE: core.hpp, Package wide header
+
+// #MODULE: docme.core:failure, Component Module Partition
+// #BRIEF: Module partition for failure tools.
+export module docme.core:failure;
+
+import :errors; // #IMPORT: docme.core:errors, Project error type
+import :warnings; // #IMPORT: docme.core:warnings, Project warning type
+
+namespace docme::core{ // #SCOPE: docme::core
+
+    // #CLASS: Failure, Exported Final Class
+    // #BRIEF: Represents a failure state with an error and warnings.
+    export class Failure final{
+    public: // #DIV: Public
+    // Public Factory Methods
+        Failure(Error&& p_error, Warnings::Buffer&& p_warnings);
+    // Public Operators
+        const Error& operator*()const&;
+        Error operator*()&&;
+    // Public Methods
+        bool hasWarnings()const;
+        const Error& error()const;
+        const Warnings::Buffer& warnings()const;
+        Warnings::Buffer warnings()&&;
+        Warnings::Buffer takeWarnings();
+        void propagateWarnings(const std::source_location& p_callSite = std::source_location::current());
+        const Error& value()const;
+        Error takeValue();
+    private: // #DIV: Private
+    // Private Fields
+        Error m_error;
+        Warnings::Buffer m_warnings;
+    }; // #END: Failure
+
+} // #END: docme::core

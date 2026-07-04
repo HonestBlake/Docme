@@ -3,9 +3,10 @@
 
 module;
 
-#include "docme.hpp" // #INCLUDE: cli.hpp, Package Header File
+#include "cli.hpp" // #INCLUDE: cli.hpp, Package Header File
 
 // #MODULE: docme.cli, Package Module
 // #BRIEF: Command Line Interface package
 export module docme.cli;
 
+export import :application;

@@ -1,15 +1,14 @@
 # CMakeLists.txt for ENGINE package
 
 # Add cpplocate dependency
-set(DEPS_CPPLOCATE "${DEPS}/cpplocate")
 set(CMAKE_POLICY_VERSION_MINIMUM 3.5) # cpplocate uses older cmake
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE) # Make cpplocate build a static lib
 fetchcontent_declare(
     cpplocate
     GIT_REPOSITORY https://github.com/cginternals/cpplocate.git
     GIT_TAG v2.3.0
-    SOURCE_DIR "${DEPS_CPPLOCATE}"
-    BINARY_DIR "${DEPS_CPPLOCATE}/build"
+    SOURCE_DIR "${DEPS}/cpplocate"
+    BINARY_DIR "${DEPS_BUILD}/cpplocate-build"
 )
 fetchcontent_makeavailable(cpplocate)
 
@@ -17,11 +16,17 @@ set(ENGINE_INCLUDE_DIRS
     ${ENGINE}
 )
 set(ENGINE_SRC_FILES
-    "${ENGINE}/configFile.cpp" 
+    "${ENGINE}/configFile.cpp"
+    "${ENGINE}/commands.cpp"
+    "${ENGINE}/options.cpp"
+    "${ENGINE}/settings.cpp"
 )
 set(ENGINE_MOD_FILES
     "${ENGINE}/engine.mpp"
     "${ENGINE}/configFile.mpp"
+    "${ENGINE}/commands.mpp"
+    "${ENGINE}/options.mpp"
+    "${ENGINE}/settings.mpp"
 )
 set(ENGINE_PCH_FILES
 

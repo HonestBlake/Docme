@@ -14,17 +14,17 @@ namespace docme::core{ // #SCOPE: docme::core
     // #CLASS: Error, Exported Class
     // #BRIEF: Class that represents an error state with code, message, and context
     export class Error{
-    public:
+    public: // #DIV: Public
     // Public Types
         enum Code: std::uint16_t;
     // Public Factory Methods
         Error(const std::string& p_codeFormat = DEFALT_CODE_FORMAT, const std::string& p_messageFormat = DEFAULT_MESSAGE_FORMAT);
-        virtual ~Error() = default; // #DEFAULT: ~Error(), Virtual Destructor
-        Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy Constructor
-        Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move Constructor
+        virtual ~Error() = default; // #DEFAULT: ~Error(), Virtual destructor
+        Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy constructor
+        Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move constructor
     // Public Operators
-        Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy Assignment Operator
-        Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move Assignment Operator
+        Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy assignment operator
+        Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move assignment operator
         bool operator==(const Error::Code& p_code)const;
         bool operator!=(const Error::Code& p_code)const;
     // Public Methods
@@ -32,14 +32,15 @@ namespace docme::core{ // #SCOPE: docme::core
     // Public Types
         Code code;
         std::string body;
-    protected:
+    protected: // #DIV: Protected
     // Protected Methods
         std::string formatCode()const;
         std::string formatMessage()const;
     // Protected Static Fields
         inline constexpr static std::string DEFAULT_MESSAGE_FORMAT = "({}) {}"; // {} = formatted code, {} = body
-        inline constexpr static std::string DEFALT_CODE_FORMAT = "DOCME_{}"; // {} = code
-    // Protected Fields 
+        inline constexpr static std::string DEFALT_CODE_FORMAT = "DOCME_E{}"; // {} = code
+        inline const static std::string UNKNOWN_ERROR_MESSAGE = "An unknown error has occurred";
+    // Protected Fields
         std::string m_codeFormat = DEFALT_CODE_FORMAT;
         std::string m_messageFormat = DEFAULT_MESSAGE_FORMAT;
     }; // #END: Error
@@ -48,23 +49,29 @@ namespace docme::core{ // #SCOPE: docme::core
     // #BRIEF: Enumeration of docme error code
     enum Error::Code: std::uint16_t{
     // Core 100
-        DOCME_100 = 100, // Failed to load json file
-        DOCME_101 = 101, // Could not find json key
-        DOCME_102 = 102, // Json type error string
-        DOCME_103 = 103, // Json type error list
-        DOCME_104 = 104, // Failed to parse json
+        DOCME_E100 = 100, // Failed to load json file
+        DOCME_E101, // Could not find json key
+        DOCME_E102, // Json type error string
+        DOCME_E103, // Json type error list
+        DOCME_E104, // Failed to parse json
     // Engine 200
-        DOCME_200 = 200, // Failed to load template config file
-        DOCME_201 = 201, // Failed to create new template config file
-        DOCME_202 = 202, // Given config file is not correct type
-        DOCME_203 = 203, // Given config file already exists at given path
-        DOCME_204 = 204, // Failed to load config file
-        DOCME_205 = 205, // Config file type error string
-        DOCME_206 = 206 // Config file type error list of strings
+        DOCME_E200 = 200, // Failed to load template config file
+        DOCME_E201, // Failed to create new template config file
+        DOCME_E202, // Given config file is not correct type
+        DOCME_E203, // Given config file already exists at given path
+        DOCME_E204, // Failed to load config file
+        DOCME_E205 , // Config file type error string
+        DOCME_E206, // Config file type error list of strings
+        DOCME_E207, // Default config file already present
     // Generator 300
 
     // CLI 400
-    
+        DOCME_E400 = 400, // Positional arguments provided but aren't being used
+        DOCME_E401, // Too many positional arguments provided
+        DOCME_E402,
+    // Misc 500
+        DOCME_ERROR = 500, // Anonymous error
+        DOCME_INTERNAL // Internal error
     }; // #END: Code
 
 } // #END: docme::core

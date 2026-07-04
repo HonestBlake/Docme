@@ -8,48 +8,55 @@ module;
 
 // #MODULE: docme.engine:configFile, Component Module Partition
 // #BRIEF: Module partition for ConfigFile class in docme engine module
-export module docme.engine:configFile; 
+export module docme.engine:configFile;
 
-import docme.core; // #IMPORT: docme, For Error type
+import docme.core; // #IMPORT: docme, Internal core library
 
 namespace docme::engine{ // #SCOPE: docme::engine
 
     // #CLASS: ConfigFile, Exported Final Class
     // #BRIEF: Represents config file state with loading and creating
     export class ConfigFile final{
-    public:
+    public: // #DIV: Public
         class Error;
+        class Warn;
     // Public Factory Methods
-        ~ConfigFile() = default; // #DEFAULT: ~ConfigFile(), Public Destructor
-        ConfigFile(const ConfigFile&) = default; // #DELETE: ConfigFile(const ConfigFile&), Public Copy Constructor
-        ConfigFile(ConfigFile&&) = default; // #DELETE: ConfigFile(ConfigFile&&), Public Move Constructor
+        ConfigFile() = default; // #DEFAULT: ConfigFile(), Default constructor
+        ~ConfigFile() = default; // #DEFAULT: ~ConfigFile(), Destructor
+        ConfigFile(const ConfigFile&) = default; // #DEFAULT: ConfigFile(const ConfigFile&), Copy constructor
+        ConfigFile(ConfigFile&&) = default; // #DEFAULT: ConfigFile(ConfigFile&&), Move constructor
     // Public Operators
-        ConfigFile& operator=(const ConfigFile&) = default;
-        ConfigFile& operator=(ConfigFile&&) = default;
-    // Public Static Methods
-        static Result<> createTemplate(const std_fs::path& path = std_fs::current_path() / DEFAULT_CONFIG_FILE);
-        static Result<ConfigFile> load(const std_fs::path& path = std_fs::current_path() / DEFAULT_CONFIG_FILE);
-        static bool foundDefault();
-    private:
-    // Private Factory Methods
-        ConfigFile() = default; // #DEFAULT: ConfigFile(), Constructor
-    // Private Static Methods
-        static void check(const Json& p_json, const std_fs::path& p_file);
-    // Private Methods
-        Result<> setValues(const Json& p_json, const std_fs::path& p_file);
-    // Private Static Fields
-        // File Vars
+        ConfigFile& operator=(const ConfigFile&) = default; // #DEFAULT: operator=(const ConfigFile&), Copy assignment
+        ConfigFile& operator=(ConfigFile&&) = default; // #DEFAULT: operator=(ConfigFile&&), Move assignment
+    // Public Static Fields
         static inline const std_fs::path RESOURCES_DIR = std_fs::path(cpplocate::getExecutablePath()).parent_path().parent_path().parent_path() / "resources";
         static inline const std::string CONFIG_FILE_EXTENSION = ".json";
         static inline const std_fs::path DEFAULT_CONFIG_FILE = "docme" + CONFIG_FILE_EXTENSION;
-        static inline const std_fs::path TEMPLATE_CONFIG_FILE = RESOURCES_DIR / ("templateConfigFile" + CONFIG_FILE_EXTENSION);
+        static inline const std_fs::path TEMPLATE_CONFIG_FILE = "templateConfigFile" + CONFIG_FILE_EXTENSION;
+    // Public Static Methods
+        [[nodiscard]] static Result<> create(const std_fs::path& path = std_fs::current_path() / DEFAULT_CONFIG_FILE);
+        [[nodiscard]] static Result<ConfigFile> load(const std_fs::path& path = std_fs::current_path() / DEFAULT_CONFIG_FILE);
+        static bool foundDefault();
+    // Public Fields
+        std::string projectName;
+        std::vector<std::string> sources;
+        std::vector<std::string> ignores;
+        std::string output;
+        std::vector<std::string> languageHandlers;
+        std::vector<std::string> renderers;
+    private: // #DIV: Private
+    // Private Static Methods
+        [[nodiscard]] static Success<> check(const Json& p_json, const std_fs::path& p_file);
+    // Private Methods
+        [[nodiscard]] Result<> setValues(const Json& p_json, const std_fs::path& p_file);
+    // Private Static Fields
         // Json Keys
-        static inline constexpr std::string PROJECT_NAME_KEY = "project_name";
-        static inline constexpr std::string SOURCE_KEY = "source";
-        static inline constexpr std::string IGNORE_KEY = "ignore";
-        static inline constexpr std::string OUTPUT_KEY = "output";
+        static inline const std::string PROJECT_NAME_KEY = "project_name";
+        static inline const std::string SOURCE_KEY = "source";
+        static inline const std::string IGNORE_KEY = "ignore";
+        static inline const std::string OUTPUT_KEY = "output";
         static inline const std::string LANGUAGE_HANDLER_KEY = "language_handler";
-        static inline constexpr std::string RENDERER_KEY = "renderer";
+        static inline const std::string RENDERER_KEY = "renderer";
 
         static inline const std::set<std::string> VALID_KEYS = {
             PROJECT_NAME_KEY,
@@ -59,42 +66,54 @@ namespace docme::engine{ // #SCOPE: docme::engine
             LANGUAGE_HANDLER_KEY,
             RENDERER_KEY
         };
-
-        static inline const std::string UNKNOWN_ENTRY_MESSAGE = "Unkown entry with the key \"{}\" in config file \"{}\"";
-    // Private Fields
-        std::string m_projectName;
-        std::vector<std::string> m_sources;
-        std::vector<std::string> m_ignores;
-        std::string m_output;
-        std::vector<std::string> m_languageHandlers;
-        std::vector<std::string> m_renderers;
     }; // #END: ConfigFile
 
     // #CLASS: ConfigFile::Error, Final Class
     // #BRIEF: ConfigFile error specialization
     // #DERIVES, public core::Error, Base project error type
     class ConfigFile::Error final: public core::Error{
-    public:
+    public: // #DIV: Public
     // Public Factory Methods
-        Error() = default; // #DEFAULT: Error(), Public Constructor
+        Error() = default; // #DEFAULT: Error(), Constructor
         Error(const Code p_code);
         template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
-        ~Error() = default; // #DEFAULT: ~Error(), Public Destructor
-        Error(const Error&) = default; // #DEFAULT: Error(const Error&), Public Copy Constructor
-        Error(Error&&) = default; // #DEFAULT: Error(Error&&), Public Move Constructor
+        Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy constructor
+        Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move constructor
+        ~Error() = default; // #DEFAULT: ~Error(), Destructor
     // Public Operators
-        Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Public Copy Assignment Operator
-        Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Public Move Assignment Operator
+        Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy assignment operator
+        Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move assignment operator
     // Private Static Fields
         inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
-            {DOCME_200, "Could not locate template config file in \"{}\""},
-            {DOCME_201, "Could not create new template config file in \"{}\""},
-            {DOCME_202, "Given config file is not a " + CONFIG_FILE_EXTENSION + " file at \"{}\""},
-            {DOCME_203, "Given config file already exists at \"{}\""},
-            {DOCME_204, "Failed to load config file at \"{}\""},
-            {DOCME_205, "Expected a string from the key \"{}\" in config file at \"{}\" but got wrong type"},
-            {DOCME_206, "Expected a list of string from the key \"{}\" in config file at \"{}\" but got wrong type"},
+            {DOCME_E200, "Could not locate template config file in \"{}\""},
+            {DOCME_E201, "Could not create new template config file in \"{}\""},
+            {DOCME_E202, "Given config file is not a " + CONFIG_FILE_EXTENSION + " file at \"{}\""},
+            {DOCME_E203, "Given config file already exists at \"{}\""},
+            {DOCME_E204, "Failed to load config file at \"{}\""},
+            {DOCME_E205, "Expected a strings from the key \"{}\" in config file at \"{}\" but got wrong type"},
+            {DOCME_E206, "Expected a list of strings from the key \"{}\" in config file at \"{}\" but got wrong type"},
         };
     }; // #END: ConfigFile::Error
+
+    // #CLASS: ConfigFile::Warn, Final Class
+    // #BRIEF: ConfigFile warning specialization.
+    // #DERIVES, public core::Warn, Base project warning type
+    class ConfigFile::Warn final: public core::Warn{
+    public: // #DIV: Public
+    // Public Factory Methods
+        Warn() = default; // #DEFAULT: Warn(), Constructor
+        Warn(const Code p_code);
+        template<class... T_ContextArgs> Warn(const Code p_code, const T_ContextArgs&... p_contextArgs);
+        Warn(const Warn&) = default; // #DEFAULT: Warn(const Warn&), Copy constructor
+        Warn(Warn&&) = default; // #DEFAULT: Warn(Warn&&), Move constructor
+        ~Warn() = default; // #DEFAULT: ~Warn(), Destructor
+    // Public Operators
+        Warn& operator=(const Warn&) = default; // #DEFAULT: operator=(const Warn&), Copy assignment operator
+        Warn& operator=(Warn&&) = default; // #DEFAULT: operator=(Warn&&), Move assignment operator
+    // Private Static Fields
+        inline const static std::unordered_map<Code, std::string> WARN_MESSAGES = {
+            {DOCME_W200, "Unkown entry with the key \"{}\" in config file \"{}\""},
+        };
+    }; // #END: ConfigFile::Warn
 
 } // namespace docme::engine

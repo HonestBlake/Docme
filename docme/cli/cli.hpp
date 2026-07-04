@@ -1,4 +1,4 @@
-// #FILE: core.hpp, Package Header File
+// #FILE: cli.hpp, Package Header File
 // #BRIEF: Package wide header file
 
 #pragma once
@@ -7,11 +7,11 @@
 
 namespace docme{ // #SCOPE: docme
     
-    // #NAMESPACE: core, Package Namespace
-    inline namespace core{
+    // #NAMESPACE: cli, Package Namespace
+    namespace cli{
 
         
 
-    } // #END: core
+    } // #END: cli
 
 } // #END: docme
