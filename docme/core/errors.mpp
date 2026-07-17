@@ -17,14 +17,9 @@ namespace docme::core{ // #SCOPE: docme::core
     public: // #DIV: Public
     // Public Types
         enum Code: std::uint16_t;
-    // Public Factory Methods
-        Error(const std::string& p_codeFormat = DEFALT_CODE_FORMAT, const std::string& p_messageFormat = DEFAULT_MESSAGE_FORMAT);
-        virtual ~Error() = default; // #DEFAULT: ~Error(), Virtual destructor
-        Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy constructor
-        Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move constructor
+    // Public Special Methods
+        Error(const std::unordered_map<Code, std::string>& p_errorMessages, const Code p_code, std::format_args p_contextArgs);
     // Public Operators
-        Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy assignment operator
-        Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move assignment operator
         bool operator==(const Error::Code& p_code)const;
         bool operator!=(const Error::Code& p_code)const;
     // Public Methods
@@ -33,16 +28,19 @@ namespace docme::core{ // #SCOPE: docme::core
         Code code;
         std::string body;
     protected: // #DIV: Protected
+    // Protected Static Methods
+        static std::string getErrorMessage(const std::unordered_map<Code, std::string>& p_errorMessages, const Code p_code, std::format_args p_contextArgs);
     // Protected Methods
         std::string formatCode()const;
         std::string formatMessage()const;
     // Protected Static Fields
         inline constexpr static std::string DEFAULT_MESSAGE_FORMAT = "({}) {}"; // {} = formatted code, {} = body
-        inline constexpr static std::string DEFALT_CODE_FORMAT = "DOCME_E{}"; // {} = code
+        inline constexpr static std::string DEFAULT_CODE_FORMAT = "DOCME_E{}"; // {} = code
         inline const static std::string UNKNOWN_ERROR_MESSAGE = "An unknown error has occurred";
-    // Protected Fields
-        std::string m_codeFormat = DEFALT_CODE_FORMAT;
-        std::string m_messageFormat = DEFAULT_MESSAGE_FORMAT;
+    // Private Static Fields
+        inline const static std::string INTERNAL_ERROR_STRING = "INTERNAL"; // Special string for internal error code
+        inline const static std::string ANONYMOUS_ERROR_STRING = "ANONYMOUS"; // Special string for anonymous error code
+        inline const static std::string INTERNAL_ERROR_MESSAGE = "An internal error has accord \"{}\"";
     }; // #END: Error
 
     // #ENUM: Code, Exported std::uint16_t Enum class
@@ -54,23 +52,38 @@ namespace docme::core{ // #SCOPE: docme::core
         DOCME_E102, // Json type error string
         DOCME_E103, // Json type error list
         DOCME_E104, // Failed to parse json
-    // Engine 200
+        DOCME_E105, // Failed to load dynamic library
+        DOCME_E106, // Failed to get dynamic library function
+        DOCME_E107, // Cannot get dynamic library function when no library is loaded
+    // Config 200
         DOCME_E200 = 200, // Failed to load template config file
         DOCME_E201, // Failed to create new template config file
         DOCME_E202, // Given config file is not correct type
         DOCME_E203, // Given config file already exists at given path
         DOCME_E204, // Failed to load config file
         DOCME_E205 , // Config file type error string
-        DOCME_E206, // Config file type error list of strings
-        DOCME_E207, // Default config file already present
-    // Generator 300
-
-    // CLI 400
-        DOCME_E400 = 400, // Positional arguments provided but aren't being used
-        DOCME_E401, // Too many positional arguments provided
-        DOCME_E402,
-    // Misc 500
-        DOCME_ERROR = 500, // Anonymous error
+        DOCME_E206, // Config file type error list of strings 
+    // App 300
+        DOCME_E300 = 300, // Default config file already present
+    // Generator 400
+        DOCME_E400 = 400, // Invalid plugin type
+        DOCME_E401, // Could not find language handler in plugin registry 
+        DOCME_E402, // Metadata path does not exist or is not a file
+        DOCME_E403, // Metadata path is not correct file type
+        DOCME_E404, // Failed to parse metadata file
+        DOCME_E405, // While parsing metadata file, field is not of type
+        DOCME_E406, // While parsing metadata file, could not find field
+        DOCME_E407, // Failed to load library from metadata path
+        DOCME_E408, // Failed to load function from language handler
+    // CLI 500
+        DOCME_E500 = 500, // Positional arguments provided but aren't being used
+        DOCME_E501, // Too many positional arguments provided
+    // GUI 600
+        DOCME_E600 = 600, 
+    // Plugin 700 
+        DOCME_E700 = 700,
+    // Misc 900
+        DOCME_ERROR = 900, // Anonymous error
         DOCME_INTERNAL // Internal error
     }; // #END: Code
 

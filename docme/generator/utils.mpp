@@ -1,0 +1,22 @@
+// #FILE: utils.mpp, Component Module Interface File
+// #BRIEF: Module interface file for utils component
+
+module;
+
+#include "generator.hpp" // #INCLUDE: generator.hpp, Package wide header
+
+// #MODULE: docme.generator:utils, Component Module Partition
+// #BRIEF: Module partition for generator utility tools
+export module docme.generator:utils;
+
+import :languageHandler; // #IMPORT: docme.generator:languageHandler, Language handler type
+
+namespace docme::generator{ // #SCOPE: docme::generator
+
+    // #NAMESPACE: util, Exported Namespace
+    // #BRIEF: Namespace for generator utility tools
+    export namespace util{
+        void printLanguageHandler(const std::string& p_message, const std::string_view p_tag, const LanguageHandler& p_handler);
+    } // #END: util
+
+} // #END: docme::generator

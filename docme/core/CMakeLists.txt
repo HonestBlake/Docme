@@ -40,21 +40,27 @@ set(CORE_INCLUDE_DIRS
     ${CORE}
 )
 set(CORE_SRC_FILES
+    "${CORE}/library.cpp"
     "${CORE}/errors.cpp"
     "${CORE}/failure.cpp"
     "${CORE}/json.cpp"
     "${CORE}/logging.cpp"
     "${CORE}/success.cpp"
+    "${CORE}/timer.cpp"
+    "${CORE}/utils.cpp"
     "${CORE}/warnings.cpp"
 )
 set(CORE_MOD_FILES
     "${CORE}/core.mpp"
+    "${CORE}/library.mpp"
     "${CORE}/errors.mpp"
     "${CORE}/failure.mpp"
     "${CORE}/json.mpp"
     "${CORE}/logging.mpp"
     "${CORE}/result.mpp"
     "${CORE}/success.mpp"
+    "${CORE}/timer.mpp"
+    "${CORE}/utils.mpp"
     "${CORE}/warnings.mpp"
 )
 set(CORE_PCH_FILES
@@ -83,9 +89,12 @@ endif()
 target_link_libraries(docme_core PRIVATE 
     PureLog
     nlohmann_json_modules
+    ${CMAKE_DL_LIBS}
 )
 set_target_properties(docme_core PROPERTIES
     OUTPUT_NAME "docme-core"
     PREFIX ""
-    SUFFIX ".lib"
 )
+if(WIN32)
+    set_target_properties(docme_core PROPERTIES SUFFIX ".lib")
+endif()

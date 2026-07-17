@@ -1,0 +1,56 @@
+// #FILE: timer.mpp, Component Module Interface File
+// #BRIEF: Module interface file for timer component
+
+module;
+
+#include "core.hpp" // #INCLUDE: core.hpp, Package wide header
+
+// #MODULE: docme.core:timer, Component Module Partition
+// #BRIEF: Module partition for timing tools
+export module docme.core:timer;
+
+namespace docme::core{ // #SCOPE: docme::core
+
+    // #CLASS: Timer, Exported Final Class
+    // #BRIEF: Monotonic elapsed-time timer
+    export class Timer final{
+    public: // #DIV: Public
+    // Public Types
+        using Clock = std::chrono::steady_clock;
+        using TimePoint = Clock::time_point;
+        using Duration = std::chrono::duration<double>;
+        struct Time;
+    // Public Special Methods
+        Timer() = delete; // #DELETE: Timer(), Default constructor
+        Timer(const Timer&) = delete; // #DELETE: Timer(const Timer&), Copy constructor
+        Timer(Timer&& p_other) = delete; // #DELETE: Timer(Timer&&), Move constructor
+        ~Timer()noexcept = default;
+    // Public Operators
+        Timer& operator=(const Timer&) = delete; // #DELETE: operator=(const Timer&), Copy assignment
+        Timer& operator=(Timer&& p_other) = delete; // #DELETE: operator=(Timer&&), Move assignment
+    // Public Static Methods
+        [[nodiscard]] static Timer start(const std::string_view p_name);
+    // Public Methods
+        Timer& reset();
+        Timer& stop();
+        [[nodiscard]] const std::string& name()const;
+        [[nodiscard]] Time time()const;
+    private: // #DIV: Private
+    // Private Special Methods
+        Timer(const std::string_view p_name);
+    // Private Fields
+        TimePoint m_start; // #FIELD: TimePoint m_start, Starting time point
+        TimePoint m_end; // #FIELD: TimePoint m_end, Stopped time point
+        std::string m_name; // #FIELD: std::string m_name, Timer display name
+        bool m_running = true; // #FIELD: bool m_running, Whether the timer is still running
+    }; // #END: Timer
+
+    // #STRUCT: Timer::Time, Data Struct
+    // #BRIEF: Struct that holds elapsed time information
+    struct Timer::Time{
+        Duration elapsed; 
+        double seconds()const;
+        std::int64_t milliseconds()const;
+    }; // #END: Timer::Time
+
+} // #END: docme::core

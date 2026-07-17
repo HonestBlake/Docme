@@ -1,0 +1,68 @@
+// #FILE: languageHandler.mpp, Component Module Interface File
+// #BRIEF: Module interface file for languageHandler component
+
+module;
+
+#include "generator.hpp" // #INCLUDE: generator.hpp, Package wide header
+
+// #MODULE: docme.generator:languageHandler, Component Module Partition
+// #BRIEF: Module partition for languageHandler component in docme generator module
+export module docme.generator:languageHandler;
+
+import docme.plugin; // #IMPORT: docme.plugin, Plugin module
+import docme.core; // #IMPORT: docme.core, Core module
+
+namespace docme::generator{ // #SCOPE: docme::generator
+    
+    // #CLASS: LanguageHandler, Exported Final Class
+    // #BRIEF: Represents a loaded language handler used by parser operations
+    export class LanguageHandler final{
+    public: // #DIV: Public
+    // Public Types
+        class Error;
+    // Public Static Methods
+        [[nodiscard]] static Result<LanguageHandler> load(const std::string_view p_tag);
+    // Public Methods
+        [[nodiscard]] bool supportsFileType(const std::string_view p_fileType)const;
+    // Public Fields
+        std::string name; // #FIELD: std::string name, Name of language handler
+        std::string version; // #FIELD: std::string version, Version of language handler
+        std::string description; // #FIELD: std::string description, Description of language handler
+        std::string author; // #FIELD: std::string author, Author of language handler
+    private: // #DIV: Private
+    // Private Static Methods
+        static Result<std::string> getMetadataPath(const Json& p_pluginRegistry, const std::string_view p_tag);
+        static Result<> checkMetadataPath(const std_fs::path& p_metadataPath, const std::string_view p_tag);
+    // Private Methods
+        Result<> setValues(const Json& p_metadata, const std::string_view p_metadataPath, const std::string_view p_tag);
+        Result<> loadLibrary(const Json& p_metadata, const std_fs::path& p_metadataPath, const std::string_view p_tag);
+        Result<> loadFunctions(const std::string_view p_tag);
+    // Private Fields
+        Library m_library; 
+        std::function<plugin::function::SupportsFileType> m_supportsFileType;
+    }; // #END: LanguageHandler
+
+    // #CLASS: LanguageHandler::Error, Final Class
+    // #BRIEF: LanguageHandler error specialization
+    // #DERIVES, public core::Error, Base project error type
+    class LanguageHandler::Error final: public core::Error{
+    public: // #DIV: Public
+    // Public Special Methods
+        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
+    // Public Static Fields
+        static inline const std::string COULD_NOT_FIND_FIELD_MESSAGE = "Could not find field \"{}\" under \"{}\" in plugin registry";
+    // Private Static Fields
+        static inline const std::unordered_map<Code, std::string> ERROR_MESSAGES = {
+            {DOCME_E400, "Invalid plugin type \"{}\" for \"{}\", expected \"{}\""},
+            {DOCME_E401, "Could not find language handler \"{}\" in plugin registry"},
+            {DOCME_E402, "Metadata path \"{}\" for language handler \"{}\" does not exist or is not a file"},
+            {DOCME_E403, "Metadata path \"{}\" for language handler \"{}\" is not a \"{}\" file"},
+            {DOCME_E404, "Failed to parse metadata file \"{}\" for language handler \"{}\""},
+            {DOCME_E405, "While parsing metadata file \"{}\" for language handler \"{}\", field \"{}\" is not of type \"{}\""},
+            {DOCME_E406, "While parsing metadata file \"{}\" for language handler \"{}\", could not find field \"{}\""},
+            {DOCME_E407, "Failed to load library from \"{}\" for language handler \"{}\""},
+            {DOCME_E408, "Failed to load function \"{}\" from language handler \"{}\""}
+        };
+    }; // #END: LanguageHandler::Error
+    
+} // #END: docme::generator

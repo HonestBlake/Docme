@@ -1,0 +1,7 @@
+{
+    "docme.cdoc": {
+        "tag": "cdoc",
+        "type": "languageHandler",
+        "metadata": "../plugins/cdoc/metadata.json"
+    }
+}

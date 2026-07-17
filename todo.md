@@ -1,1 +1,1 @@
-make sure func sig uses const& not const &
+warn for /dir in config file

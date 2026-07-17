@@ -1,0 +1,18 @@
+// #FILE: options.mpp, Component Module Interface File
+// #BRIEF: Module interface file for options component
+
+module;
+
+#include "config.hpp" // #INCLUDE: engine.hpp, Package wide header
+
+// #MODULE: docme.config:options, Component Module Partition
+// #BRIEF: Module partition for options component in docme engine module
+export module docme.config:options;
+
+import :schema; // #IMPORT: docme.config:schema, Internal configSchema component
+
+namespace docme::config{ // #SCOPE: docme::config
+
+    export using Options = Schema<Optional>; // #ALIAS: Options, Alias for Schema<Optional> type
+
+} // #END: docme::config

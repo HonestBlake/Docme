@@ -1,0 +1,22 @@
+// #FILE: utils.mpp, Component Module Interface File
+// #BRIEF: Module interface file for utils component
+
+module;
+
+#include "core.hpp" // #INCLUDE: core.hpp, Package wide header
+
+// #MODULE: docme.core:utils, Component Module Partition
+// #BRIEF: Module partition for utility tools
+export module docme.core:utils;
+
+namespace docme::core{ // #SCOPE: docme::core
+
+    // #NAMESPACE: util, Exported Namespace
+    // #BRIEF: Namespace for core utility tools
+    export namespace util{
+        void normalizePath(std_fs::path& p_path, const std_fs::path& p_base);
+        std::string makeCommaSeparated(const std::vector<std::string>& p_list);
+        std::string makeCommaSeparated(const std::vector<std_fs::path>& p_list);
+    } // #END: util
+
+} // #END: docme::core

@@ -1,0 +1,33 @@
+// #FILE: settings.mpp, Component Module Interface File
+// #BRIEF: Module interface file for settings component
+
+module;
+
+#include "config.hpp" // #INCLUDE: engine.hpp, Package wide header
+
+// #MODULE: docme.config:settings, Component Module Partition
+// #BRIEF: Module partition for settings component in docme engine module
+export module docme.config:settings;
+
+import :schema; // #IMPORT: docme.config:schema, Internal configSchema component
+import :file; // #IMPORT: docme.config:file, Internal file component
+import :options; // #IMPORT: docme.config:options, Internal options component
+
+namespace docme::config{ // #SCOPE: docme::config
+
+    // #CLASS: Settings, Exported Final Class
+    // #BRIEF: 
+    // #DERIVES: Schema<Required>, Base schema for resolved settings values
+    export class Settings final: public Schema<Required>{
+    public: // #DIV: Public
+    // Public Special Methods
+        Settings();
+    // Public Methods
+        Settings& applyFile(File&& p_config);
+        Settings& applyOptions(const Options& p_options);
+    private: // #DIV: Private
+    // Private Methods
+        void setDefaults();
+    }; // #END: Settings
+
+} // #END: docme::config

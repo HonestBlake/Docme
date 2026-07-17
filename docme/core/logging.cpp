@@ -10,6 +10,9 @@ import :logging;
 
 namespace docme::core{ // #SCOPE: docme::core
 
+    Logger& logger = Logger::get();
+    Output& output = Output::get();
+
 // ------------------------------------------------------------------------------
 //                                  class Logger
 // ------------------------------------------------------------------------------
@@ -18,7 +21,7 @@ namespace docme::core{ // #SCOPE: docme::core
 
 // #DIV: Private
 
-// ---- Private Factory Methods ----
+// ---- Private Special Methods ----
 
     // #METHOD: Logger(), Private Constructor
     // #BRIEF: Default constructor for logger 
@@ -27,6 +30,7 @@ namespace docme::core{ // #SCOPE: docme::core
         levelSpecificLogColor(pureLog::Log::Level::ERROR, pureLog::Color::RED);
         levelSpecificLogColor(pureLog::Log::Level::DEBUG, pureLog::Color::BLUE);
     } // #END: Logger()
+
 
 // #DIV: Public
 
@@ -39,22 +43,38 @@ namespace docme::core{ // #SCOPE: docme::core
         return LoggerBase::get();
     } // #END: get()
 
-    // #METHOD: makeCommaSeparated(const std::vector<std::string>&), Static Method
-    // #BRIEF: Takes a list of strings and makes a single comma separated string
-    // #PARAM: const std::vector<std::string>& p_list, Given list
-    // #RETURN: std::string, Constructed string
-    std::string Logger::makeCommaSeparated(const std::vector<std::string>& p_list){
-        std::string string;
-        for(size_t item = 0; item < p_list.size(); item++){
-            if(item == p_list.size() - 1){ // Last item
-                string += p_list[item];
-            }else{
-                string += (p_list[item] + ", ");
-            }
-        }
-        return string;
-    } // #END: makeCommaSeparated(const std::vector<std::string>&)
 
 // #END: Logger
+
+// ------------------------------------------------------------------------------
+//                                  class Output
+// ------------------------------------------------------------------------------
+
+// #SCOPE: Output
+
+// #DIV: Private
+
+// ---- Private Special Methods ----
+
+    // #METHOD: Output(), Private Constructor
+    // #BRIEF: Default constructor for output 
+    Output::Output(): OutputBase(NAME, s_outputStream){
+        nameFormat("");
+    } // #END: Output()
+
+
+// #DIV: Public
+
+// ---- Public Static Methods ----
+
+    // #METHOD: get(), Static Method
+    // #BRIEF: Returns the instance of the output 
+    // #RETURN: Output&, Reference to current output
+    Output& Output::get(){
+        return OutputBase::get();
+    } // #END: get()
+
+
+// #END: Output
 
 } // #END: docme::core

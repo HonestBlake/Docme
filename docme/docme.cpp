@@ -11,11 +11,14 @@ import docme; // #IMPORT: docme, Docme project
 // #PARAM: char** p_argv, Argument array
 // #RETURN: int, Exit status
 int main(int p_argc, char** p_argv){
+    docme::Logger::get().log("Starting Docme");
     if(p_argc > 1){ // Args provided route CLI
+        docme::Logger::get().log("Routing to Docme CLI");
         docme::cli::Application(p_argc, p_argv).run();
     }else{ // No args provided route GUI
         // ! GUI not yet implemented
-        docme::logger.error("No args provided routes to docme GUI, but GUI is not yet implemented");
+        docme::Logger::get().error("No args provided routes to docme GUI, but GUI is not yet implemented");
     }
+    docme::Logger::get().log("Exited Docme Successfully");
     return EXIT_SUCCESS;
 } // END: main(int, char**)

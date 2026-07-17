@@ -1,7 +1,6 @@
 // #FILE: result.tpp, Component Template Implementation File
 // #BRIEF: Template definitions for result component.
 
-#include <source_location>
 #ifndef COMPILED_WITH_MODULE // Open in editor
 
 module;
@@ -28,20 +27,20 @@ namespace docme::core{ // #SCOPE: docme::core
 
 // #DIV: Public
 
-// ---- Public Factory Methods ----
+// ---- Public Special Methods ----
 
-    // #METHOD: Result(const std::source_location&), Default Constructor
+    // #METHOD: Result(const std_loc&), Default Constructor
     // #BRIEF: Construct from error type
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location should be left to default.
-    template<class T_Success> Result<T_Success>::Result(const std::source_location& p_callSite): m_warnings(Warnings::pull(Warnings::hash(p_callSite))){
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location should be left to default.
+    template<class T_Success> Result<T_Success>::Result(const std_loc& p_callSite): m_warnings(Warning::pull(Warning::hash(p_callSite))){
 
-    } // #END: Result(const std::source_location&)
+    } // #END: Result(const std_loc&)
 
     // #METHOD: Result(const T_Success&), Constructor
     // #BRIEF: Construct from return type
     // #PARAM: const T_Success& p_success, Given success value
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location should be left to default.
-    template<class T_Success> Result<T_Success>::Result(const T_Success& p_success, const std::source_location& p_callSite): m_warnings(Warnings::pull(Warnings::hash(p_callSite))), m_result(p_success){
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location should be left to default.
+    template<class T_Success> Result<T_Success>::Result(const T_Success& p_success, const std_loc& p_callSite): m_warnings(Warning::pull(Warning::hash(p_callSite))), m_result(p_success){
 
     } // #END: Result(const T_Success&)
 
@@ -49,16 +48,16 @@ namespace docme::core{ // #SCOPE: docme::core
     // #BRIEF: Move construct from return type
     // #NOTE: This method takes ownership of given return
     // #PARAM: T_Success&& p_return, Moved success value
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location should be left to default
-    template<class T_Success> Result<T_Success>::Result(T_Success&& p_success, const std::source_location& p_callSite): m_warnings(Warnings::pull(Warnings::hash(p_callSite))), m_result(std::move(p_success)){
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location should be left to default
+    template<class T_Success> Result<T_Success>::Result(T_Success&& p_success, const std_loc& p_callSite): m_warnings(Warning::pull(Warning::hash(p_callSite))), m_result(std::move(p_success)){
 
     } // #END: Result(T_Success&&)
 
     // #METHOD: Result(const Error&), Constructor
     // #BRIEF: Construct from error type
     // #PARAM: Error& p_error, Given error value
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location should be left to default
-    template<class T_Success> Result<T_Success>::Result(const Error& p_error, const std::source_location& p_callSite): m_warnings(Warnings::pull(Warnings::hash(p_callSite))), m_result(p_error){
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location should be left to default
+    template<class T_Success> Result<T_Success>::Result(const Error& p_error, const std_loc& p_callSite): m_warnings(Warning::pull(Warning::hash(p_callSite))), m_result(p_error){
 
     } // #END: Result(const Error&)
 
@@ -66,8 +65,8 @@ namespace docme::core{ // #SCOPE: docme::core
     // #BRIEF: Move construct from error type
     // #NOTE: This method takes ownership of given error
     // #PARAM: Error&& p_error, Moved error value
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location should be left to default
-    template<class T_Success> Result<T_Success>::Result(Error&& p_error, const std::source_location& p_callSite): m_warnings(Warnings::pull(Warnings::hash(p_callSite))), m_result(std::move(p_error)){
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location should be left to default
+    template<class T_Success> Result<T_Success>::Result(Error&& p_error, const std_loc& p_callSite): m_warnings(Warning::pull(Warning::hash(p_callSite))), m_result(std::move(p_error)){
 
     } // #END: Result(Error&&)
 
@@ -75,10 +74,10 @@ namespace docme::core{ // #SCOPE: docme::core
     // #BRIEF: Move construct from failure type
     // #NOTE: This method takes ownership of given failure
     // #PARAM: Failure&& p_failure, Moved failure value
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location should be left to default
-    template<class T_Success> Result<T_Success>::Result(Failure&& p_failure, const std::source_location& p_callSite): m_warnings(Warnings::pull(Warnings::hash(p_callSite))), m_result(p_failure.takeValue()){
-        Warnings::Buffer warnings = p_failure.takeWarnings();
-        for(Warn& warning: warnings){
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location should be left to default
+    template<class T_Success> Result<T_Success>::Result(Failure&& p_failure, const std_loc& p_callSite): m_warnings(Warning::pull(Warning::hash(p_callSite))), m_result(p_failure.takeValue()){
+        std::vector<Warning> warnings = p_failure.takeWarnings();
+        for(Warning& warning: warnings){
             m_warnings.emplace_back(std::move(warning));
         }
     } // #END: Result(Failure&&)
@@ -97,7 +96,7 @@ namespace docme::core{ // #SCOPE: docme::core
     // #THROWS: std::bad_variant_access, If result is not a success state
     // #NOTE: Only call when type is know to be successful state
     template<class T_Success> const T_Success& Result<T_Success>::operator*()const&{
-        return value();
+        return std::get<T_Success>(m_result);
     } // #END: operator*()
 
     // #METHOD: operator*()&&, Const Operator
@@ -106,7 +105,7 @@ namespace docme::core{ // #SCOPE: docme::core
     // #NOTE: Only call when type is know to be successful state
     // #NOTE: Moves internal success state
     template<class T_Success> T_Success Result<T_Success>::operator*()&&{
-        return takeValue();
+        return std::move(std::get<T_Success>(m_result));
     } // #END: operator*()
 
 
@@ -136,24 +135,24 @@ namespace docme::core{ // #SCOPE: docme::core
 
     // #METHOD: warnings(), Const Instance Method
     // #BRIEF: Get underlying warnings buffer.
-    // #RETURN: const Warnings::Buffer&, Warnings buffer.
-    template<class T_Success> const Warnings::Buffer& Result<T_Success>::warnings()const{
+    // #RETURN: const std::vector<Warning>&, Warning buffer.
+    template<class T_Success> const std::vector<Warning>& Result<T_Success>::warnings()const{
         return m_warnings;
     } // #END: warnings()
 
     // #METHOD: warnings()&&, Instance Method
     // #BRIEF: Moves underlying warnings buffer out of object.
     // #NOTE: Moves internal state.
-    // #RETURN: Warnings::Buffer, Moved warnings buffer.
-    template<class T_Success> Warnings::Buffer Result<T_Success>::warnings()&&{
+    // #RETURN: std::vector<Warning>, Moved warnings buffer.
+    template<class T_Success> std::vector<Warning> Result<T_Success>::warnings()&&{
         return takeWarnings();
     } // #END: warnings()&&
 
     // #METHOD: takeWarnings(), Instance Method
     // #BRIEF: Moves underlying warnings buffer out of object.
     // #NOTE: Moves internal state.
-    // #RETURN: Warnings::Buffer, Moved warnings buffer.
-    template<class T_Success> Warnings::Buffer Result<T_Success>::takeWarnings(){
+    // #RETURN: std::vector<Warning>, Moved warnings buffer.
+    template<class T_Success> std::vector<Warning> Result<T_Success>::takeWarnings(){
         return std::move(m_warnings);
     } // #END: takeWarnings()
 
@@ -176,13 +175,15 @@ namespace docme::core{ // #SCOPE: docme::core
     // #METHOD: propagateWarnings(), Instance Method
     // #BRIEF: Move warnings back to warnings manager to propagate.
     // #NOTE: Moves internal state.
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location which should be left to default
-    template<class T_Success> void Result<T_Success>::propagateWarnings(const std::source_location& p_callSite){
-        for(Warn& warning: m_warnings){
-            Warnings::add(std::move(warning), p_callSite);
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location which should be left to default
+    // #RETURN: Result<T_Success>&, Reference to self
+    template<class T_Success> Result<T_Success>& Result<T_Success>::propagateWarnings(const std_loc& p_callSite){
+        for(Warning& warning: m_warnings){
+            Warning::propagate(std::move(warning), p_callSite);
         }
+        m_warnings.clear();
+        return *this;
     } // #END: propagateWarnings()
-
     // #METHOD: value(), Const Instance Method
     // #BRIEF: Gets success type.
     // #RETURN: const T_Success&, Internal success type
@@ -191,10 +192,12 @@ namespace docme::core{ // #SCOPE: docme::core
     } // #END: value()
 
     // #METHOD: takeValue(), Instance Method
-    // #BRIEF: Moves success type out of object.
+    // #BRIEF: Takes success type and propagates warnings.
     // #NOTE: Moves internal state.
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location which should be left to default
     // #RETURN: T_Success, Internal success type
-    template<class T_Success> T_Success Result<T_Success>::takeValue(){
+    template<class T_Success> T_Success Result<T_Success>::takeValue(const std_loc& p_callSite){
+        propagateWarnings(p_callSite);
         return std::move(std::get<T_Success>(m_result));
     } // #END: takeValue()
 
@@ -209,20 +212,20 @@ namespace docme::core{ // #SCOPE: docme::core
 
 // #DIV: Public
 
-// ---- Public Factory Methods ----
+// ---- Public Special Methods ----
 
-    // #METHOD: Result(const std::source_location&), Default Constructor
+    // #METHOD: Result(const std_loc&), Default Constructor
     // #BRIEF: Construct from error type
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location should be left to default.
-    Result<void>::Result(const std::source_location& p_callSite): m_warnings(Warnings::pull(Warnings::hash(p_callSite))){
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location should be left to default.
+    Result<void>::Result(const std_loc& p_callSite): m_warnings(Warning::pull(Warning::hash(p_callSite))){
 
-    } // #END: Result(const std::source_location&)
+    } // #END: Result(const std_loc&)
 
     // #METHOD: Result(const Error&), Constructor
     // #BRIEF: Construct from error type
     // #PARAM: Error& p_error, Given error value
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location should be left to default.
-    Result<void>::Result(const Error& p_error, const std::source_location& p_callSite): m_warnings(Warnings::pull(Warnings::hash(p_callSite))), m_error(p_error){
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location should be left to default.
+    Result<void>::Result(const Error& p_error, const std_loc& p_callSite): m_warnings(Warning::pull(Warning::hash(p_callSite))), m_error(p_error){
 
     } // #END: Result(const Error&)
 
@@ -230,22 +233,22 @@ namespace docme::core{ // #SCOPE: docme::core
     // #BRIEF: Move construct from error type
     // #NOTE: This method takes ownership of given error
     // #PARAM: Error&& p_error, Moved error value
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location should be left to default.
-    Result<void>::Result(Error&& p_error, const std::source_location& p_callSite): m_warnings(Warnings::pull(Warnings::hash(p_callSite))), m_error(std::move(p_error)){
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location should be left to default.
+    Result<void>::Result(Error&& p_error, const std_loc& p_callSite): m_warnings(Warning::pull(Warning::hash(p_callSite))), m_error(std::move(p_error)){
 
     } // #END: Result(Error&&)
 
-    // #METHOD: Result(Failure&&, const std::source_location& p_callSite), Constructor
+    // #METHOD: Result(Failure&&, const std_loc& p_callSite), Constructor
     // #BRIEF: Construct from failure type.
     // #NOTE: This method takes ownership of given failure
     // #PARAM: Failure&& p_failure, Moved failure value
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location should be left to default
-    Result<void>::Result(Failure&& p_failure, const std::source_location& p_callSite): m_warnings(Warnings::pull(Warnings::hash(p_callSite))), m_error(std::move(p_failure).takeValue()){
-        Warnings::Buffer warnings = p_failure.takeWarnings();
-        for(Warn& warning: warnings){
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location should be left to default
+    Result<void>::Result(Failure&& p_failure, const std_loc& p_callSite): m_warnings(Warning::pull(Warning::hash(p_callSite))), m_error(std::move(p_failure).takeValue()){
+        std::vector<Warning> warnings = p_failure.takeWarnings();
+        for(Warning& warning: warnings){
             m_warnings.emplace_back(std::move(warning));
         }
-    } // #END: Result(Failure&&, const std::source_location&)
+    } // #END: Result(Failure&&, const std_loc&)
 
 
 // ---- Public Operators ----
@@ -283,24 +286,24 @@ namespace docme::core{ // #SCOPE: docme::core
 
     // #METHOD: warnings(), Const Instance Method
     // #BRIEF: Get underlying warnings buffer.
-    // #RETURN: const Warnings::Buffer&, Warnings buffer.
-    const Warnings::Buffer& Result<void>::warnings()const{
+    // #RETURN: const std::vector<Warning>&, Warning buffer.
+    const std::vector<Warning>& Result<void>::warnings()const{
         return m_warnings;
     } // #END: warnings()
 
     // #METHOD: warnings()&&, Instance Method
     // #BRIEF: Moves underlying warnings buffer out of object.
     // #NOTE: Moves internal state.
-    // #RETURN: Warnings::Buffer, Moved warnings buffer.
-    Warnings::Buffer Result<void>::warnings()&&{
+    // #RETURN: std::vector<Warning>, Moved warnings buffer.
+    std::vector<Warning> Result<void>::warnings()&&{
         return takeWarnings();
     } // #END: warnings()&&
 
     // #METHOD: takeWarnings(), Instance Method
     // #BRIEF: Moves underlying warnings buffer out of object.
     // #NOTE: Moves internal state.
-    // #RETURN: Warnings::Buffer, Moved warnings buffer.
-    Warnings::Buffer Result<void>::takeWarnings(){
+    // #RETURN: std::vector<Warning>, Moved warnings buffer.
+    std::vector<Warning> Result<void>::takeWarnings(){
         return std::move(m_warnings);
     } // #END: takeWarnings()
 
@@ -323,11 +326,13 @@ namespace docme::core{ // #SCOPE: docme::core
     // #METHOD: propagateWarnings(), Instance Method
     // #BRIEF: Move warnings back to warnings manager to propagate.
     // #NOTE: Moves internal state.
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location which should be left to default
-    void Result<void>::propagateWarnings(const std::source_location& p_callSite){
-        for(Warn& warning: m_warnings){
-            Warnings::add(std::move(warning), p_callSite);
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location which should be left to default
+    Result<void>& Result<void>::propagateWarnings(const std_loc& p_callSite){
+        for(Warning& warning: m_warnings){
+            Warning::propagate(std::move(warning), p_callSite);
         }
+        m_warnings.clear();
+        return *this;
     } // #END: propagateWarnings()
 
 

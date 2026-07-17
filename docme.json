@@ -1,0 +1,18 @@
+{
+    "project_name": "MyProject",
+    "source": [
+        ""
+    ],
+    "ignore": [
+        "deps/",
+        "build/"
+    ],
+    "output": "path/to/output/dir",
+    "language_handler": [
+        "cdoc"
+    ],
+    "renderer": [
+        "markdown",
+        "json"
+    ]
+}

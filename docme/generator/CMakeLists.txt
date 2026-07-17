@@ -4,12 +4,20 @@ set(GENERATOR_INCLUDE_DIRS
     ${GENERATOR}
 )
 set(GENERATOR_SRC_FILES
-    "${GENERATOR}/generatorInfo.cpp"
+    "${GENERATOR}/languageHandler.cpp"
+    "${GENERATOR}/utils.cpp"
+    "${GENERATOR}/renderer.cpp"
+    "${GENERATOR}/parserContext.cpp"
+    "${GENERATOR}/rendererContext.cpp"
     "${GENERATOR}/parser.cpp"
 )
 set(GENERATOR_MOD_FILES
     "${GENERATOR}/generator.mpp"
-    "${GENERATOR}/generatorInfo.mpp"
+    "${GENERATOR}/languageHandler.mpp"
+    "${GENERATOR}/utils.mpp"
+    "${GENERATOR}/renderer.mpp"
+    "${GENERATOR}/parserContext.mpp"
+    "${GENERATOR}/rendererContext.mpp"
     "${GENERATOR}/parser.mpp"
 )
 set(GENERATOR_PCH_FILES
@@ -34,12 +42,15 @@ target_include_directories(docme_generator PUBLIC ${DOCME_INCLUDE_DIRS} ${GENERA
 if(NOT DOCME_CLANGD_BUILD)
     target_precompile_headers(docme_generator PRIVATE ${DOCME_PCH_FILES} ${GENERATOR_PCH_FILES})
 endif()
-target_link_libraries(docme_cli PRIVATE 
-    docme_engine 
+target_link_libraries(docme_generator PRIVATE
     docme_core
+    docme_config
+    docme_plugin
 )
 set_target_properties(docme_generator PROPERTIES
     OUTPUT_NAME "docme-generator"
     PREFIX ""
-    SUFFIX ".lib"
 )
+if(WIN32)
+    set_target_properties(docme_generator PROPERTIES SUFFIX ".lib")
+endif()

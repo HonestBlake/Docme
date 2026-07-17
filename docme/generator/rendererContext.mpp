@@ -1,0 +1,30 @@
+// #FILE: rendererContext.mpp, Component Module Interface File
+// #BRIEF: Module interface file for renderer context component
+
+module;
+
+#include "generator.hpp" // #INCLUDE: generator.hpp, Package wide header
+
+// #MODULE: docme.generator:rendererContext, Component Module Partition
+// #BRIEF: Module partition for renderer context component in docme generator module
+export module docme.generator:rendererContext;
+
+import :renderer; // #IMPORT: docme.generator:renderer, Renderer type
+
+namespace docme::generator{ // #SCOPE: docme::generator
+
+    // #CLASS: RendererContext, Exported Class
+    // #BRIEF: Context needed for renderer operations
+    export class RendererContext{
+        struct RenderGroup;
+        std::vector<RenderGroup> renders;
+    }; // #END: RendererContext
+
+    // #STRUCT: RendererContext::RenderGroup, Data Struct
+    // #BRIEF:
+    struct RendererContext::RenderGroup{
+        Renderer renderer; // #FIELD: Renderer renderer, Renderer for the render group
+        // TODO some hook to serialized documentation
+    }; // #END: RendererContext
+
+} // #END: docme::generator

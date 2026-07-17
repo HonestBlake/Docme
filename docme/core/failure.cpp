@@ -18,15 +18,15 @@ namespace docme::core{ // #SCOPE: docme::core
 
 // #DIV: Public
 
-// ---- Public Factory Methods ----
+// ---- Public Special Methods ----
 
-    // #METHOD: Failure(Error&&, Warnings::Buffer&&), Constructor
+    // #METHOD: Failure(Error&&, std::vector<Warning>&&), Constructor
     // #BRIEF: Takes error and warnings and constructs a failure object.
     // #PARAM: Error&& p_error, Error state to move
-    // #PARAM: Warnings::Buffer&& p_warnings, Warnings to move
-    Failure::Failure(Error&& p_error, Warnings::Buffer&& p_warnings): m_error(std::move(p_error)), m_warnings(std::move(p_warnings)){
+    // #PARAM: std::vector<Warning>&& p_warnings, Warning buffer to move
+    Failure::Failure(Error&& p_error, std::vector<Warning>&& p_warnings): m_error(std::move(p_error)), m_warnings(std::move(p_warnings)){
 
-    } // #END: Failure(Error&&, Warnings::Buffer&&)
+    } // #END: Failure(Error&&, std::vector<Warning>&&)
 
 // ---- Public Operators ----
 
@@ -64,35 +64,36 @@ namespace docme::core{ // #SCOPE: docme::core
 
     // #METHOD: warnings(), Const Instance Method
     // #BRIEF: Get underlying warnings buffer.
-    // #RETURN: const Warnings::Buffer&, Warnings buffer
-    const Warnings::Buffer& Failure::warnings()const{
+    // #RETURN: const std::vector<Warning>&, Warning buffer
+    const std::vector<Warning>& Failure::warnings()const{
         return m_warnings;
     } // #END: warnings()
 
     // #METHOD: warnings()&&, Instance Method
     // #BRIEF: Moves underlying warnings buffer out of object.
     // #NOTE: Moves internal state.
-    // #RETURN: Warnings::Buffer, Moved warnings buffer
-    Warnings::Buffer Failure::warnings()&&{
+    // #RETURN: std::vector<Warning>, Moved warnings buffer
+    std::vector<Warning> Failure::warnings()&&{
         return takeWarnings();
     } // #END: warnings()&&
 
     // #METHOD: takeWarnings(), Instance Method
     // #BRIEF: Moves underlying warnings buffer out of object.
     // #NOTE: Moves internal state.
-    // #RETURN: Warnings::Buffer, Moved warnings buffer
-    Warnings::Buffer Failure::takeWarnings(){
+    // #RETURN: std::vector<Warning>, Moved warnings buffer
+    std::vector<Warning> Failure::takeWarnings(){
         return std::move(m_warnings);
     } // #END: takeWarnings()
 
     // #METHOD: propagateWarnings(), Instance Method
     // #BRIEF: Moves warnings out of object into global warning state.
     // #NOTE: Moves internal state.
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location which should be left to default
-    void Failure::propagateWarnings(const std::source_location& p_callSite){
-        for(Warn& warning: m_warnings){
-            Warnings::add(std::move(warning), p_callSite);
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location which should be left to default
+    void Failure::propagateWarnings(const std_loc& p_callSite){
+        for(Warning& warning: m_warnings){
+            Warning::propagate(std::move(warning), p_callSite);
         }
+        m_warnings.clear();
     } // #END: propagateWarnings()
 
     // #METHOD: value(), Const Instance Method

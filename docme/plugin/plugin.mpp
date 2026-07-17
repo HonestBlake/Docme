@@ -1,0 +1,12 @@
+// #FILE: plugin.mpp, Package Module Interface File
+// #BRIEF: Module interface file for plugin package
+
+module;
+
+#include "plugin.hpp" // #INCLUDE: plugin.hpp, Package wide header
+
+// #MODULE: docme.plugin, Package Module
+// #BRIEF: Package module for plugin API contracts
+export module docme.plugin;
+
+export import :languageHandler; // #EXPORT: docme.plugin:languageHandler

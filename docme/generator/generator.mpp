@@ -6,5 +6,9 @@ module;
 
 export module docme.generator;
 
-export import :generatorInfo; // #EXPORT: docme.generator:generatorInfo
+export import :languageHandler; // #EXPORT: docme.generator:languageHandler
+export import :utils; // #EXPORT: docme.generator:utils
+export import :renderer; // #EXPORT: docme.generator:renderer
+export import :parserContext; // #EXPORT: docme.generator:parserContext
+export import :rendererContext; // #EXPORT: docme.generator:rendererContext
 export import :parser; // #EXPORT: docme.generator:parser

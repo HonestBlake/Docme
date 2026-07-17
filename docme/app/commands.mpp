@@ -1,0 +1,69 @@
+// #FILE: commands.mpp, Component Module Interface File
+// #BRIEF: Module interface file for commands component
+
+module;
+
+#include "app.hpp" // #INCLUDE: engine.hpp, Package wide header
+
+// #MODULE: docme.app:commands, Component Module Partition
+// #BRIEF: Module partition for Command class in docme app module
+export module docme.app:commands; 
+
+import docme.core; // #IMPORT: docme.core, Internal core library
+import docme.config; // #IMPORT: docme.config, Internal config library
+
+namespace docme::app{ // #SCOPE: docme::app
+
+    // #CLASS: Command, Exported Final Static Class
+    // #BRIEF: Class that holds docme commands
+    export class Command final{
+    public: // #DIV: Public
+    // Public Types
+        class Error;
+        class Warning;
+    // Public Special Methods
+        Command() = delete; // #DELETE: Command(), Default constructor
+        Command(const Command&) = delete; // #DELETE: Command(const Command&), Copy constructor
+        Command(Command&&) = delete; // #DELETE: Command(Command&&), Move constructor
+        ~Command() = delete; // #DELETE: Command(), Destructor
+    // Public Operators
+        void operator=(const Command&) = delete; // #DELETE: operator=(const Command&), Copy assignment
+        void operator=(Command&&) = delete; // #DELETE: operator=(Command&&), Move assignment
+    // Public Static Methods
+        static Result<> init(const std::optional<std_fs::path>& p_config);
+        static Result<> build(const std::optional<std_fs::path>& p_config, const config::Options& p_options);
+        static Result<> render();
+        static Result<> generate();
+        static Result<> check();
+    // Private Static Methods
+        static Result<config::Settings> buildSettings(const std::optional<std_fs::path>& p_config, const config::Options& p_options);
+    }; // #END: Command
+
+    // #CLASS: Command::Error, Final Class
+    // #BRIEF: Error type specialization for command component
+    // #DERIVES: core::Error
+    class Command::Error final: public core::Error{
+    public: // #DIV: Public
+    // Public Special Methods
+        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
+    // Private Static Fields
+        inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
+            {DOCME_E300, "Failed to initialize the default config file as a default config file already exists at location \"" + (std_fs::current_path() / config::File::DEFAULT_CONFIG_FILE).string() + "\""},
+        };
+    }; // #END: Command::Error
+
+    // #CLASS: Command::Warning, Final Class
+    // #BRIEF: Warning type specialization for command component
+    // #DERIVES: core::Warning
+    class Command::Warning final: public core::Warning{
+    public: // #DIV: Public
+    // Public Special Methods
+        template<class... T_ContextArgs> Warning(const Code p_code, const T_ContextArgs&... p_contextArgs);
+    // Private Static Fields
+        inline const static std::unordered_map<Code, std::string> WARNING_MESSAGES = {
+            {DOCME_W201, "Creating the confile file \"{}\" when a config file already exists at \"" + (std_fs::current_path() / config::File::DEFAULT_CONFIG_FILE).string() + "\""},
+        };
+    }; // #END: Command::Warning
+
+
+} // END: docme::app

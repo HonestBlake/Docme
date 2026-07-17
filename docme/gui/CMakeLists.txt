@@ -35,5 +35,4 @@ target_link_libraries(docme_cli PRIVATE nlohmann_json_modules)
 set_target_properties(docme_gui PROPERTIES
     OUTPUT_NAME "docme-gui"
     PREFIX ""
-    SUFFIX ".exe"
 )

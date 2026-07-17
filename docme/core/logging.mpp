@@ -23,7 +23,7 @@ namespace docme::core{ // #SCOPE: docme::core
         using ConsoleOutput = pureLog::StdCout<pureLog::OutputStream::UNBUFFERED>;
     // Public Friends
         friend LoggerBase;
-    // Public Factory Methods
+    // Public Special Methods
         Logger(const Logger&) = delete; // #DELETE: Logger(const Logger&), Copy constructor
         Logger(Logger&&) = delete; // #DELETE: Logger(Logger&&), Move constructor
     // Public Operators
@@ -31,15 +31,49 @@ namespace docme::core{ // #SCOPE: docme::core
         Logger& operator=(Logger&&) = delete; // #DELETE: operator=(Logger&&), Copy assignment
     // Public Static Methods
         static Logger& get();
-        static std::string makeCommaSeparated(const std::vector<std::string>& p_list);
+    // Public Methods
+        template<class... T_Args> void debug(const std::string&& p_message, T_Args&&... p_args);
     private: // #DIV: Private
-    // Private Factory Methods
+    // Private Special Methods
         Logger();
     // Private Static Fields
         static constexpr std::string NAME = "Docme";
         static inline pureLog::OutputStream& s_outputStream = pureLog::OutputStream::get<ConsoleOutput>();
     }; // #END: Logger
 
-    export inline Logger& logger = Logger::get();
+    // #CLASS: Output, Exported Final Class
+    // #BRIEF: Output class implementing pureLog Output
+    // #DERIVES: public pureLog::Output<Output>, Base output
+    export class Output final: public pureLog::Logger<Output>{
+    public: // #DIV: Public
+    // Public Types
+        using OutputBase = pureLog::Logger<Output>;
+        using ConsoleOutput = pureLog::StdCout<pureLog::OutputStream::UNBUFFERED>;
+    // Public Friends
+        friend OutputBase;
+    // Public Special Methods
+        Output(const Output&) = delete; // #DELETE: Output(const Output&), Copy constructor
+        Output(Output&&) = delete; // #DELETE: Output(Output&&), Move constructor
+    // Public Operators
+        Output& operator=(const Output&) = delete; // #DELETE: operator=(const Output&), Copy assignment
+        Output& operator=(Output&&) = delete; // #DELETE: operator=(Output&&, Copy assignment
+    // Public Static Methods
+        static Output& get();
+    private: // #DIV: Private
+    // Private Special Methods
+        Output();
+    // Private Static Fields
+        static constexpr std::string NAME = "";
+        static inline pureLog::OutputStream& s_outputStream = pureLog::OutputStream::get<ConsoleOutput>();
+    }; // #END: Output
+
+    export extern Logger& logger;
+    export extern Output& output;
 
 } // #END: docme::core
+
+#define COMPILED_WITH_MODULE
+
+#include "logging.tpp" // #INCLUDE: logging.tpp, Logging template definitions
+
+#undef COMPILED_WITH_MODULE

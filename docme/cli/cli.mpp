@@ -10,3 +10,4 @@ module;
 export module docme.cli;
 
 export import :application;
+export import :utils;

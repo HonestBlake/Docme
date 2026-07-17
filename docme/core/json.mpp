@@ -21,28 +21,17 @@ namespace docme::core{ // #SCOPE: docme::core
     export class Json final{
     public: // #DIV: Public
     // Public Types
-
-        // #STRUCT: Node, Struct
-        // #BRIEF: Holds json node key
-        struct Node{
-            Node(const std::string& p_key);
-            std::string key;
-        }; // #END: Node
-        
+        struct Node;
         class Error;
-    // Public Factory Methods
+    // Public Special Methods
         Json() = default; // #DEFAULT: Json(), Default constructor
         Json(const nlohmann::json& p_json);
         Json(nlohmann::json&& p_json);
-        Json(const Json&) = default; // #DEFAULT: Json(const Json&), Copy constructor
-        Json(Json&&) = default; // #DEFAULT: Json(Json&&), Move constructor
-    // Public Operators
-        Json& operator=(const Json&) = default; // #DEFAULT: Json& operator=(const Json&), Copy assignment
-        Json& operator=(Json&&) = default; // #DEFAULT: Json& operator=(Json&&), Move assignment
     // Public Static Methods
         static Result<Json> parse(const std_fs::path& p_file);
     // Public Methods
         template<class T_Value> Result<T_Value> get(const std::string_view p_key)const = delete; // #DELETE: get<T_Value>(const std::string_view), Non-specialized method
+        template<class T_Value> Result<T_Value> get(const std::string_view p_key, const std::string_view p_subKey)const = delete; // #DELETE: get<T_Value>(const std::string_view, const std::string_view), Non-specialized method
         std::vector<Node> nodes()const;
     private: // #DIV: Private
     // Private Fields
@@ -51,23 +40,25 @@ namespace docme::core{ // #SCOPE: docme::core
 
     // Json template specialization decorations
     template<> Result<std::string> Json::get<std::string>(const std::string_view p_key)const;
+    template<> Result<std::string> Json::get<std::string>(const std::string_view p_key, const std::string_view p_subKey)const;
     template<> Result<std::vector<std::string>> Json::get<std::vector<std::string>>(const std::string_view p_key)const;
+
+    // #STRUCT: Json::Node, Struct
+    // #BRIEF: Holds json node key
+    struct Json::Node{
+        std::string key;
+        Json value;
+    }; // #END: Json::Node
 
     // #CLASS: Json::Error, Final Class
     // #BRIEF: Json error specialization
-    // #DERIVES, public docme::core::Error, Base project error type
-    class Json::Error final: public docme::Error{
+    // #DERIVES, public core::Error, Base project error type
+    class Json::Error final: public core::Error{
     public: // #DIV: Public
-    // Public Factory Methods
-        Error() = default; // #DEFAULT: Error(), Constructor
-        Error(const Code p_code);
+    // Public Special Methods
         template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
-        ~Error() = default; // #DEFAULT: ~Error(), Destructor
-        Error(const Error&) = default; // #DEFAULT: Error(const Error&), Copy constructor
-        Error(Error&&) = default; // #DEFAULT: Error(Error&&), Move constructor
-    // Public Operators
-        Error& operator=(const Error&) = default; // #DEFAULT: operator=(const Error&), Copy assignment operator
-        Error& operator=(Error&&) = default; // #DEFAULT: operator=(Error&&), Move assignment operator
+    // Public Static Methods
+        static bool isTypeError(const core::Error& p_error);
     // Private Static Fields
         inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
             {DOCME_E100, "Failed to load json file at {}"},

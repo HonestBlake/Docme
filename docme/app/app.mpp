@@ -1,0 +1,11 @@
+// #FILE: app.mpp, Package Module Interface File
+// #BRIEF: Module interface file for app package
+module;
+
+#include "app.hpp" // #INCLUDE: app.hpp, Package wide header
+
+// #MODULE: docme.app, Package Module
+// #BRIEF: Package module for application command orchestration
+export module docme.app;
+
+export import :commands; // #EXPORT: docme.app:commands

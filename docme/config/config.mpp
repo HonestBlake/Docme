@@ -1,0 +1,15 @@
+// #FILE: config.mpp, Package Module Interface File
+// #BRIEF: Module interface file for config package
+module;
+
+#include "config.hpp" // #INCLUDE: config.hpp, Package wide header
+
+// #MODULE: docme.config, Package Module
+// #BRIEF: Package module for configuration data and loading
+export module docme.config;
+
+export import :schema; // #EXPORT: docme.config:schema
+export import :file; // #EXPORT: docme.config:file
+export import :options; // #EXPORT: docme.config:options
+export import :settings; // #EXPORT: docme.config:settings
+export import :utils; // #EXPORT: docme.config:utils

@@ -16,10 +16,12 @@ set(CLI_INCLUDE_DIRS
 )
 set(CLI_SRC_FILES
     "${CLI}/application.cpp"
+    "${CLI}/utils.cpp"
 )
 set(CLI_MOD_FILES
     "${CLI}/cli.mpp"
     "${CLI}/application.mpp"
+    "${CLI}/utils.mpp"
 )
 set(CLI_PCH_FILES
 
@@ -44,13 +46,16 @@ target_include_directories(docme_cli PRIVATE ${DOCME_INCLUDE_DIRS} ${CLI_INCLUDE
 if(NOT DOCME_CLANGD_BUILD)
     target_precompile_headers(docme_cli PRIVATE ${DOCME_PCH_FILES} ${CLI_PCH_FILES})
 endif()
-target_link_libraries(docme_cli PUBLIC 
+target_link_libraries(docme_cli PRIVATE 
     docme_core 
-    docme_engine
+    docme_app
+    docme_config
     SimpleCLI
 )
 set_target_properties(docme_cli PROPERTIES
     OUTPUT_NAME "docme-cli"
     PREFIX ""
-    SUFFIX ".lib"
 )
+if(WIN32)
+    set_target_properties(docme_cli PROPERTIES SUFFIX ".lib")
+endif()

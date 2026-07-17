@@ -1,0 +1,41 @@
+// #FILE: handler.mpp, Component Module Interface File
+// #BRIEF: Module interface file for handler component
+
+module;
+
+#include "cdoc.hpp" // #INCLUDE: cdoc.hpp, Package wide header
+
+// #MODULE: docme.cdoc:handler, Component Module Partition
+// #BRIEF: Module partition for CDoc handler implementation
+export module docme.cdoc:handler;
+
+namespace docme::cdoc{ // #SCOPE: docme::cdoc
+
+    // #CLASS: Handler, Exported Final Class
+    // #BRIEF: Implements CDoc language handler behavior
+    export class Handler final{
+    public: // #DIV: Public
+    // Public Static Methods
+        [[nodiscard]] static bool supportsFileType(const std::string_view p_fileType);
+    private: // #DIV: Private
+    // Private Static Fields
+        static inline const std::unordered_set<std::string_view> SUPPORTED_FILE_TYPES = {
+            ".c",
+            ".h",
+            ".cpp",
+            ".hpp",
+            ".tpp",
+            ".mpp",
+            ".cc",
+            ".hh",
+            ".cxx",
+            ".hxx",
+            ".c++",
+            ".h++",
+            ".ixx",
+            ".ipp",
+            ".cppm",
+        };
+    }; // #END: Handler
+
+} // #END: docme::cdoc

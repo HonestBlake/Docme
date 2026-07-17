@@ -18,23 +18,25 @@ namespace docme::core{ // #SCOPE: docme::core
     // #TEMPLATE: class T_Success = void, Success type default to void
     export template<class T_Success = void> class Success final{
     public: // #DIV: Public
-    // Public Factory Methods
-
+    // Public Special Methods
+        Success() = default;
+        Success(const T_Success& p_success, const std_loc& p_callSite = std_loc::current());
+        Success(T_Success&& p_success, const std_loc& p_callSite = std_loc::current());
     // Public Operators
         const T_Success& operator*()const&;
         T_Success operator*()&&;
     // Public Methods
         bool hasWarnings()const;
-        const Warnings::Buffer& warnings()const;
-        Warnings::Buffer warnings()&&;
-        Warnings::Buffer takeWarnings();
-        void propagateWarnings(const std::source_location& p_callSite = std::source_location::current());
+        const std::vector<Warning>& warnings()const;
+        std::vector<Warning> warnings()&&;
+        std::vector<Warning> takeWarnings();
+        void propagateWarnings(const std_loc& p_callSite = std_loc::current());
         const T_Success& value()const;
-        T_Success takeValue();
+        T_Success takeValue(const std_loc& p_callSite = std_loc::current());
     private: // #DIV: Private
     // Private Fields
         T_Success m_success;
-        Warnings::Buffer m_warnings;
+        std::vector<Warning> m_warnings;
     }; // #END: Success<T_Success>
 
     // #CLASS: Success<void>, Exported Final Template Class Specialization
@@ -42,18 +44,24 @@ namespace docme::core{ // #SCOPE: docme::core
     // #SPECIAL: Success<T_Success>
     template<> class Success<void> final{
     public: // #DIV: Public
-    // Public Factory Methods
-        Success(const std::source_location& p_callSite = std::source_location::current());
-        Success(Warnings::Buffer&& p_warnings);
+    // Public Special Methods
+        Success(const std_loc& p_callSite = std_loc::current());
+        Success(std::vector<Warning>&& p_warnings);
     // Public Methods
         bool hasWarnings()const;
-        const Warnings::Buffer& warnings()const;
-        Warnings::Buffer warnings()&&;
-        Warnings::Buffer takeWarnings();
-        void propagateWarnings(const std::source_location& p_callSite = std::source_location::current());
+        const std::vector<Warning>& warnings()const;
+        std::vector<Warning> warnings()&&;
+        std::vector<Warning> takeWarnings();
+        void propagateWarnings(const std_loc& p_callSite = std_loc::current());
     private: // #DIV: Private
     // Private Fields
-        Warnings::Buffer m_warnings;
+        std::vector<Warning> m_warnings;
     }; // #END: Success<void>
 
 } // #END: docme::core
+
+#define COMPILED_WITH_MODULE
+
+#include "success.tpp" // #INCLUDE: success.tpp, Success template definitions
+
+#undef COMPILED_WITH_MODULE

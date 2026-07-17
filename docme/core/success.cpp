@@ -11,92 +11,6 @@ import :success;
 namespace docme::core{ // #SCOPE: docme::core
 
 // ------------------------------------------------------------------------------
-//                            class Success<T_Success>
-// ------------------------------------------------------------------------------
-
-// #SCOPE: Success<T_Success>
-
-// #DIV: Public
-
-// ---- Public Operators ----
-
-    // #METHOD: operator*()const&, Const Operator
-    // #BRIEF: Dereference operator to get success value.
-    // #RETURN: const T_Success&, Success value
-    template<class T_Success> const T_Success& Success<T_Success>::operator*()const&{
-        return value();
-    } // #END: operator*()
-
-    // #METHOD: operator*()&&, Operator
-    // #BRIEF: Dereference operator to move success value out of object.
-    // #NOTE: Moves internal state.
-    // #RETURN: T_Success, Moved success value
-    template<class T_Success> T_Success Success<T_Success>::operator*()&&{
-        return takeValue();
-    } // #END: operator*()
-
-
-// ---- Public Methods ----
-
-    // #METHOD: hasWarnings(), Const Instance Method
-    // #BRIEF: Returns if holds warnings.
-    // #RETURN: bool, True if holds warnings, false otherwise
-    template<class T_Success> bool Success<T_Success>::hasWarnings()const{
-        return !m_warnings.empty();
-    } // #END: hasWarnings()
-
-    // #METHOD: warnings(), Const Instance Method
-    // #BRIEF: Get underlying warnings buffer.
-    // #RETURN: const Warnings::Buffer&, Warnings buffer
-    template<class T_Success> const Warnings::Buffer& Success<T_Success>::warnings()const{
-        return m_warnings;
-    } // #END: warnings()
-
-    // #METHOD: warnings()&&, Instance Method
-    // #BRIEF: Moves underlying warnings buffer out of object.
-    // #NOTE: Moves internal state.
-    // #RETURN: Warnings::Buffer, Moved warnings buffer
-    template<class T_Success> Warnings::Buffer Success<T_Success>::warnings()&&{
-        return takeWarnings();
-    } // #END: warnings()&&
-
-    // #METHOD: takeWarnings(), Instance Method
-    // #BRIEF: Moves underlying warnings buffer out of object.
-    // #NOTE: Moves internal state.
-    // #RETURN: Warnings::Buffer, Moved warnings buffer
-    template<class T_Success> Warnings::Buffer Success<T_Success>::takeWarnings(){
-        return std::move(m_warnings);
-    } // #END: takeWarnings()
-
-    // #METHOD: propagateWarnings(), Instance Method
-    // #BRIEF: Moves warnings out of object to global buffer.
-    // #NOTE: Moves internal state.
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location which should be left to default
-    template<class T_Success> void Success<T_Success>::propagateWarnings(const std::source_location& p_callSite){
-        for(Warn& warning: m_warnings){
-            Warnings::add(std::move(warning), p_callSite);
-        }
-    } // #END: propagateWarnings()
-
-    // #METHOD: value(), Const Instance Method
-    // #BRIEF: Gets success value.
-    // #RETURN: const T_Success&, Success value
-    template<class T_Success> const T_Success& Success<T_Success>::value()const{
-        return m_success;
-    } // #END: value()
-
-    // #METHOD: takeValue(), Instance Method
-    // #BRIEF: Moves success value out of object.
-    // #NOTE: Moves internal state.
-    // #RETURN: T_Success, Moved success value
-    template<class T_Success> T_Success Success<T_Success>::takeValue(){
-        return std::move(m_success);
-    } // #END: takeValue()
-
-// #END: Success<T_Success>
-
-
-// ------------------------------------------------------------------------------
 //                              class Success<void>
 // ------------------------------------------------------------------------------
 
@@ -104,21 +18,21 @@ namespace docme::core{ // #SCOPE: docme::core
 
 // #DIV: Public
 
-// ---- Public Factory Methods ----
+// ---- Public Special Methods ----
 
-    // #METHOD: Success(const std::source_location&), Constructor
+    // #METHOD: Success(const std_loc&), Constructor
     // #BRIEF: Constructs a success object from a call site location.
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location which should be left to default
-    Success<void>::Success(const std::source_location& p_callSite): m_warnings(Warnings::pull(Warnings::hash(p_callSite))){
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location which should be left to default
+    Success<void>::Success(const std_loc& p_callSite): m_warnings(Warning::pull(Warning::hash(p_callSite))){
 
-    } // #END: Success(const std::source_location&)
+    } // #END: Success(const std_loc&)
 
-    // #METHOD: Success(Warnings::Buffer&&), Constructor
+    // #METHOD: Success(std::vector<Warning>&&), Constructor
     // #BRIEF: Takes warnings and constructs a success object.
-    // #PARAM: Warnings::Buffer&& p_warnings, Warnings to move
-    Success<void>::Success(Warnings::Buffer&& p_warnings): m_warnings(std::move(p_warnings)){
+    // #PARAM: std::vector<Warning>&& p_warnings, Warning buffer to move
+    Success<void>::Success(std::vector<Warning>&& p_warnings): m_warnings(std::move(p_warnings)){
 
-    } // #END: Success(Warnings::Buffer&&)
+    } // #END: Success(std::vector<Warning>&&)
 
 // ---- Public Methods ----
 
@@ -131,35 +45,36 @@ namespace docme::core{ // #SCOPE: docme::core
 
     // #METHOD: warnings(), Const Instance Method
     // #BRIEF: Get underlying warnings buffer.
-    // #RETURN: const Warnings::Buffer&, Warnings buffer
-    const Warnings::Buffer& Success<void>::warnings()const{
+    // #RETURN: const std::vector<Warning>&, Warning buffer
+    const std::vector<Warning>& Success<void>::warnings()const{
         return m_warnings;
     } // #END: warnings()
 
     // #METHOD: warnings()&&, Instance Method
     // #BRIEF: Moves underlying warnings buffer out of object.
     // #NOTE: Moves internal state.
-    // #RETURN: Warnings::Buffer, Moved warnings buffer
-    Warnings::Buffer Success<void>::warnings()&&{
+    // #RETURN: std::vector<Warning>, Moved warnings buffer
+    std::vector<Warning> Success<void>::warnings()&&{
         return takeWarnings();
     } // #END: warnings()&&
 
     // #METHOD: takeWarnings(), Instance Method
     // #BRIEF: Moves underlying warnings buffer out of object.
     // #NOTE: Moves internal state.
-    // #RETURN: Warnings::Buffer, Moved warnings buffer
-    Warnings::Buffer Success<void>::takeWarnings(){
+    // #RETURN: std::vector<Warning>, Moved warnings buffer
+    std::vector<Warning> Success<void>::takeWarnings(){
         return std::move(m_warnings);
     } // #END: takeWarnings()
 
     // #METHOD: propagateWarnings(), Instance Method
     // #BRIEF: Moves warnings out of object to global buffer.
     // #NOTE: Moves internal state.
-    // #PARAM: const std::source_location& p_callSite = std::source_location::current(), Call site location which should be left to default
-    void Success<void>::propagateWarnings(const std::source_location& p_callSite){
-        for(Warn& warning: m_warnings){
-            Warnings::add(std::move(warning), p_callSite);
+    // #PARAM: const std_loc& p_callSite = std_loc::current(), Call site location which should be left to default
+    void Success<void>::propagateWarnings(const std_loc& p_callSite){
+        for(Warning& warning: m_warnings){
+            Warning::propagate(std::move(warning), p_callSite);
         }
+        m_warnings.clear();
     } // #END: propagateWarnings()
 
 // #END: Success<void>

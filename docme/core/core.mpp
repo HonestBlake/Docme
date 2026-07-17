@@ -10,8 +10,11 @@ export module docme.core;
 
 export import :errors; // #EXPORT: docme.core:errors, Import export errors component
 export import :failure; // #EXPORT: docme.core:failure, Import export failure component
+export import :library; // #EXPORT: docme.core:library, Import export library component
 export import :json; // #EXPORT: docme.core:json, Import export json component
 export import :logging; // #EXPORT: docme.core:logging, Import export logging component
 export import :result; // #EXPORT: docme.core:result, Import export result component
 export import :success; // #EXPORT: docme.core:success, Import export success component
+export import :timer; // #EXPORT: docme.core:timer, Import export timer component
+export import :utils; // #EXPORT: docme.core:utils, Import export utils component
 export import :warnings; // #EXPORT: docme.core:warnings, Import export warnings component

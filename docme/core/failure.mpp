@@ -18,24 +18,24 @@ namespace docme::core{ // #SCOPE: docme::core
     // #BRIEF: Represents a failure state with an error and warnings.
     export class Failure final{
     public: // #DIV: Public
-    // Public Factory Methods
-        Failure(Error&& p_error, Warnings::Buffer&& p_warnings);
+    // Public Special Methods
+        Failure(Error&& p_error, std::vector<Warning>&& p_warnings);
     // Public Operators
         const Error& operator*()const&;
         Error operator*()&&;
     // Public Methods
         bool hasWarnings()const;
         const Error& error()const;
-        const Warnings::Buffer& warnings()const;
-        Warnings::Buffer warnings()&&;
-        Warnings::Buffer takeWarnings();
-        void propagateWarnings(const std::source_location& p_callSite = std::source_location::current());
+        const std::vector<Warning>& warnings()const;
+        std::vector<Warning> warnings()&&;
+        std::vector<Warning> takeWarnings();
+        void propagateWarnings(const std_loc& p_callSite = std_loc::current());
         const Error& value()const;
         Error takeValue();
     private: // #DIV: Private
     // Private Fields
         Error m_error;
-        Warnings::Buffer m_warnings;
+        std::vector<Warning> m_warnings;
     }; // #END: Failure
 
 } // #END: docme::core

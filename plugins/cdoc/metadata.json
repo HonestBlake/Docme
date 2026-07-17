@@ -1,0 +1,9 @@
+{
+    "name": "CDoc",
+    "version": "1.0.0",
+    "description": "Built-in language handler for C/C++ language.",
+    "author": "Docme",
+    "binary": {
+        "windows": "../../bin/cdoc.dll"
+    }
+}

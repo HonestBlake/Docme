@@ -8,59 +8,23 @@ module;
 module docme.cli; // #IMPLEMENTS: docme.cli:application
 import :application; 
 
-import docme.core; // #IMPORT: docme.core, Internal core library
-import docme.engine; // #IMPORT: docme.engine, 
-
-namespace docme::cli{ // #SCOPE: docme::engine
-
-    // #FUNC: optionalStringConverter(const std::string&), Function
-    // #BRIEF: String to optional string converter for simple cli
-    // #PARAM: const std::string& p_string, String to convert
-    // #RETURN: simpleCli::Result<std::optional<std::string>>, Converted type result type
-    simpleCli::Result<std::optional<std::string>> optionalStringConverter(const std::string& p_string){
-        return std::optional<std::string>(p_string);
-    } // #END: optionalStringConverter(const std::string&)
-
+namespace docme::cli{ // #SCOPE: docme::cli
 
 // ------------------------------------------------------------------------------
 //                               class Application
 // ------------------------------------------------------------------------------
-
+   
 // #SCOPE: Application
 
 // #DIV: Public
 
-// ---- Public Factory Methods ----
+// ---- Public Special Methods ----
 
     // #METHOD: Application(int, char**), Constructor
     // #BRIEF: Initialize application with command line args
     Application::Application(int p_argc, char** p_argv): m_args(p_argv, p_argv + p_argc){
-        if(simpleCli::Result<> result = m_parser.addPositional(m_positionals); !result){
-            logger.error(result.error().message());
-        }
-        if(simpleCli::Result<> result = m_parser.addOption<std::optional<std::string>>(CONFIG_TAGS, m_config, &optionalStringConverter); !result){
-            logger.error(result.error().message());
-        }
-        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(INIT_COMMAND, std::bind(&Application::init, this)); !result){
-            logger.error(result.error().message());
-        }
-        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(BUILD_COMMAND, std::bind(&Application::build, this)); !result){
-            logger.error(result.error().message());
-        }
-        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(RENDER_COMMAND, [](){logger.debug("render called");}); !result){
-            logger.error(result.error().message());
-        }
-        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(GENERATE_COMMAND, [](){logger.debug("generate called");}); !result){
-            logger.error(result.error().message());
-        }
-        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(CHECK_COMMAND, [](){logger.debug("check called");}); !result){
-            logger.error(result.error().message());
-        }
-        if(simpleCli::Result<> result = m_parser.addExclusiveFlag(HELP_FLAGS, [](){logger.debug("help called");}); !result){
-            logger.error(result.error().message());
-        }
-        if(simpleCli::Result<> result = m_parser.addExclusiveFlag(VERSION_FLAGS, [](){logger.debug("version called");}); !result){
-            logger.error(result.error().message());
+        if(Result<> result = setupCliParser(); !result){
+            util::handleError(result.error());
         }
     } // #END: Application(int, char**)
 
@@ -70,11 +34,17 @@ namespace docme::cli{ // #SCOPE: docme::engine
     // #METHOD: run(), Instance Method
     // #BRIEF: Begin CLI application.
     void Application::run(){
-        if constexpr(DEBUGGING){
-            logger.debug("Routing to Docme CLI");
-        }
+        // Parse command line arguments
         if(simpleCli::Result<> result = m_parser.parse(m_args); !result){
-            logger.error(result.error().message());
+            util::handleError(Error(Error::DOCME_INTERNAL, result.error().message()));
+        }
+
+        // Handle help and version flags
+        if(m_help){
+            help();
+        }
+        if(m_version){
+            version();
         }
     } // #END: run()
 
@@ -83,57 +53,155 @@ namespace docme::cli{ // #SCOPE: docme::engine
 
 // ---- Private Methods ----
 
+    // #METHOD: setupCliParser(), Instance Method
+    // #BRIEF: Setup CLI parser with commands and options
+    // #RETURN: Result<>, Optional error state
+    Result<> Application::setupCliParser(){
+        // Positionals
+        if(simpleCli::Result<> result = m_parser.addPositional(m_positionals); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+        //continuous
+        // Options
+        if(simpleCli::Result<> result = m_parser.addOption<std::optional<std_fs::path>>(tags::CONFIG, m_config, &util::optionalPathConverter); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+        if(simpleCli::Result<> result = m_parser.addOption<std::optional<std::string>>(tags::PROJECT_NAME, m_options.projectName, &util::optionalStringConverter); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+        if(simpleCli::Result<> result = m_parser.addContinuousOption<std_fs::path>(tags::SOURCE, m_options.sources, &util::pathConverter); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+        if(simpleCli::Result<> result = m_parser.addContinuousOption<std_fs::path>(tags::IGNORE, m_options.ignores, &util::pathConverter); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+        if(simpleCli::Result<> result = m_parser.addOption<std::optional<std_fs::path>>(tags::OUTPUT, m_options.output, &util::optionalPathConverter); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+        if(simpleCli::Result<> result = m_parser.addContinuousOption<std::string>(tags::LANGUAGE_HANDLER, m_options.languageHandlers); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+        if(simpleCli::Result<> result = m_parser.addContinuousOption<std::string>(tags::RENDERER, m_options.renderers); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+
+        // Commands
+        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(commands::INIT, std::bind(&Application::init, this)); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(commands::BUILD, std::bind(&Application::build, this)); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(commands::RENDER, [](){logger.debug("render called");}); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(commands::GENERATE, [](){logger.debug("generate called");}); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(commands::CHECK, [](){logger.debug("check called");}); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+
+        // Flags
+        if(simpleCli::Result<> result = m_parser.addExclusiveFlag(flags::HELP, m_help); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+        if(simpleCli::Result<> result = m_parser.addExclusiveFlag(flags::VERSION, m_version); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+
+        return {};
+    } // #END: setupCliParser()
+
+    // #METHOD: help(), Const Instance Method
+    // #BRIEF: Print help message to console
+    void Application::help()const{
+        output.log(
+            "Docme v{} - automatic software documentation\n\n"
+            "Usage:\n"
+            "  docme <command> [options]\n"
+            "  docme --help\n"
+            "  docme --version\n\n"
+            "Commands:\n"
+            "  init       Create a template Docme configuration file\n"
+            "  build      Build documentation using the resolved configuration\n"
+            "  generate   Generate documentation from configured source files\n"
+            "  render     Render generated documentation\n"
+            "  check      Check the project documentation configuration\n\n"
+            "Options:\n"
+            "  -c, --config <path>       Use the specified configuration file\n"
+            "  -p, --project <name>      Override the project name\n"
+            "  -s, --source <path...>    Override source files and directories\n"
+            "  -i, --ignore <path...>    Override ignored files and directories\n"
+            "  -o, --output <path>       Override the documentation output directory\n"
+            "  -l, --language <name...>  Override language handlers\n"
+            "  -r, --render <name...>    Override renderers\n\n"
+            "Flags:\n"
+            "  -h, --help                 Show this help message\n"
+            "  -v, --version              Show version and build information\n",
+            VERSION
+        );
+    } // #END: help()
+
+    // #METHOD: version(), Const Instance Method
+    // #BRIEF: Print version message to console
+    void Application::version()const{
+        output.log(
+            "Docme version v{}\n"
+            "{} built with {} C++{}\n\n"
+            "Docme is an open source documentation generator\n"
+            "Licensed under the MIT License\n"
+            "Copyright (c) 2026 Blake Worthington\n",
+            VERSION, BUILD_MODE, COMPILER, CXX_STANDARD
+        );
+    } // #END: version()
+
     // #METHOD: init(), Instance Method
-    // #BRIEF: Call and handles engine init command.
+    // #BRIEF: Call and handles app init command.
     void Application::init(){
-        std::optional<std_fs::path> configFile;
+        Timer timer = Timer::start("Init"); // Start init timer
 
-        Result<> result = engine::Command::init(m_config);
- 
-        // Log warnings
+        // Get config path
+        std::optional<std_fs::path> config;
+        if(Result<std::optional<std_fs::path>> result = getConfigOrPositional()){
+            config = result.takeValue();
+        }else{ // Error getting config
+            util::handleError(result.error());
+        }
+
+        Result<> result = app::Command::init(config);
         if(result.hasWarnings()){
-            for(const core::Warn& warning: result.warnings()){
-                logger.warn(warning.message());
-            }
+            util::handleWarnings(result.warnings());
+        }
+        if(!result){
+            util::handleError(result.error());
         }
 
-        // Log error
-        if(!result){
-            logger.error(result.error().message());
-        }
+        util::printTimer("{} ran for {}", timer.stop()); // Stop and print init timer
     } // #END: init()
 
     // #METHOD: build(), Instance Method
-    // #BRIEF: Call and handles engine build command.
+    // #BRIEF: Call and handles app build command.
     void Application::build(){
-        Result<> result = engine::Command::build(m_config);
+        if constexpr(DEBUGGING){ // Debug log config options
+            config::util::printOptions("Loaded Config Options From CLI", m_options);
+        }
 
-        // Log warnings
-        if(result.hasWarnings()){
-            for(const core::Warn& warning: result.warnings()){
-                logger.warn(warning.message());
+        Timer timer = Timer::start("Build"); // Start build timer
+
+        // Get config path
+        std::optional<std_fs::path> config;
+        if(Result<std::optional<std_fs::path>> result = getConfigOrPositional()){
+            if(result.hasWarnings()){
+                util::handleWarnings(result.warnings());
             }
+            config = result.takeValue();
+        }else{ // Error getting config
+            util::handleError(result.error());
         }
 
-        // Log error
-        if(!result){
-            logger.error(result.error().message());
+        Result<> result = app::Command::build(config, m_options);
+        if(result.hasWarnings()){
+            util::handleWarnings(result.warnings());
         }
+        if(!result){
+            util::handleError(result.error());
+        }
+
+        util::printTimer("{} ran for {}", timer.stop()); // Stop and print build timer
     } // #END: build()
 
     // #METHOD: getConfigOrPositional(), Const Instance Method
     // #BRIEF: Get config file path from config option or positional argument.
     // #RETURN: Result<std::optional<std_fs::path>>, Optional config file path result type
-    Result<std::optional<std::string>> Application::getConfigOrPositional()const{
-        if(m_config){
-            if(!m_positionals.empty()) return Error(Error::DOCME_E400); // Positional arguments provided but aren't being used
+    Result<std::optional<std_fs::path>> Application::getConfigOrPositional()const{
+        if(m_config){ // Config option provided
+            if(!m_positionals.empty()) { // Positional arguments provided but aren't being used
+                Warning::propagate(Warning(Warning::DOCME_W500)); 
+            }
             return m_config;
-        }else{
-            if(m_positionals.size() > 1) return Error(Error::DOCME_E401); // Too many positional arguments provided
-            if(!m_positionals.empty()) return std::optional<std::string>{m_positionals[0]};
-            return std::optional<std::string>{std::nullopt};
+        }else{ 
+            if(m_positionals.size() > 1){ // Too many positional arguments provided
+                Warning::propagate(Warning(Warning::DOCME_W501));
+            }
+            if(!m_positionals.empty()){
+                std_fs::path config = m_positionals[0];
+                core::util::normalizePath(config, std_fs::current_path());
+                return {config};
+            }
         }
-    }
+        return {std::nullopt}; // No config provided
+    } // #END: getConfigOrPositional()
 
 
 // ----------------------------------------------------------------------------
@@ -144,76 +212,54 @@ namespace docme::cli{ // #SCOPE: docme::engine
 
 // #DIV: Public
 
-// ---- Public Factory Methods ----
-
-    // #METHOD: Error(const Code), Constructor
-    // #BRIEF: Constructs Error from an error code
-    // #PARAM: const Code p_code, Error code for error
-    Application::Error::Error(const Code p_code): docme::core::Error(){
-        code = p_code;
-        if(auto it = ERROR_MESSAGES.find(code); it != ERROR_MESSAGES.end()){
-            body = it->second;
-        }else{
-            body = UNKNOWN_ERROR_MESSAGE;
-        }
-    } // #END: Error(const Code)
+// ---- Public Special Methods ----
 
     // #METHOD: Error<T_ContextArgs>(const Code, const std::string&), Constructor
     // #BRIEF: Constructs Error from an error code and context args
     // #TEMPLATE: class... T_ContextArgs, context arguments parameter pack
     // #PARAM: const Code p_code, Error code for error
     // #PARAM: const T_ContextArgs&... p_contextArgs, Context arguments parameter pack
-    template<class... T_ContextArgs> Application::Error::Error(const Code p_code, const T_ContextArgs&... p_contextArgs): docme::core::Error(){
-        code = p_code;
-        if(auto it = ERROR_MESSAGES.find(code); it != ERROR_MESSAGES.end()){
-            body = std::vformat(it->second, std::make_format_args(p_contextArgs...));
-        }else{
-            body = UNKNOWN_ERROR_MESSAGE;
-        }
+    template<class... T_ContextArgs> Application::Error::Error(const Code p_code, const T_ContextArgs&... p_contextArgs): core::Error(ERROR_MESSAGES, p_code, std::make_format_args(p_contextArgs...)){
+
     } // #END: Error(const Code)
+
+    // Explicit template instantiations for Application errors.
+    template Application::Error::Error(const core::Error::Code);
+    template Application::Error::Error(const core::Error::Code, const std::string&);
+    template Application::Error::Error(const core::Error::Code, const std::string&, const std::string&);
+    template Application::Error::Error(const core::Error::Code, const std::string&, const std::string&, const std::string&);
 
 
 // #END: Error
 
 // ----------------------------------------------------------------------------
-//                               class Application::Warn
+//                               class Application::Warning
 // ----------------------------------------------------------------------------
 
-// #SCOPE: Warn
+// #SCOPE: Warning
 
 // #DIV: Public
 
-// ---- Public Factory Methods ----
+// ---- Public Special Methods ----
 
-    // #METHOD: Warn(const Code), Constructor
-    // #BRIEF: Constructs Warn from a warn code
-    // #PARAM: const Code p_code, Warn code for warn
-    Application::Warn::Warn(const Code p_code): docme::core::Warn(){
-        code = p_code;
-        if(auto it = WARN_MESSAGES.find(code); it != WARN_MESSAGES.end()){
-            body = it->second;
-        }else{
-            body = UNKNOWN_WARNING_MESSAGE;
-        }
-    } // #END: Warn(const Code)
-
-    // #METHOD: Warn<T_ContextArgs>(const Code, const std::string&), Constructor
-    // #BRIEF: Constructs Warn from a warn code and context args
+    // #METHOD: Warning<T_ContextArgs>(const Code, const std::string&), Constructor
+    // #BRIEF: Constructs Warning from a warning code and context args
     // #TEMPLATE: class... T_ContextArgs, context arguments parameter pack
-    // #PARAM: const Code p_code, Warn code for warn
+    // #PARAM: const Code p_code, Warning code for warning
     // #PARAM: const T_ContextArgs&... p_contextArgs, Context arguments parameter pack
-    template<class... T_ContextArgs> Application::Warn::Warn(const Code p_code, const T_ContextArgs&... p_contextArgs): docme::core::Warn(){
-        code = p_code;
-        if(auto it = WARN_MESSAGES.find(code); it != WARN_MESSAGES.end()){
-            body = std::vformat(it->second, std::make_format_args(p_contextArgs...));
-        }else{
-            body = UNKNOWN_WARNING_MESSAGE;
-        }
-    } // #END: Warn(const Code)
+    template<class... T_ContextArgs> Application::Warning::Warning(const Code p_code, const T_ContextArgs&... p_contextArgs): core::Warning(WARNING_MESSAGES, p_code, std::make_format_args(p_contextArgs...)){
+
+    } // #END: Warning(const Code)
+
+    // Explicit template instantiations for Application warnings.
+    template Application::Warning::Warning(const core::Warning::Code);
+    template Application::Warning::Warning(const core::Warning::Code, const std::string&);
+    template Application::Warning::Warning(const core::Warning::Code, const std::string&, const std::string&);
+    template Application::Warning::Warning(const core::Warning::Code, const std::string&, const std::string&, const std::string&);
 
 
-// #END: Warn
+// #END: Warning
 
 // #END: Application
 
-} // #END: cli
+} // #END: docme::cli

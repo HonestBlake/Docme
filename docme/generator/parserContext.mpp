@@ -1,0 +1,58 @@
+// #FILE: parserContext.mpp, Component Module Interface File
+// #BRIEF: Module interface file for parser context component
+
+module;
+
+#include "generator.hpp" // #INCLUDE: generator.hpp, Package wide header
+
+// #MODULE: docme.generator:parserContext, Component Module Partition
+// #BRIEF: Module partition for parser context component in docme generator module
+export module docme.generator:parserContext;
+
+import :languageHandler; // #IMPORT: docme.generator:languageHandler, Language handler type
+
+import docme.config; // #IMPORT: docme.config, Config module
+import docme.core; // #IMPORT: docme.core, Core module
+
+namespace docme::generator{ // #SCOPE: docme::generator
+
+    // #CLASS: ParserContext, Exported Class
+    // #BRIEF: Context needed for parser operations
+    export class ParserContext{
+    public: // #DIV: Public
+    // Public Types
+        struct LanguageGroup;
+        class Warning;
+    // Public Static Methods
+        [[nodiscard]] static Result<ParserContext> build(const config::Settings& p_config);
+    // Public Fields
+        std::vector<LanguageGroup> languages; // #FIELD: std::vector<LanguageGroup> languages, Language group for parser to process
+    private: // #DIV: Private
+    // Private static Methods
+        static Result<std::unordered_set<std_fs::path>> discoverFiles(const LanguageHandler& p_handler, const std::vector<std_fs::path>& p_sources, const std::vector<std_fs::path>& p_ignores);
+        static Success<std::unordered_set<std_fs::path>> discoverIgnores(const LanguageHandler& p_handler, const std::vector<std_fs::path>& p_ignores);
+        static bool isValidFileEntry(const LanguageHandler& p_handler, const std_fs::directory_entry& p_file);
+    }; // #END: ParserContext
+
+    // #STRUCT: ParserContext::LanguageGroup, Data Struct
+    // #BRIEF: Group of language specific files and its handler
+    struct ParserContext::LanguageGroup{
+        LanguageHandler handler; // #FIELD: LanguageHandler handler, Handler for the language group
+        std::unordered_set<std_fs::path> files; // #FIELD: std::vector<std_fs::path> files, Files of the language group
+    }; // #END: ParserContext::LanguageGroup
+
+    // #CLASS: ParserContext::Warning, Final Class
+    // #BRIEF: Warning type specialization for parser context component
+    // #DERIVES: core::Warning
+    class ParserContext::Warning final: public core::Warning{
+    public: // #DIV: Public
+    // Public Special Methods
+        template<class... T_ContextArgs> Warning(const Code p_code, const T_ContextArgs&... p_contextArgs);
+    // Private Static Fields
+        inline const static std::unordered_map<Code, std::string> WARNING_MESSAGES = {
+            {DOCME_W400, "Encountered file system error while trying to access \"{}\""},
+            {DOCME_W401, "Ignore file or path does not exist \"{}\""},
+        };
+    }; // #END: ParserContext::Warning
+
+} // #END: docme::generator

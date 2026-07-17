@@ -4,8 +4,10 @@
 set(CLI "${DOCME}/cli")
 set(GUI "${DOCME}/gui")
 set(CORE "${DOCME}/core")
-set(ENGINE "${DOCME}/engine")
+set(APP "${DOCME}/app")
+set(CONFIG "${DOCME}/config")
 set(GENERATOR "${DOCME}/generator")
+set(PLUGIN "${DOCME}/plugin")
 
 # Project files
 set(DOCME_INCLUDE_DIRS
@@ -29,11 +31,13 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 endif()
 
 # Add package subdirectories
+add_subdirectory(${CORE})
+add_subdirectory(${CONFIG})
+add_subdirectory(${PLUGIN})
+add_subdirectory(${GENERATOR})
+add_subdirectory(${APP})
 add_subdirectory(${CLI})
 # add_subdirectory(${GUI})
-add_subdirectory(${CORE})
-add_subdirectory(${ENGINE})
-add_subdirectory(${GENERATOR})
 
 add_executable(docme)
 target_sources(docme PRIVATE ${DOCME_SRC_FILES}
@@ -47,11 +51,13 @@ target_include_directories(docme PRIVATE ${DOCME_INCLUDE_DIRS})
 if(NOT DOCME_CLANGD_BUILD)
     target_precompile_headers(docme PRIVATE ${DOCME_PCH_FILES})
 endif()
-target_link_libraries(docme PRIVATE 
-    docme_cli 
+target_link_libraries(docme PRIVATE
+    docme_core
+    docme_config
+    docme_app
+    docme_cli
 )
 set_target_properties(docme PROPERTIES
     OUTPUT_NAME "docme"
     PREFIX ""
-    SUFFIX ".exe"
 )

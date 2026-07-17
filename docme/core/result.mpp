@@ -4,7 +4,6 @@
 module;
 
 #include "core.hpp" // #INCLUDE: core.hpp, Package wide header
-#include <source_location>
 
 // #MODULE: docme.core:json, Component Module Partition
 // #BRIEF: Module partition for result tools.
@@ -23,19 +22,14 @@ namespace docme::core{ // #SCOPE: docme::core
     // #TEMPLATE: class T_Success = void, Success type default to void
     export template<class T_Success = void> class Result final{
     public: // #DIV: Public
-    // Public Factory Methods
-        Result(const std::source_location& p_callSite = std::source_location::current());
-        Result(const T_Success& p_success, const std::source_location& p_callSite = std::source_location::current());
-        Result(T_Success&& p_success, const std::source_location& p_callSite = std::source_location::current());
-        Result(const Error& p_error, const std::source_location& p_callSite = std::source_location::current());
-        Result(Error&& p_error, const std::source_location& p_callSite = std::source_location::current());
-        Result(Failure&& p_failure, const std::source_location& p_callSite = std::source_location::current());
-        Result(const Result&) = default; // #DEFAULT: Result(const Result&), Copy constructor
-        Result(Result&&) = default; // #DEFAULT: Result(Result&&), Move constructor
-        ~Result() = default; // #DEFAULT: ~Result(), Destructor
+    // Public Special Methods
+        Result(const std_loc& p_callSite = std_loc::current());
+        Result(const T_Success& p_success, const std_loc& p_callSite = std_loc::current());
+        Result(T_Success&& p_success, const std_loc& p_callSite = std_loc::current());
+        Result(const Error& p_error, const std_loc& p_callSite = std_loc::current());
+        Result(Error&& p_error, const std_loc& p_callSite = std_loc::current());
+        Result(Failure&& p_failure, const std_loc& p_callSite = std_loc::current());
     // Public Operators
-        Result& operator=(const Result&) = default; // #DEFAULT: operator=(const Result&), Copy assignment
-        Result& operator=(Result&&) = default; // #DEFAULT: operator=(Result&&), Move assignment
         explicit operator bool()const;
         const T_Success& operator*()const&;
         T_Success operator*()&&;
@@ -43,17 +37,17 @@ namespace docme::core{ // #SCOPE: docme::core
         bool isError()const;
         bool hasWarnings()const;
         const Error& error()const;
-        const Warnings::Buffer& warnings()const;
-        Warnings::Buffer warnings()&&;
-        Warnings::Buffer takeWarnings();
+        const std::vector<Warning>& warnings()const;
+        std::vector<Warning> warnings()&&;
+        std::vector<Warning> takeWarnings();
         Failure failure();
         Success<> success();
-        void propagateWarnings(const std::source_location& p_callSite = std::source_location::current());
+        Result<T_Success>& propagateWarnings(const std_loc& p_callSite = std_loc::current());
         const T_Success& value()const;
-        T_Success takeValue();
+        T_Success takeValue(const std_loc& p_callSite = std_loc::current());
     private: // #DIV: Private
     // Private Fields
-        Warnings::Buffer m_warnings; // #FIELD: Warnings::Buffer m_warnings, Attached warnings
+        std::vector<Warning> m_warnings; // #FIELD: std::vector<Warning> m_warnings, Attached warnings
         std::variant<T_Success, Error> m_result; // #FIELD: std::variant<T_Success, Error>, Holds success state or error state
     }; // #END: Result<T_Success>
 
@@ -62,31 +56,26 @@ namespace docme::core{ // #SCOPE: docme::core
     // #SPECIAL: Result<T_Success>
     template<> class Result<void> final{
     public: // #DIV: Public
-    // Public Factory Methods
-        Result(const std::source_location& p_callSite = std::source_location::current());
-        Result(const Error& p_error, const std::source_location& p_callSite = std::source_location::current());
-        Result(Error&& p_error, const std::source_location& p_callSite = std::source_location::current());
-        Result(Failure&& p_failure, const std::source_location& p_callSite = std::source_location::current());
-        Result(const Result&) = default; // #DEFAULT: Result(const Result&), Copy constructor
-        Result(Result&&) = default; // #DEFAULT: Result(Result&&), Move constructor
-        ~Result() = default; // #DEFAULT: ~Result(), Destructor
+    // Public Special Methods
+        Result(const std_loc& p_callSite = std_loc::current());
+        Result(const Error& p_error, const std_loc& p_callSite = std_loc::current());
+        Result(Error&& p_error, const std_loc& p_callSite = std_loc::current());
+        Result(Failure&& p_failure, const std_loc& p_callSite = std_loc::current());
     // Public Operators
-        Result& operator=(const Result&) = default; // #DEFAULT: operator=(const Result&), Copy assignment operator
-        Result& operator=(Result&&) = default; // #DEFAULT: operator=(Result&&), Move assignment
         explicit operator bool()const;
     // Public Methods
         bool isError()const;
         bool hasWarnings()const;
         const Error& error()const;
-        const Warnings::Buffer& warnings()const;
-        Warnings::Buffer warnings()&&;
-        Warnings::Buffer takeWarnings();
+        const std::vector<Warning>& warnings()const;
+        std::vector<Warning> warnings()&&;
+        std::vector<Warning> takeWarnings();
         Failure failure();
         Success<> success();
-        void propagateWarnings(const std::source_location& p_callSite = std::source_location::current());
+        Result<void>& propagateWarnings(const std_loc& p_callSite = std_loc::current());
     private: // #DIV: Private
     // Private Fields
-        Warnings::Buffer m_warnings; // #FIELD: Warnings::Buffer m_warnings, Attached warnings
+        std::vector<Warning> m_warnings; // #FIELD: std::vector<Warning> m_warnings, Attached warnings
         std::optional<Error> m_error; // #FIELD: std::optional<Error> m_error, Holds error state or is empty
     }; // #END: Result<void>
 

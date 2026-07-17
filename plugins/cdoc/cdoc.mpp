@@ -1,0 +1,12 @@
+// #FILE: cdoc.mpp, Package Module Interface File
+// #BRIEF: Module interface file for CDoc plugin
+
+module;
+
+#include "cdoc.hpp" // #INCLUDE: cdoc.hpp, Package wide header
+
+// #MODULE: docme.cdoc, Plugin Module
+// #BRIEF: Package module for CDoc language handler plugin
+export module docme.cdoc;
+
+export import :handler; // #EXPORT: docme.cdoc:handler, Handler module partition

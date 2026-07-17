@@ -1,0 +1,32 @@
+// #FILE: configSchema.mpp, Component Module Interface File
+// #BRIEF: Module interface file for configSchema component
+
+module;
+
+#include "config.hpp" // #INCLUDE: engine.hpp, Package wide header
+
+// #MODULE: docme.config:schema, Component Module Partition
+// #BRIEF: Module partition for configSchema component in docme engine module
+export module docme.config:schema;
+
+namespace docme::config{ // #SCOPE: docme::config
+
+    export template<class Type> using Required = Type; // #ALIAS: Required<Type> = Type, Schema type for required fields
+    export template<class Type> using Optional = std::optional<Type>; // #ALIAS: Optional = std::optional<Type>, Schema type for optional fields
+    
+    // #STRUCT: Schema<T_Field<Type>>, Exported Template Struct
+    // #BRIEF: Base schema for config and options supported for doc generation
+    // #TEMPLATE: template<class> class T_Field, Field type, use either Required or Optional
+    // #DETAIL: Base schema defining all supported Docme config fields. The T_Field template wrapper controls the storage type of each field, 
+    //          allowing the schema to be instantiated with either concrete (Required) or optional (Optional) field types. This enables a 
+    //          single schema definition to be shared by both resolved config and partial settings sources.
+    export template<template<class> class T_Field> struct Schema{
+        T_Field<std::string> projectName;                       // #FIELD: T_Field<std::string> projectName, Name of project
+        std::vector<std_fs::path> sources;              // #FIELD: T_Field<std::vector<std::string>> sources, List of source directories
+        std::vector<std_fs::path> ignores;              // #FIELD: T_Field<std::vector<std::string>> ignores, List of directories to ignore
+        T_Field<std_fs::path> output;                  // #FIELD: T_Field<std_fs::path> output, Output directory for generated documentation
+        std::vector<std::string> languageHandlers;     // #FIELD: T_Field<std::vector<std::string>> languageHandlers, List of language handler modules
+        std::vector<std::string> renderers;            // #FIELD: T_Field<std::vector<std::string>> renderers, List of renderer modules
+    }; // #END: Schema<T_Field<Type>>
+
+} // #END: docme::config

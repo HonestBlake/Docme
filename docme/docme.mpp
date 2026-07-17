@@ -10,5 +10,6 @@ module;
 export module docme;
 
 export import docme.core;
+export import docme.config;
+export import docme.app;
 export import docme.cli;
-export import docme.engine;

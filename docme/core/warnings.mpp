@@ -4,89 +4,78 @@
 module;
 
 #include "core.hpp" // #INCLUDE: core.hpp, Package wide header
-#include <source_location>
 
 // #MODULE: docme.core:warnings, Component Module Partition
-// #BRIEF: Module partition for warn types
+// #BRIEF: Module partition for warning types
 export module docme.core:warnings;
 
 namespace docme::core{ // #SCOPE: docme::core
 
-    // #CLASS: 
-    export class Warn{
+    // #CLASS: Warning, Exported Class
+    export class Warning{
     public: // #DIV: Public
     // Public Types
         enum Code: std::uint16_t;
-    // Public Factory Methods
-        Warn(const std::string& p_codeFormat = DEFALT_CODE_FORMAT, const std::string& p_messageFormat = DEFAULT_MESSAGE_FORMAT);
-        virtual ~Warn() = default; // #DEFAULT: ~Warn(), Virtual destructor
-        Warn(const Warn&) = default; // #DEFAULT: Warn(const Warn&), Copy constructor
-        Warn(Warn&&) = default; // #DEFAULT: Warn(Warn&&), Move constructor
+        using Hash = std::size_t;
+    // Public Special Methods
+        Warning(const std::unordered_map<Code, std::string>& p_warningMessages, const Code p_code, std::format_args p_contextArgs);
     // Public Operators
-        Warn& operator=(const Warn&) = default; // #DEFAULT: operator=(const Warn&), Copy assignment operator
-        Warn& operator=(Warn&&) = default; // #DEFAULT: operator=(Warn&&), Move assignment operator
-        bool operator==(const Warn::Code& p_code)const;
-        bool operator!=(const Warn::Code& p_code)const;
+        bool operator==(const Warning::Code& p_code)const;
+        bool operator!=(const Warning::Code& p_code)const;
     // Public Methods
         std::string message()const;
+    // Public Static Methods
+        static void propagate(const Warning& p_warning, const std_loc& p_callSite = std_loc::current());
+        static void propagate(Warning&& p_warning, const std_loc& p_callSite = std_loc::current());
+        static std::vector<Warning> pull();
+        static std::vector<Warning> pull(const Hash p_callSite);
+        static void clear();
+        static void clear(const Hash p_callSite);
+        static bool empty();
+        static bool empty(const Hash p_callSite);
+        static Hash hash(const std_loc& p_location = std_loc::current());
     // Public Fields
         Code code; // #FIELD: Code code, Warning code
         std::string body; // #FIELD std::string body, Warning message body
     protected: // #DIV: Protected
+    // Protected Static Methods
+        static std::string getWarningMessage(const std::unordered_map<Code, std::string>& p_warningMessages, const Code p_code, std::format_args p_contextArgs);
     // Protected Methods
         std::string formatCode()const;
         std::string formatMessage()const;
     // Protected Static Fields
         inline constexpr static std::string DEFAULT_MESSAGE_FORMAT = "({}) {}"; // {} = formatted code, {} = body
-        inline constexpr static std::string DEFALT_CODE_FORMAT = "DOCME_W{}"; // {} = code
+        inline constexpr static std::string DEFAULT_CODE_FORMAT = "DOCME_W{}"; // {} = code
         inline const static std::string UNKNOWN_WARNING_MESSAGE = "Unknown warning has occurred"; // #FIELD: inline const static std::string UNKNOWN_WARNING_MESSAGE, Unknown warning message
-    // Protected Fields
-        std::string m_codeFormat = DEFALT_CODE_FORMAT; // #FIELD: std::string m_codeFormat = DEFALT_CODE_FORMAT, String format for code
-        std::string m_messageFormat = DEFAULT_MESSAGE_FORMAT; // #FIELD: std::string m_messageFormat = DEFAULT_MESSAGE_FORMAT, String format for message
-    }; // #END: Warn
-
-    // #ENUM: Warn::Code, Exported std::uint16_t Enum class
-    // #BRIEF: Enumeration of docme warning code
-    enum Warn::Code: std::uint16_t{
-    // Core 100
-        DOCME_W100 = 100,
-    // Engine 200
-        DOCME_W200 = 200, // Config file unknown entry  
-        DOCME_W201 = 201, // A second config file will be created
-    // Generator 300
-        DOCME_W300 = 300,
-    // CLI 400
-        DOCME_W400 = 400,
-
-        DOCME_WARNING, // Anonymous warning
-    }; // #END: Warn::Code
-
-    // #CLASS: Warnings, Exported Static Class
-    // #BRIEF: Holds and manages warning buffer
-    export class Warnings final{
-    public: // #DIV: Public
-    // Public Types
-        using Hash = std::size_t;
-        using Buffer = std::vector<Warn>;
-    // Public Factory Methods
-        Warnings() = delete; // #DELETE: Warnings(), Default constructor
-        Warnings(const Warnings&) = delete; // DELETE: Warnings(const Warnings&), Copy Constructor
-        Warnings(Warnings&&) = delete; // DELETE: Warnings(Warnings&&), Move Constructor
-    // Public Operators
-        void operator=(const Warnings&) = delete; // DELETE: operator=(const Warnings&), Copy Assignment Operator
-        void operator=(Warnings&&) = delete; // DELETE: operator=(Warnings&&), Move Assignment Operator
-    // Public Static Methods
-        static void add(const Warn& p_warning, const std::source_location& p_callSite = std::source_location::current());
-        static std::vector<Warn> pull();
-        static std::vector<Warn> pull(const Hash p_callSite);
-        static void clear();
-        static void clear(const Hash p_callSite);
-        static bool empty();
-        static bool empty(const Hash p_callSite);
-        static Hash hash(const std::source_location& p_location = std::source_location::current());
     private: // #DIV: Private
     // Private Static Fields
-        static inline thread_local std::unordered_map<Hash, Buffer> s_warnings; // #FIELD: static inline thread_local std::unordered_map<Hash, Buffer> s_warnings, Thread independent map of warning buffer and their call site hash
-    }; // #END: Warnings
+        static thread_local std::unordered_map<Hash, std::vector<Warning>> s_warningBuffer; // #FIELD: static thread_local std::unordered_map<Hash, std::vector<Warning>> s_warningBuffer, Thread independent map of warning buffer and their call site hash
+        inline const static std::string ANONYMOUS_WARNING_STRING = "ANONYMOUS"; // Special string for anonymous warning code
+    }; // #END: Warning
+
+    // #ENUM: Warning::Code, Exported std::uint16_t Enum class
+    // #BRIEF: Enumeration of docme warning code
+    enum Warning::Code: std::uint16_t{
+    // Core 100
+        DOCME_W100 = 100,
+    // Config 200
+        DOCME_W200 = 200, // Config file unknown entry  
+        DOCME_W201 = 201, // A second config file will be created
+    // App 300
+        DOCME_W300 = 300,
+    // Generator 400
+        DOCME_W400 = 400, // File does not exist
+        DOCME_W401 = 401, // File is wrong type
+    // CLI 500
+        DOCME_W500 = 500,
+        DOCME_W501,
+    // GUI 600
+        DOCME_W600 = 600,
+    // Plugin 700
+        DOCME_W700 = 700,
+    // Misc 900
+        DOCME_WARNING = 900, // Anonymous warning
+    }; // #END: Warning::Code
+
 
 } // #END: docme::core

@@ -1,0 +1,28 @@
+// #FILE: utils.mpp, Component Module Interface File
+// #BRIEF: Module interface file for utils component
+
+module;
+
+#include "cli.hpp" // #INCLUDE: cli.hpp, Package wide header
+
+// #MODULE: docme.cli:utils, Component Module Partition
+// #BRIEF: Module partition for CLI utility tools
+export module docme.cli:utils;
+
+import simpleCli; // #IMPORT: simpleCli, Simple CLI library
+import docme.core; // #IMPORT: docme.core, Internal core library
+
+namespace docme::cli{ // #SCOPE: docme::cli
+
+    // #NAMESPACE: util, Exported Namespace
+    // #BRIEF: Namespace for CLI utility tools
+    export namespace util{ 
+        simpleCli::Result<std::optional<std::string>> optionalStringConverter(const std::string& p_string);
+        simpleCli::Result<std::optional<std_fs::path>> optionalPathConverter(const std::string& p_string);
+        simpleCli::Result<std_fs::path> pathConverter(const std::string& p_string);
+        void handleWarnings(const std::vector<core::Warning>& p_warnings);
+        void handleError(const core::Error& p_error);
+        void printTimer(const std::string_view p_message, const core::Timer& p_timer);
+    } // #END: util
+
+} // #END: docme::cli

@@ -18,15 +18,16 @@ namespace docme::core{ // #SCOPE: docme::core
 
 // #DIV: Public
 
-// ---- Public Factory Methods ----
+// ---- Public Special Methods ----
 
-    // #METHOD: Error(const std::string&, const std::string&), Constructor
+    // #METHOD: Error(const std::unordered_map<Code, std::string>&, const Code, std::format_args), Constructor
+    // #BRIEF: Constructs Error from a message lookup table, error code, and context args
+    // #PARAM: const std::unordered_map<Code, std::string>& p_errorMessages, Error message lookup table
+    // #PARAM: const Code p_code, Error code
+    // #PARAM: std::format_args p_contextArgs, Context format arguments
+    Error::Error(const std::unordered_map<Code, std::string>& p_errorMessages, const Code p_code, std::format_args p_contextArgs): code(p_code), body(getErrorMessage(p_errorMessages, code, p_contextArgs)){
 
-    // #PARAM: const std::string& p_codeFormat, Format for error code
-    // #PARAM: const std::string& p_messageFormat, Format for message
-    Error::Error(const std::string& p_codeFormat, const std::string& p_messageFormat): m_codeFormat(p_codeFormat), m_messageFormat(p_messageFormat){
-
-    } // #END: Error(const Code, const std::string&)
+    } // #END: Error(const std::unordered_map<Code, std::string>&, const Code, std::format_args)
 
 // ---- Public Operators ----
 
@@ -57,14 +58,32 @@ namespace docme::core{ // #SCOPE: docme::core
 
 // #DIV: Protected
 
+// ---- Protected Static Methods ----
+
+    // #METHOD: getErrorMessage(const std::unordered_map<Code, std::string>&, const Code, std::format_args), Protected Static Method
+    // #BRIEF: Gets the formatted error message body for a given error code
+    // #PARAM: const std::unordered_map<Code, std::string>& p_errorMessages, Error message lookup table
+    // #PARAM: const Code p_code, Error code for message lookup
+    // #PARAM: std::format_args p_contextArgs, Context format arguments
+    // #RETURN: std::string, Error message body
+    std::string Error::getErrorMessage(const std::unordered_map<Code, std::string>& p_errorMessages, const Code p_code, std::format_args p_contextArgs){
+        if(p_code == DOCME_INTERNAL) return std::vformat(INTERNAL_ERROR_MESSAGE, p_contextArgs); // Special case for internal error code
+        if(auto it = p_errorMessages.find(p_code); it != p_errorMessages.end()){
+            return std::vformat(it->second, p_contextArgs);
+        }
+        return UNKNOWN_ERROR_MESSAGE;
+    } // #END: getErrorMessage(const std::unordered_map<Code, std::string>&, const Code, std::format_args)
+
 // ---- Protected Methods ----
 
     // #METHOD: formatCode(), Const Instance Method
     // #BRIEF: Formats the error code into a string
     // #RETURN: std::string, Formatted error code string
     std::string Error::formatCode()const{
+        if(code == DOCME_INTERNAL) return INTERNAL_ERROR_STRING; // Special case for internal error code
+        if(code == DOCME_ERROR) return ANONYMOUS_ERROR_STRING; // Special case for anonymous error code
         const std::string codeString = std::to_string(code);
-        return std::vformat(m_codeFormat, std::make_format_args(codeString));
+        return std::vformat(DEFAULT_CODE_FORMAT, std::make_format_args(codeString));
     } // #END: formatCode()
 
     // #METHOD: formatMessage(), Const Instance Method
@@ -72,7 +91,7 @@ namespace docme::core{ // #SCOPE: docme::core
     // #RETURN: std::string, Formatted message
     std::string Error::formatMessage()const{
         const std::string formattedCode = formatCode();
-        return std::vformat(m_messageFormat, std::make_format_args(formattedCode, body));
+        return std::vformat(DEFAULT_MESSAGE_FORMAT, std::make_format_args(formattedCode, body));
     } // #END: formatCode()
 
 // #END: Error
