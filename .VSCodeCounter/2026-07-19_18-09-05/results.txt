@@ -1,0 +1,189 @@
+Date : 2026-07-19 18:09:05
+Directory : c:\Users\blake\Programing\Personal Projects\Docme
+Total : 139 files,  4618 codes, 1549 comments, 1851 blanks, all 8018 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C++      |        114 |      2,485 |      1,511 |      1,271 |      5,267 |
+| Markdown |          7 |      1,463 |          0 |        512 |      1,975 |
+| CMake    |         11 |        517 |         38 |         67 |        622 |
+| JSON     |          7 |        153 |          0 |          1 |        154 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                  | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                     |        139 |      4,618 |      1,549 |      1,851 |      8,018 |
+| . (Files)                                                                             |          7 |      1,015 |          9 |        193 |      1,217 |
+| bin                                                                                   |          2 |         38 |          0 |          0 |         38 |
+| bin (Files)                                                                           |          1 |         19 |          0 |          0 |         19 |
+| bin\debug                                                                             |          1 |         19 |          0 |          0 |         19 |
+| docme                                                                                 |        115 |      2,835 |      1,503 |      1,277 |      5,615 |
+| docme (Files)                                                                         |          6 |        142 |         51 |         37 |        230 |
+| docme\app                                                                             |         11 |        183 |         60 |         99 |        342 |
+| docme\cli                                                                             |         13 |        389 |        126 |        147 |        662 |
+| docme\config                                                                          |         18 |        445 |        200 |        194 |        839 |
+| docme\config (Files)                                                                  |         17 |        445 |        200 |        193 |        838 |
+| docme\config\tests                                                                    |          1 |          0 |          0 |          1 |          1 |
+| docme\core                                                                            |         31 |      1,099 |        817 |        510 |      2,426 |
+| docme\core (Files)                                                                    |         27 |      1,099 |        817 |        506 |      2,422 |
+| docme\core\tests                                                                      |          4 |          0 |          0 |          4 |          4 |
+| docme\generator                                                                       |         21 |        468 |        219 |        229 |        916 |
+| docme\gui                                                                             |          4 |         46 |         10 |         22 |         78 |
+| docme\plugin                                                                          |          5 |         63 |         20 |         33 |        116 |
+| docme\tests                                                                           |          6 |          0 |          0 |          6 |          6 |
+| docs                                                                                  |          3 |        587 |          0 |        334 |        921 |
+| plugins                                                                               |         10 |        117 |         37 |         47 |        201 |
+| plugins (Files)                                                                       |          3 |         20 |          5 |         11 |         36 |
+| plugins\cdoc                                                                          |          7 |         97 |         32 |         36 |        165 |
+| resources                                                                             |          2 |         26 |          0 |          0 |         26 |
++---------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                              | language | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Users\blake\Programing\Personal Projects\Docme\CMakeLists.txt                      | CMake    |         59 |          9 |         14 |         82 |
+| c:\Users\blake\Programing\Personal Projects\Docme\CMakePresets.json                   | JSON     |         62 |          0 |          1 |         63 |
+| c:\Users\blake\Programing\Personal Projects\Docme\LICENCE.md                          | Markdown |         17 |          0 |          5 |         22 |
+| c:\Users\blake\Programing\Personal Projects\Docme\README.md                           | Markdown |          6 |          0 |          6 |         12 |
+| c:\Users\blake\Programing\Personal Projects\Docme\TASK_AUTOMATION_SETUP.md            | Markdown |        852 |          0 |        167 |      1,019 |
+| c:\Users\blake\Programing\Personal Projects\Docme\bin\debug\docme.json                | JSON     |         19 |          0 |          0 |         19 |
+| c:\Users\blake\Programing\Personal Projects\Docme\bin\docme.json                      | JSON     |         19 |          0 |          0 |         19 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme.json                          | JSON     |         18 |          0 |          0 |         18 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\CMakeLists.txt                | CMake    |         52 |          6 |          6 |         64 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\app\CMakeLists.txt            | CMake    |         45 |          2 |          5 |         52 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\app\app.hpp                   | C++      |          6 |          2 |          8 |         16 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\app\app.mpp                   | C++      |          6 |          4 |          4 |         14 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\app\commands.cpp              | C++      |         35 |         25 |         20 |         80 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\app\commands.mpp              | C++      |         23 |          9 |          8 |         40 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\app\errors.cpp                | C++      |          6 |          2 |          6 |         14 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\app\errors.mpp                | C++      |         18 |          5 |         11 |         34 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\app\errors.tpp                | C++      |         10 |          2 |         10 |         22 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\app\warnings.cpp              | C++      |          6 |          2 |          6 |         14 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\app\warnings.mpp              | C++      |         18 |          5 |         11 |         34 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\app\warnings.tpp              | C++      |         10 |          2 |         10 |         22 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\cli\CMakeLists.txt            | CMake    |         57 |          3 |          6 |         66 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\cli\application.cpp           | C++      |        138 |         39 |         38 |        215 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\cli\application.mpp           | C++      |         34 |         10 |          8 |         52 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\cli\cli.hpp                   | C++      |         26 |          9 |         10 |         45 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\cli\cli.mpp                   | C++      |          7 |          4 |          5 |         16 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\cli\errors.cpp                | C++      |          6 |          2 |          6 |         14 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\cli\errors.mpp                | C++      |         15 |          5 |         11 |         31 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\cli\errors.tpp                | C++      |         10 |          2 |         10 |         22 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\cli\utils.cpp                 | C++      |         43 |         37 |         18 |         98 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\cli\utils.mpp                 | C++      |         18 |          6 |          8 |         32 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\cli\warnings.cpp              | C++      |          6 |          2 |          6 |         14 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\cli\warnings.mpp              | C++      |         19 |          5 |         11 |         35 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\cli\warnings.tpp              | C++      |         10 |          2 |         10 |         22 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\CMakeLists.txt         | CMake    |         49 |          2 |          5 |         56 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\config.hpp             | C++      |         33 |          7 |          9 |         49 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\config.mpp             | C++      |         10 |          4 |          4 |         18 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\errors.cpp             | C++      |          6 |          2 |          6 |         14 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\errors.mpp             | C++      |         23 |          5 |         11 |         39 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\errors.tpp             | C++      |         10 |          2 |         10 |         22 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\file.cpp               | C++      |        102 |         73 |         42 |        217 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\file.mpp               | C++      |         23 |         12 |          8 |         43 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\options.mpp            | C++      |          7 |          4 |          7 |         18 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\schema.mpp             | C++      |         15 |         10 |          8 |         33 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\settings.cpp           | C++      |         64 |         32 |         25 |        121 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\settings.mpp           | C++      |         18 |         11 |          7 |         36 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\tests\file.cpp         | C++      |          0 |          0 |          1 |          1 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\utils.cpp              | C++      |         39 |         21 |         16 |         76 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\utils.mpp              | C++      |         13 |          6 |          8 |         27 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\warnings.cpp           | C++      |          6 |          2 |          6 |         14 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\warnings.mpp           | C++      |         17 |          5 |         11 |         33 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\config\warnings.tpp           | C++      |         10 |          2 |         10 |         22 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\CMakeLists.txt           | CMake    |         85 |          7 |          9 |        101 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\core.hpp                 | C++      |          6 |          3 |          8 |         17 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\core.mpp                 | C++      |         13 |          3 |          5 |         21 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\errors.cpp               | C++      |         34 |         42 |         24 |        100 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\errors.mpp               | C++      |         58 |         24 |          8 |         90 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\failure.cpp              | C++      |         41 |         50 |         26 |        117 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\failure.mpp              | C++      |         24 |         10 |          7 |         41 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\json.cpp                 | C++      |         55 |         48 |         25 |        128 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\json.mpp                 | C++      |         46 |         16 |         15 |         77 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\json.tpp                 | C++      |         10 |          2 |         10 |         22 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\library.cpp              | C++      |         55 |         45 |         34 |        134 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\library.mpp              | C++      |         42 |         16 |         12 |         70 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\library.tpp              | C++      |         16 |         16 |         15 |         47 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\logging.cpp              | C++      |         22 |         30 |         29 |         81 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\logging.mpp              | C++      |         42 |         25 |         13 |         80 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\logging.tpp              | C++      |         13 |         14 |         16 |         43 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\result.mpp               | C++      |         59 |         18 |         11 |         88 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\result.tpp               | C++      |        121 |        151 |         70 |        342 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\success.cpp              | C++      |         28 |         34 |         20 |         82 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\success.mpp              | C++      |         39 |         17 |         12 |         68 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\success.tpp              | C++      |         44 |         53 |         30 |        127 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\tests\errors.cpp         | C++      |          0 |          0 |          1 |          1 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\tests\json.cpp           | C++      |          0 |          0 |          1 |          1 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\tests\logging.cpp        | C++      |          0 |          0 |          1 |          1 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\tests\result.cpp         | C++      |          0 |          0 |          1 |          1 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\timer.cpp                | C++      |         36 |         49 |         32 |        117 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\timer.mpp                | C++      |         34 |         15 |          8 |         57 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\utils.cpp                | C++      |         36 |         18 |         12 |         66 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\utils.mpp                | C++      |         10 |          6 |          7 |         23 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\warnings.cpp             | C++      |         82 |         80 |         39 |        201 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\core\warnings.mpp             | C++      |         48 |         25 |          9 |         82 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\docme.cpp                     | C++      |         11 |          8 |          4 |         23 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\docme.hpp                     | C++      |         21 |         16 |          9 |         46 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\docme.mpp                     | C++      |          7 |          4 |          4 |         15 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\CMakeLists.txt      | CMake    |         55 |          1 |          5 |         61 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\errors.cpp          | C++      |          6 |          2 |          6 |         14 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\errors.mpp          | C++      |         26 |          5 |         11 |         42 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\errors.tpp          | C++      |         10 |          2 |         10 |         22 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\generator.hpp       | C++      |         31 |         12 |         14 |         57 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\generator.mpp       | C++      |         11 |          1 |          5 |         17 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\languageHandler.cpp | C++      |         86 |         60 |         38 |        184 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\languageHandler.mpp | C++      |         25 |         12 |          8 |         45 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\parser.cpp          | C++      |         15 |         21 |         19 |         55 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\parser.mpp          | C++      |         16 |         10 |          8 |         34 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\parserContext.cpp   | C++      |         69 |         34 |         20 |        123 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\parserContext.mpp   | C++      |         23 |         12 |         10 |         45 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\renderer.cpp        | C++      |          6 |          2 |          5 |         13 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\renderer.mpp        | C++      |          9 |          6 |          8 |         23 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\rendererContext.cpp | C++      |          6 |          2 |          5 |         13 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\rendererContext.mpp | C++      |         13 |          9 |          8 |         30 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\utils.cpp           | C++      |         18 |         13 |         14 |         45 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\utils.mpp           | C++      |          9 |          6 |          8 |         23 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\warnings.cpp        | C++      |          6 |          2 |          6 |         14 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\warnings.mpp        | C++      |         18 |          5 |         11 |         34 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\generator\warnings.tpp        | C++      |         10 |          2 |         10 |         22 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\gui\CMakeLists.txt            | CMake    |         33 |          1 |          5 |         39 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\gui\gui.hpp                   | C++      |          6 |          2 |          8 |         16 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\gui\gui.mpp                   | C++      |          3 |          1 |          5 |          9 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\gui\main.cpp                  | C++      |          4 |          6 |          4 |         14 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\os.hpp                        | C++      |         30 |         15 |         11 |         56 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\plugin\CMakeLists.txt         | CMake    |         36 |          2 |          5 |         43 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\plugin\api.cpp                | C++      |          6 |          2 |          6 |         14 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\plugin\api.mpp                | C++      |         11 |          8 |          9 |         28 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\plugin\plugin.hpp             | C++      |          6 |          4 |          8 |         18 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\plugin\plugin.mpp             | C++      |          4 |          4 |          5 |         13 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\std.hpp                       | C++      |         21 |          2 |          3 |         26 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\tests\cli.cpp                 | C++      |          0 |          0 |          1 |          1 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\tests\core.cpp                | C++      |          0 |          0 |          1 |          1 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\tests\docme.cpp               | C++      |          0 |          0 |          1 |          1 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\tests\engine.cpp              | C++      |          0 |          0 |          1 |          1 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\tests\generator.cpp           | C++      |          0 |          0 |          1 |          1 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docme\tests\gui.cpp                 | C++      |          0 |          0 |          1 |          1 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docs\CDocStandard.md                | Markdown |        441 |          0 |        282 |        723 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docs\Errors.md                      | Markdown |         83 |          0 |         26 |        109 |
+| c:\Users\blake\Programing\Personal Projects\Docme\docs\Warnings.md                    | Markdown |         63 |          0 |         26 |         89 |
+| c:\Users\blake\Programing\Personal Projects\Docme\plugins\CMakeLists.txt              | CMake    |          9 |          3 |          3 |         15 |
+| c:\Users\blake\Programing\Personal Projects\Docme\plugins\cdoc\CMakeLists.txt         | CMake    |         37 |          2 |          4 |         43 |
+| c:\Users\blake\Programing\Personal Projects\Docme\plugins\cdoc\cdoc.cpp               | C++      |          5 |          2 |          3 |         10 |
+| c:\Users\blake\Programing\Personal Projects\Docme\plugins\cdoc\cdoc.hpp               | C++      |          6 |          4 |          8 |         18 |
+| c:\Users\blake\Programing\Personal Projects\Docme\plugins\cdoc\cdoc.mpp               | C++      |          4 |          4 |          4 |         12 |
+| c:\Users\blake\Programing\Personal Projects\Docme\plugins\cdoc\handler.cpp            | C++      |          9 |         12 |         11 |         32 |
+| c:\Users\blake\Programing\Personal Projects\Docme\plugins\cdoc\handler.mpp            | C++      |         27 |          8 |          6 |         41 |
+| c:\Users\blake\Programing\Personal Projects\Docme\plugins\cdoc\metadata.json          | JSON     |          9 |          0 |          0 |          9 |
+| c:\Users\blake\Programing\Personal Projects\Docme\plugins\plugins.hpp                 | C++      |          7 |          0 |          6 |         13 |
+| c:\Users\blake\Programing\Personal Projects\Docme\plugins\std.hpp                     | C++      |          4 |          2 |          2 |          8 |
+| c:\Users\blake\Programing\Personal Projects\Docme\resources\pluginRegistry.json       | JSON     |          7 |          0 |          0 |          7 |
+| c:\Users\blake\Programing\Personal Projects\Docme\resources\templateConfigFile.json   | JSON     |         19 |          0 |          0 |         19 |
+| c:\Users\blake\Programing\Personal Projects\Docme\todo.md                             | Markdown |          1 |          0 |          0 |          1 |
+| Total                                                                                 |          |      4,618 |      1,549 |      1,851 |      8,018 |
++---------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

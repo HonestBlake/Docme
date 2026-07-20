@@ -117,32 +117,6 @@ namespace docme::generator{ // #SCOPE: docme::generator
         return true;
     } // #END: isValidFile(const LanguageHandler&, const std_fs::directory_entry&)
 
-
-// ------------------------------------------------------------------------------
-//                        class ParserContext::Warning
-// ------------------------------------------------------------------------------
-
-// #SCOPE: ParserContext::Warning
-
-// #DIV: Public
-
-// ---- Public Special Methods ----
-
-    // #METHOD: Warning<T_ContextArgs>(const Code, const std::string&), Constructor
-    // #BRIEF: Constructs Warning from a warning code and context args
-    // #TEMPLATE: class... T_ContextArgs, context arguments parameter pack
-    // #PARAM: const Code p_code, Warning code for warning
-    // #PARAM: const T_ContextArgs&... p_contextArgs, Context arguments parameter pack
-    template<class... T_ContextArgs> ParserContext::Warning::Warning(const Code p_code, const T_ContextArgs&... p_contextArgs): core::Warning(WARNING_MESSAGES, p_code, std::make_format_args(p_contextArgs...)){
-
-    } // #END: Warning(const Code)
-
-    // Explicit template instantiations for ParserContext warnings.
-    template ParserContext::Warning::Warning(const core::Warning::Code);
-    template ParserContext::Warning::Warning(const core::Warning::Code, const std::string&);
-    template ParserContext::Warning::Warning(const core::Warning::Code, const std::string&, const std::string&);
-    template ParserContext::Warning::Warning(const core::Warning::Code, const std::string&, const std::string&, const std::string&);
-
 // #END: ParserContext
 
 } // #END: docme::generator

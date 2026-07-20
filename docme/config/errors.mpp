@@ -1,0 +1,38 @@
+// #FILE: errors.mpp, Component Module Interface File
+// #BRIEF: Module interface file for config package errors
+
+module;
+
+#include "config.hpp" // #INCLUDE: config.hpp, Package wide header
+
+// #MODULE: docme.config:errors, Component Module Partition
+export module docme.config:errors;
+
+import docme.core;
+
+namespace docme::config{ // #SCOPE: docme::config
+
+    // #CLASS: Error, Exported Final Class
+    // #BRIEF: Package-wide config error specialization
+    export class Error final: public core::Error{
+    public: // #DIV: Public
+        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
+    private: // #DIV: Private
+        inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
+            {DOCME_E200, "Could not locate template config file in \"{}\""},
+            {DOCME_E201, "Could not create new template config file in \"{}\""},
+            {DOCME_E202, "Given config file is not a " + CONFIG_FILE_EXTENSION + " file at \"{}\""},
+            {DOCME_E203, "Given config file already exists at \"{}\""},
+            {DOCME_E204, "Failed to load config file at \"{}\""},
+            {DOCME_E205, "Expected a strings from the key \"{}\" in config file at \"{}\" but got wrong type"},
+            {DOCME_E206, "Expected a list of strings from the key \"{}\" in config file at \"{}\" but got wrong type"},
+        };
+    }; // #END: Error
+
+} // #END: docme::config
+
+#define COMPILED_WITH_MODULE
+
+#include "errors.tpp" // #INCLUDE: errors.tpp, Error template definitions
+
+#undef COMPILED_WITH_MODULE

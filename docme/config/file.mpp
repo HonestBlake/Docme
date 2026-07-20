@@ -10,7 +10,9 @@ module;
 export module docme.config:file;
 
 import docme.core; // #IMPORT: docme.core, Internal core library
+import :errors; // #IMPORT: docme.config:errors, Package error type
 import :schema; // #IMPORT: docme.config:schema, Internal configSchema component
+import :warnings; // #IMPORT: docme.config:warnings, Package warning type
 
 namespace docme::config{ // #SCOPE: docme::config
 
@@ -19,13 +21,11 @@ namespace docme::config{ // #SCOPE: docme::config
     // #DERIVES: Schema<Optional>, Base schema for config, holds values as optional
     export class File final: public Schema<Optional>{
     public: // #DIV: Public
-    // Public Types
-        class Error;
-        class Warning;
     // Public Static Methods
         // Input paths are expected to be normalized by their owner before reaching this boundary.
         [[nodiscard]] static Result<> create(const std_fs::path& p_path = DEFAULT_CONFIG_FILE);
-        [[nodiscard]] static Result<File> load(const std_fs::path& p_path = DEFAULT_CONFIG_FILE);
+        [[nodiscard]] static Result<File> loadForBuild(const std_fs::path& p_path = DEFAULT_CONFIG_FILE);
+        [[nodiscard]] static Result<File> loadForRender(const std_fs::path& p_path = DEFAULT_CONFIG_FILE);
         static bool foundDefault();
     // Public Static Fields
         inline const static std_fs::path DEFAULT_CONFIG_FILE = (std_fs::current_path() / DEFAULT_CONFIG_FILE_NAME).lexically_normal();
@@ -34,40 +34,10 @@ namespace docme::config{ // #SCOPE: docme::config
     // Private Static Methods
         static Success<> check(const Json& p_json, const std_fs::path& p_file);
         static std_fs::path makePath(const std::string_view p_path, const std_fs::path& p_file);
+        static Result<std_fs::path> getPath(const std_fs::path& p_path);
     // Private Methods
-        Result<> setValues(const Json& p_json, const std_fs::path& p_file);
+        Result<> setValuesForBuild(const Json& p_json, const std_fs::path& p_file);
+        Result<> setValuesForRender(const Json& p_json, const std_fs::path& p_file);
     }; // #END: File
-
-    // #CLASS: File::Error, Final Class
-    // #BRIEF: File error specialization
-    // #DERIVES, public core::Error, Base project error type
-    class File::Error final: public core::Error{
-    public: // #DIV: Public
-    // Public Special Methods
-        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
-    // Private Static Fields
-        inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
-            {DOCME_E200, "Could not locate template config file in \"{}\""},
-            {DOCME_E201, "Could not create new template config file in \"{}\""},
-            {DOCME_E202, "Given config file is not a " + CONFIG_FILE_EXTENSION + " file at \"{}\""},
-            {DOCME_E203, "Given config file already exists at \"{}\""},
-            {DOCME_E204, "Failed to load config file at \"{}\""},
-            {DOCME_E205, "Expected a strings from the key \"{}\" in config file at \"{}\" but got wrong type"},
-            {DOCME_E206, "Expected a list of strings from the key \"{}\" in config file at \"{}\" but got wrong type"},
-        };
-    }; // #END: File::Error
-
-    // #CLASS: File::Warning, Final Class
-    // #BRIEF: File warning specialization.
-    // #DERIVES, public core::Warning, Base project warning type
-    class File::Warning final: public core::Warning{
-    public: // #DIV: Public
-    // Public Special Methods
-        template<class... T_ContextArgs> Warning(const Code p_code, const T_ContextArgs&... p_contextArgs);
-    // Private Static Fields
-        inline const static std::unordered_map<Code, std::string> WARNING_MESSAGES = {
-            {DOCME_W200, "Unkown entry with the key \"{}\" in config file \"{}\""},
-        };
-    }; // #END: File::Warning
 
 } // namespace docme::config

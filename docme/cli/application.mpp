@@ -13,15 +13,14 @@ import docme.core; // #IMPORT: docme, Internal core library
 import docme.app; // #IMPORT: docme.app, Internal app library
 import docme.config; // #IMPORT: docme.config, Internal config library
 import simpleCli; // #IMPORT: simpleCLI, External CLI library
+import :errors; // #IMPORT: docme.cli:errors, Package error type
+import :warnings; // #IMPORT: docme.cli:warnings, Package warning type
 
 namespace docme::cli{ // #SCOPE: docme::cli
 
     // #CLASS: Application, Exported Final Class
     export class Application final{
     public: // #DIV: Public
-    // Public Types
-        class Error;
-        class Warning;
     // Public Special Methods
         Application(int p_argc, char** p_argv);
         Application(const Application&) = delete; // #DELETE: Application(const Application&), Copy constructor
@@ -48,32 +47,5 @@ namespace docme::cli{ // #SCOPE: docme::cli
         bool m_version = false;
         config::Options m_options;
     }; // #END: Application
-
-    // #CLASS: Application::Error, Final Class
-    // #BRIEF: Error type specialization for application component.
-    // #DERIVES: core::Error
-    class Application::Error final: public core::Error{
-    public: // #DIV: Public
-    // Public Special Methods
-        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
-    // Private Static Fields
-        inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
-        };
-    }; // #END: Application::Error
-
-    // #CLASS: Application::Warning, Final Class
-    // #BRIEF: Warning type specialization for application component.
-    // #DERIVES: core::Warning
-    class Application::Warning final: public core::Warning{
-    public: // #DIV: Public
-    // Public Special Methods
-        template<class... T_ContextArgs> Warning(const Code p_code, const T_ContextArgs&... p_contextArgs);
-    // Private Static Fields
-        inline const static std::unordered_map<Code, std::string> WARNING_MESSAGES = {
-            {DOCME_W300, "Command line arguments parsed with warnings"},
-            {DOCME_W500, "Positional arguments provided but aren't being used"},
-            {DOCME_W501, "Too many positional arguments provided"},
-        };
-    }; // #END: Application::Warning
 
 } // #END: docme::cli

@@ -11,6 +11,7 @@ export module docme.cli:utils;
 
 import simpleCli; // #IMPORT: simpleCli, Simple CLI library
 import docme.core; // #IMPORT: docme.core, Internal core library
+import docme.config; // #IMPORT: docme.config, Internal config library
 
 namespace docme::cli{ // #SCOPE: docme::cli
 
@@ -23,6 +24,8 @@ namespace docme::cli{ // #SCOPE: docme::cli
         void handleWarnings(const std::vector<core::Warning>& p_warnings);
         void handleError(const core::Error& p_error);
         void printTimer(const std::string_view p_message, const core::Timer& p_timer);
+        void print(const std::string_view p_message);
+        void printRunningCommand(const std::string_view p_command, const std::string_view p_context, const std::optional<std_fs::path>& p_config);
     } // #END: util
 
 } // #END: docme::cli

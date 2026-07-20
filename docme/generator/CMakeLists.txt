@@ -4,21 +4,25 @@ set(GENERATOR_INCLUDE_DIRS
     ${GENERATOR}
 )
 set(GENERATOR_SRC_FILES
+    "${GENERATOR}/errors.cpp"
     "${GENERATOR}/languageHandler.cpp"
     "${GENERATOR}/utils.cpp"
     "${GENERATOR}/renderer.cpp"
     "${GENERATOR}/parserContext.cpp"
     "${GENERATOR}/rendererContext.cpp"
     "${GENERATOR}/parser.cpp"
+    "${GENERATOR}/warnings.cpp"
 )
 set(GENERATOR_MOD_FILES
     "${GENERATOR}/generator.mpp"
+    "${GENERATOR}/errors.mpp"
     "${GENERATOR}/languageHandler.mpp"
     "${GENERATOR}/utils.mpp"
     "${GENERATOR}/renderer.mpp"
     "${GENERATOR}/parserContext.mpp"
     "${GENERATOR}/rendererContext.mpp"
     "${GENERATOR}/parser.mpp"
+    "${GENERATOR}/warnings.mpp"
 )
 set(GENERATOR_PCH_FILES
 

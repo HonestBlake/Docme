@@ -34,6 +34,8 @@ namespace docme::cli{ // #SCOPE: docme::cli
     // #METHOD: run(), Instance Method
     // #BRIEF: Begin CLI application.
     void Application::run(){
+        util::print("Starting Docme CLI");
+
         // Parse command line arguments
         if(simpleCli::Result<> result = m_parser.parse(m_args); !result){
             util::handleError(Error(Error::DOCME_INTERNAL, result.error().message()));
@@ -139,6 +141,8 @@ namespace docme::cli{ // #SCOPE: docme::cli
             util::handleError(result.error());
         }
 
+       util::printRunningCommand("Init", "with config path", config);
+
         Result<> result = app::Command::init(config);
         if(result.hasWarnings()){
             util::handleWarnings(result.warnings());
@@ -170,7 +174,9 @@ namespace docme::cli{ // #SCOPE: docme::cli
             util::handleError(result.error());
         }
 
-        Result<> result = app::Command::build(config, m_options);
+        util::printRunningCommand("Build", "from config path", config);
+
+        Result<> result = app::Command::build(config, config::Options(m_options));
         if(result.hasWarnings()){
             util::handleWarnings(result.warnings());
         }
@@ -202,63 +208,6 @@ namespace docme::cli{ // #SCOPE: docme::cli
         }
         return {std::nullopt}; // No config provided
     } // #END: getConfigOrPositional()
-
-
-// ----------------------------------------------------------------------------
-//                              class Application::Error
-// ----------------------------------------------------------------------------
-
-// #SCOPE: Error
-
-// #DIV: Public
-
-// ---- Public Special Methods ----
-
-    // #METHOD: Error<T_ContextArgs>(const Code, const std::string&), Constructor
-    // #BRIEF: Constructs Error from an error code and context args
-    // #TEMPLATE: class... T_ContextArgs, context arguments parameter pack
-    // #PARAM: const Code p_code, Error code for error
-    // #PARAM: const T_ContextArgs&... p_contextArgs, Context arguments parameter pack
-    template<class... T_ContextArgs> Application::Error::Error(const Code p_code, const T_ContextArgs&... p_contextArgs): core::Error(ERROR_MESSAGES, p_code, std::make_format_args(p_contextArgs...)){
-
-    } // #END: Error(const Code)
-
-    // Explicit template instantiations for Application errors.
-    template Application::Error::Error(const core::Error::Code);
-    template Application::Error::Error(const core::Error::Code, const std::string&);
-    template Application::Error::Error(const core::Error::Code, const std::string&, const std::string&);
-    template Application::Error::Error(const core::Error::Code, const std::string&, const std::string&, const std::string&);
-
-
-// #END: Error
-
-// ----------------------------------------------------------------------------
-//                               class Application::Warning
-// ----------------------------------------------------------------------------
-
-// #SCOPE: Warning
-
-// #DIV: Public
-
-// ---- Public Special Methods ----
-
-    // #METHOD: Warning<T_ContextArgs>(const Code, const std::string&), Constructor
-    // #BRIEF: Constructs Warning from a warning code and context args
-    // #TEMPLATE: class... T_ContextArgs, context arguments parameter pack
-    // #PARAM: const Code p_code, Warning code for warning
-    // #PARAM: const T_ContextArgs&... p_contextArgs, Context arguments parameter pack
-    template<class... T_ContextArgs> Application::Warning::Warning(const Code p_code, const T_ContextArgs&... p_contextArgs): core::Warning(WARNING_MESSAGES, p_code, std::make_format_args(p_contextArgs...)){
-
-    } // #END: Warning(const Code)
-
-    // Explicit template instantiations for Application warnings.
-    template Application::Warning::Warning(const core::Warning::Code);
-    template Application::Warning::Warning(const core::Warning::Code, const std::string&);
-    template Application::Warning::Warning(const core::Warning::Code, const std::string&, const std::string&);
-    template Application::Warning::Warning(const core::Warning::Code, const std::string&, const std::string&, const std::string&);
-
-
-// #END: Warning
 
 // #END: Application
 

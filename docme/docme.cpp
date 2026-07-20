@@ -11,9 +11,7 @@ import docme; // #IMPORT: docme, Docme project
 // #PARAM: char** p_argv, Argument array
 // #RETURN: int, Exit status
 int main(int p_argc, char** p_argv){
-    docme::Logger::get().log("Starting Docme");
     if(p_argc > 1){ // Args provided route CLI
-        docme::Logger::get().log("Routing to Docme CLI");
         docme::cli::Application(p_argc, p_argv).run();
     }else{ // No args provided route GUI
         // ! GUI not yet implemented

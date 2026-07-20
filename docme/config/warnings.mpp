@@ -1,0 +1,32 @@
+// #FILE: warnings.mpp, Component Module Interface File
+// #BRIEF: Module interface file for config package warnings
+
+module;
+
+#include "config.hpp" // #INCLUDE: config.hpp, Package wide header
+
+// #MODULE: docme.config:warnings, Component Module Partition
+export module docme.config:warnings;
+
+import docme.core;
+
+namespace docme::config{ // #SCOPE: docme::config
+
+    // #CLASS: Warning, Exported Final Class
+    // #BRIEF: Package-wide config warning specialization
+    export class Warning final: public core::Warning{
+    public: // #DIV: Public
+        template<class... T_ContextArgs> Warning(const Code p_code, const T_ContextArgs&... p_contextArgs);
+    private: // #DIV: Private
+        inline const static std::unordered_map<Code, std::string> WARNING_MESSAGES = {
+            {DOCME_W200, "Unkown entry with the key \"{}\" in config file \"{}\""},
+        };
+    }; // #END: Warning
+
+} // #END: docme::config
+
+#define COMPILED_WITH_MODULE
+
+#include "warnings.tpp" // #INCLUDE: warnings.tpp, Warning template definitions
+
+#undef COMPILED_WITH_MODULE

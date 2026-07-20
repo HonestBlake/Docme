@@ -9,3 +9,5 @@ module;
 export module docme.app;
 
 export import :commands; // #EXPORT: docme.app:commands
+export import :errors; // #EXPORT: docme.app:errors
+export import :warnings; // #EXPORT: docme.app:warnings

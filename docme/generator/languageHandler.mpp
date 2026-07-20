@@ -11,6 +11,7 @@ export module docme.generator:languageHandler;
 
 import docme.plugin; // #IMPORT: docme.plugin, Plugin module
 import docme.core; // #IMPORT: docme.core, Core module
+import :errors; // #IMPORT: docme.generator:errors, Package error type
 
 namespace docme::generator{ // #SCOPE: docme::generator
     
@@ -18,8 +19,6 @@ namespace docme::generator{ // #SCOPE: docme::generator
     // #BRIEF: Represents a loaded language handler used by parser operations
     export class LanguageHandler final{
     public: // #DIV: Public
-    // Public Types
-        class Error;
     // Public Static Methods
         [[nodiscard]] static Result<LanguageHandler> load(const std::string_view p_tag);
     // Public Methods
@@ -39,30 +38,7 @@ namespace docme::generator{ // #SCOPE: docme::generator
         Result<> loadFunctions(const std::string_view p_tag);
     // Private Fields
         Library m_library; 
-        std::function<plugin::function::SupportsFileType> m_supportsFileType;
+        std::function<plugin::api::supportsFileType::Type> m_supportsFileType;
     }; // #END: LanguageHandler
 
-    // #CLASS: LanguageHandler::Error, Final Class
-    // #BRIEF: LanguageHandler error specialization
-    // #DERIVES, public core::Error, Base project error type
-    class LanguageHandler::Error final: public core::Error{
-    public: // #DIV: Public
-    // Public Special Methods
-        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
-    // Public Static Fields
-        static inline const std::string COULD_NOT_FIND_FIELD_MESSAGE = "Could not find field \"{}\" under \"{}\" in plugin registry";
-    // Private Static Fields
-        static inline const std::unordered_map<Code, std::string> ERROR_MESSAGES = {
-            {DOCME_E400, "Invalid plugin type \"{}\" for \"{}\", expected \"{}\""},
-            {DOCME_E401, "Could not find language handler \"{}\" in plugin registry"},
-            {DOCME_E402, "Metadata path \"{}\" for language handler \"{}\" does not exist or is not a file"},
-            {DOCME_E403, "Metadata path \"{}\" for language handler \"{}\" is not a \"{}\" file"},
-            {DOCME_E404, "Failed to parse metadata file \"{}\" for language handler \"{}\""},
-            {DOCME_E405, "While parsing metadata file \"{}\" for language handler \"{}\", field \"{}\" is not of type \"{}\""},
-            {DOCME_E406, "While parsing metadata file \"{}\" for language handler \"{}\", could not find field \"{}\""},
-            {DOCME_E407, "Failed to load library from \"{}\" for language handler \"{}\""},
-            {DOCME_E408, "Failed to load function \"{}\" from language handler \"{}\""}
-        };
-    }; // #END: LanguageHandler::Error
-    
 } // #END: docme::generator

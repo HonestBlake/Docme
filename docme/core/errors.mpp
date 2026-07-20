@@ -37,7 +37,6 @@ namespace docme::core{ // #SCOPE: docme::core
         inline constexpr static std::string DEFAULT_MESSAGE_FORMAT = "({}) {}"; // {} = formatted code, {} = body
         inline constexpr static std::string DEFAULT_CODE_FORMAT = "DOCME_E{}"; // {} = code
         inline const static std::string UNKNOWN_ERROR_MESSAGE = "An unknown error has occurred";
-    // Private Static Fields
         inline const static std::string INTERNAL_ERROR_STRING = "INTERNAL"; // Special string for internal error code
         inline const static std::string ANONYMOUS_ERROR_STRING = "ANONYMOUS"; // Special string for anonymous error code
         inline const static std::string INTERNAL_ERROR_MESSAGE = "An internal error has accord \"{}\"";

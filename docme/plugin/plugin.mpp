@@ -9,4 +9,4 @@ module;
 // #BRIEF: Package module for plugin API contracts
 export module docme.plugin;
 
-export import :languageHandler; // #EXPORT: docme.plugin:languageHandler
+export import :api; // #EXPORT: docme.plugin:api

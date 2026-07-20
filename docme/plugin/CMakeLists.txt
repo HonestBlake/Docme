@@ -4,11 +4,11 @@ set(PLUGIN_INCLUDE_DIRS
     ${PLUGIN}
 )
 set(PLUGIN_SRC_FILES
-    "${PLUGIN}/languageHandler.cpp"
+    "${PLUGIN}/api.cpp"
 )
 set(PLUGIN_MOD_FILES
     "${PLUGIN}/plugin.mpp"
-    "${PLUGIN}/languageHandler.mpp"
+    "${PLUGIN}/api.mpp"
 )
 set(PLUGIN_PCH_FILES
 

@@ -1,0 +1,34 @@
+// #FILE: warnings.mpp, Component Module Interface File
+// #BRIEF: Module interface file for CLI package warnings
+
+module;
+
+#include "cli.hpp" // #INCLUDE: cli.hpp, Package wide header
+
+// #MODULE: docme.cli:warnings, Component Module Partition
+export module docme.cli:warnings;
+
+import docme.core;
+
+namespace docme::cli{ // #SCOPE: docme::cli
+
+    // #CLASS: Warning, Exported Final Class
+    // #BRIEF: Package-wide CLI warning specialization
+    export class Warning final: public core::Warning{
+    public: // #DIV: Public
+        template<class... T_ContextArgs> Warning(const Code p_code, const T_ContextArgs&... p_contextArgs);
+    private: // #DIV: Private
+        inline const static std::unordered_map<Code, std::string> WARNING_MESSAGES = {
+            {DOCME_W300, "Command line arguments parsed with warnings"},
+            {DOCME_W500, "Positional arguments provided but aren't being used"},
+            {DOCME_W501, "Too many positional arguments provided"},
+        };
+    }; // #END: Warning
+
+} // #END: docme::cli
+
+#define COMPILED_WITH_MODULE
+
+#include "warnings.tpp" // #INCLUDE: warnings.tpp, Warning template definitions
+
+#undef COMPILED_WITH_MODULE

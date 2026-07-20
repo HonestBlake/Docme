@@ -23,16 +23,54 @@ namespace docme::config{ // #SCOPE: docme::config
     // #METHOD: Settings(), Constructor
     // #BRIEF: Constructs Settings with default values
     Settings::Settings(){
-        setDefaults();
+
     } // #END: Settings()
 
-// ---- Public Methods ----
+
+// ---- Public Static Methods ----
+
+    // #METHOD: build(File&&, Options&&), Static Method
+    // #BRIEF: Builds settings from the given config file and options
+    // #PARAM: File&& p_config, Config file values to build settings from
+    // #PARAM: Options&& p_options, Config option values to build settings from
+    // #RETURN: Result<Settings>, The built settings result type
+    Result<Settings> Settings::build(File&& p_config, Options&& p_options){
+        return Settings(std::move(p_config), std::move(p_options));
+    } // #END: build(File&&, Options&&)
+
+
+// #DIV: Private
+
+// --- Private Special Methods ----
+
+    // #METHOD: Settings(File&&, Options&&), Constructor
+    // #BRIEF: Constructs Settings from the given config file and options
+    // #PARAM: File&& p_config, Config file values to construct settings from
+    // #PARAM: Options&& p_options, Config option values to construct settings from
+    Settings::Settings(File&& p_config, Options&& p_options){
+        setDefaults();
+        applyFile(std::move(p_config));
+        applyOptions(std::move(p_options));
+    } // #END: Settings(File&&, Options&&)
+
+
+// ---- Private Methods ----
+
+    // #METHOD: setDefaults(), Instance Method
+    // #BRIEF: Sets default settings values
+    void Settings::setDefaults(){
+        projectName = defaults::PROJECT_NAME;
+        sources = {defaults::SOURCES.begin(), defaults::SOURCES.end()};
+        ignores = {defaults::IGNORES.begin(), defaults::IGNORES.end()};
+        output = defaults::OUTPUT_DIR;
+        languageHandlers = {defaults::LANGUAGE_HANDLERS.begin(), defaults::LANGUAGE_HANDLERS.end()};
+        renderers = {defaults::RENDERERS.begin(), defaults::RENDERERS.end()};
+    } // #END: setDefaults()
 
     // #METHOD: applyFile(File&&), Instance Method
     // #BRIEF: Applies config file values to the settings
     // #PARAM: File&& p_config, Config file values to apply
-    // #RETURN: Settings&, This settings
-    Settings& Settings::applyFile(File&& p_config){
+    void Settings::applyFile(File&& p_config){
         if(p_config.projectName){
             projectName = std::move(*p_config.projectName);
         }
@@ -51,50 +89,31 @@ namespace docme::config{ // #SCOPE: docme::config
         if(!p_config.renderers.empty()){
             renderers = std::move(p_config.renderers);
         }
-        return *this;
     } // #END: applyFile(File&&)
-
+    
     // #METHOD: applyOptions(Options&&), Instance Method
     // #BRIEF: Applies config option values to the settings
     // #PARAM: Options&& p_options, Config option values to apply
-    // #RETURN: Settings&, This settings
-    Settings& Settings::applyOptions(const Options& p_options){
+    void Settings::applyOptions(Options&& p_options){
         if(p_options.projectName){
-            projectName = *p_options.projectName;
+            projectName = std::move(*p_options.projectName);
         }
         if(!p_options.sources.empty()){
-            sources = p_options.sources;
+            sources = std::move(p_options.sources);
         }
         if(!p_options.ignores.empty()){
-            ignores = p_options.ignores;
+            ignores = std::move(p_options.ignores);
         }
         if(p_options.output){
-            output = *p_options.output;
+            output = std::move(*p_options.output);
         }
         if(!p_options.languageHandlers.empty()){
-            languageHandlers = p_options.languageHandlers;
+            languageHandlers = std::move(p_options.languageHandlers);
         }
         if(!p_options.renderers.empty()){
-            renderers = p_options.renderers;
+            renderers = std::move(p_options.renderers);
         }
-        return *this;
     } // #END: applyOptions(Options&&)
-
-
-// #DIV: Private
-
-// ---- Private Methods ----
-
-    // #METHOD: setDefaults(), Instance Method
-    // #BRIEF: Sets default settings values
-    void Settings::setDefaults(){
-        projectName = defaults::PROJECT_NAME;
-        sources = {defaults::SOURCES.begin(), defaults::SOURCES.end()};
-        ignores = {defaults::IGNORES.begin(), defaults::IGNORES.end()};
-        output = defaults::OUTPUT_DIR;
-        languageHandlers = {defaults::LANGUAGE_HANDLERS.begin(), defaults::LANGUAGE_HANDLERS.end()};
-        renderers = {defaults::RENDERERS.begin(), defaults::RENDERERS.end()};
-    } // #END: setDefaults()
 
 
 // #END: Settings

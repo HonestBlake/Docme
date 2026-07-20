@@ -4,17 +4,21 @@ set(CONFIG_INCLUDE_DIRS
     ${CONFIG}
 )
 set(CONFIG_SRC_FILES
+    "${CONFIG}/errors.cpp"
     "${CONFIG}/file.cpp"
     "${CONFIG}/settings.cpp"
     "${CONFIG}/utils.cpp"
+    "${CONFIG}/warnings.cpp"
 )
 set(CONFIG_MOD_FILES
     "${CONFIG}/config.mpp"
+    "${CONFIG}/errors.mpp"
     "${CONFIG}/schema.mpp"
     "${CONFIG}/file.mpp"
     "${CONFIG}/options.mpp"
     "${CONFIG}/settings.mpp"
     "${CONFIG}/utils.mpp"
+    "${CONFIG}/warnings.mpp"
 )
 set(CONFIG_PCH_FILES
 

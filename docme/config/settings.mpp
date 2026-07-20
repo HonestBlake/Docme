@@ -22,12 +22,15 @@ namespace docme::config{ // #SCOPE: docme::config
     public: // #DIV: Public
     // Public Special Methods
         Settings();
-    // Public Methods
-        Settings& applyFile(File&& p_config);
-        Settings& applyOptions(const Options& p_options);
+    // Public Static Methods
+        [[nodiscard]] static Result<Settings> build(File&& p_config, Options&& p_options);
     private: // #DIV: Private
+    // Private Special Methods
+        Settings(File&& p_config, Options&& p_options);
     // Private Methods
         void setDefaults();
+        void applyFile(File&& p_config);
+        void applyOptions(Options&& p_options);
     }; // #END: Settings
 
 } // #END: docme::config

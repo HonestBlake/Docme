@@ -10,6 +10,7 @@ module;
 export module docme.generator:parserContext;
 
 import :languageHandler; // #IMPORT: docme.generator:languageHandler, Language handler type
+import :warnings; // #IMPORT: docme.generator:warnings, Package warning type
 
 import docme.config; // #IMPORT: docme.config, Config module
 import docme.core; // #IMPORT: docme.core, Core module
@@ -22,7 +23,6 @@ namespace docme::generator{ // #SCOPE: docme::generator
     public: // #DIV: Public
     // Public Types
         struct LanguageGroup;
-        class Warning;
     // Public Static Methods
         [[nodiscard]] static Result<ParserContext> build(const config::Settings& p_config);
     // Public Fields
@@ -40,19 +40,5 @@ namespace docme::generator{ // #SCOPE: docme::generator
         LanguageHandler handler; // #FIELD: LanguageHandler handler, Handler for the language group
         std::unordered_set<std_fs::path> files; // #FIELD: std::vector<std_fs::path> files, Files of the language group
     }; // #END: ParserContext::LanguageGroup
-
-    // #CLASS: ParserContext::Warning, Final Class
-    // #BRIEF: Warning type specialization for parser context component
-    // #DERIVES: core::Warning
-    class ParserContext::Warning final: public core::Warning{
-    public: // #DIV: Public
-    // Public Special Methods
-        template<class... T_ContextArgs> Warning(const Code p_code, const T_ContextArgs&... p_contextArgs);
-    // Private Static Fields
-        inline const static std::unordered_map<Code, std::string> WARNING_MESSAGES = {
-            {DOCME_W400, "Encountered file system error while trying to access \"{}\""},
-            {DOCME_W401, "Ignore file or path does not exist \"{}\""},
-        };
-    }; // #END: ParserContext::Warning
 
 } // #END: docme::generator

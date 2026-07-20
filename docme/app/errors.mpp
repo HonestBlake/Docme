@@ -1,0 +1,33 @@
+// #FILE: errors.mpp, Component Module Interface File
+// #BRIEF: Module interface file for app package errors
+
+module;
+
+#include "app.hpp" // #INCLUDE: app.hpp, Package wide header
+
+// #MODULE: docme.app:errors, Component Module Partition
+export module docme.app:errors;
+
+import docme.core;
+import docme.config;
+
+namespace docme::app{ // #SCOPE: docme::app
+
+    // #CLASS: Error, Exported Final Class
+    // #BRIEF: Package-wide app error specialization
+    export class Error final: public core::Error{
+    public: // #DIV: Public
+        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
+    private: // #DIV: Private
+        inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
+            {DOCME_E300, "Failed to initialize the default config file as a default config file already exists at location \"" + (std_fs::current_path() / config::File::DEFAULT_CONFIG_FILE).string() + "\""},
+        };
+    }; // #END: Error
+
+} // #END: docme::app
+
+#define COMPILED_WITH_MODULE
+
+#include "errors.tpp" // #INCLUDE: errors.tpp, Error template definitions
+
+#undef COMPILED_WITH_MODULE

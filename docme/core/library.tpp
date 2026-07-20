@@ -24,6 +24,12 @@ namespace docme::core{ // #SCOPE: docme::core
 
 // ---- Public Methods ----
 
+    // #METHOD: Error<T_ContextArgs>(const Code, const T_ContextArgs&...), Constructor
+    // #BRIEF: Constructs Library error from an error code and context args
+    template<class... T_ContextArgs> Library::Error::Error(const Code p_code, const T_ContextArgs&... p_contextArgs): docme::core::Error(ERROR_MESSAGES, p_code, std::make_format_args(p_contextArgs...)){
+
+    } // #END: Error(const Code, const T_ContextArgs&...)
+
     // #METHOD: getFunction(const std::string_view), Const Instance Method
     // #BRIEF: Gets a function pointer from the loaded dynamic library
     // #NOTE: Returns error codes: DOCME_E106, DOCME_E107

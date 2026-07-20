@@ -59,40 +59,62 @@ namespace docme::config{ // #SCOPE: docme::config
         return {}; // Success return void
     } // #END: create(const std_fs::path&)
 
-    // #METHOD: load(const std_fs::path&), Static Method
-    // #BRIEF: Creates a config file parsed from given location
+    // #METHOD: loadForBuild(const std_fs::path&), Static Method
+    // #BRIEF: Creates a config file parsed from given location for build command
     // #NOTE: Retruns error codes: DOCME_E202, DOCME_E204, DOCME_E205, DOCME_E206
     // #NOTE: Returns warning codes: DOCME_W200
     // #ATTRIBUTE: [[nodiscard]]
     // #PARAM: const std_fs::path& p_path, Normalized path to load config file from
     // #RETURN: Result<File>, Loaded File on success, Error on failure
     // #DETAIL: Loads config file from given location then parses the content and creates a File object that gets returned
-    Result<File> File::load(const std_fs::path& p_path){
-        // Get file Path
-        std_fs::path filePath;
-        if(std::error_code error; std_fs::is_directory(p_path, error)){ // Given a directory
-            filePath = p_path / DEFAULT_CONFIG_FILE_NAME;
-        }else{ // Given a file path
-            if(error) return Error(Error::DOCME_E204, p_path.string()); // Error checking config file path
-            if(p_path.extension().string() != CONFIG_FILE_EXTENSION) return Error(Error::DOCME_E202, p_path.string()); // Given file is not correct type
-            filePath = p_path;
-        }
+    Result<File> File::loadForBuild(const std_fs::path& p_path){
+        // Get path
+        std_fs::path path;
+        if(Result<std_fs::path> result = getPath(p_path)){
+            path = result.takeValue();
+        }else return result.failure(); // Failed to get config file path
 
         // Parse json
         Json json;
-        if(Result<Json> result = Json::parse(filePath)){
+        if(Result<Json> result = Json::parse(path)){
             json = result.takeValue();
-        }else return Error(Error::DOCME_E204, filePath.string()); // Could not open config file
-
-        // Check config file
-        check(json, filePath).propagateWarnings();
+        }else return Error(Error::DOCME_E204, path.string()); // Could not open config file
+        check(json, path).propagateWarnings();
 
         // Create config file
         File config;
-        if(Result<> result = config.setValues(json, filePath); !result) return result.failure();
+        if(Result<> result = config.setValuesForBuild(json, path); !result) return result.failure();
 
         return config;
-    } // #END: load(const std_fs::path&)
+    } // #END: loadForBuild(const std_fs::path&)
+
+    // #METHOD: loadForRender(const std_fs::path&), Static Method
+    // #BRIEF: Creates a config file parsed from given location for render command
+    // #NOTE: Retruns error codes: DOCME_E202, DOCME_E204, DOCME_E205, DOCME_E206
+    // #NOTE: Returns warning codes: DOCME_W200
+    // #ATTRIBUTE: [[nodiscard]]
+    // #PARAM: const std_fs::path& p_path, Normalized path to load config file from
+    // #RETURN: Result<File>, Loaded File on success, Error on failure
+    // #DETAIL: Loads config file from given location then parses the content and creates a File object that gets returned
+    Result<File> File::loadForRender(const std_fs::path& p_path){
+        // Get path
+        std_fs::path path;
+        if(Result<std_fs::path> result = getPath(p_path)){
+            path = result.takeValue();
+        }else return result.failure(); // Failed to get config file path
+
+        // Parse json
+        Json json;
+        if(Result<Json> result = Json::parse(path)){
+            json = result.takeValue();
+        }else return Error(Error::DOCME_E204, path.string()); // Could not open config file
+        check(json, path).propagateWarnings();
+
+        File config;
+        if(Result<> result = config.setValuesForRender(json, path); !result) return result.failure();
+
+        return config;
+    } // #END: loadForRender(const std_fs::path&)
 
     // #METHOD: foundDefault(), Static Method
     // #BRIEF: Checks if default config file can be found in expected location
@@ -132,22 +154,31 @@ namespace docme::config{ // #SCOPE: docme::config
         return path;
     } // #END: makePath(const std::string_view, const std_fs::path&)
 
+    // #METHOD: getPath(const std_fs::path&), Static Method
+    // #BRIEF: Gets the path to the config file from given path
+    // #NOTE: Returns error codes: DOCME_E204
+    // #PARAM: const std_fs::path& p_path, Path to get config file
+    // #RETURN: Result<std_fs::path>, Path to config file on success, Error on failure
+    Result<std_fs::path> File::getPath(const std_fs::path& p_path){
+        if(std::error_code error; std_fs::is_directory(p_path, error)){ // Given a directory
+            return p_path / DEFAULT_CONFIG_FILE_NAME;
+        }else{ // Given a file path
+            if(error) return Error(Error::DOCME_E204, p_path.string()); // Error checking config file path
+            if(p_path.extension().string() != CONFIG_FILE_EXTENSION) return Error(Error::DOCME_E202, p_path.string()); // Given file is not correct type
+            return p_path;
+        }
+    } // #END: getPath(const std_fs::path&)
+
 
 // ---- Private Methods ----
 
-    // #METHOD: setValues(const Json&, const std_fs::path&), Instance Method
-    // #BRIEF: Sets the values of the config
+    // #METHOD: setValuesForBuild(const Json&, const std_fs::path&), Instance Method
+    // #BRIEF: Sets the values of the config for build command
     // #NOTE: Returns error codes: DOCME_E205, DOCME_E206
     // #PARAM: const Json& p_json, Json to parse from
     // #PARAM: const std_fs::path& p_file, File setting values from
     // #RETURN: Result<>, Result type void on success error type on fail
-    Result<> File::setValues(const Json& p_json, const std_fs::path& p_file){
-        // Set project name
-        if(Result<std::string> result = p_json.get<std::string>(key::PROJECT_NAME)){
-            projectName = result.takeValue();
-        }else if(Json::Error::isTypeError(result.error())) return Error(Error::DOCME_E205, std::string(key::PROJECT_NAME), p_file.string()); // Wrong type
-        else if(result.error() != Error::DOCME_E101) [[unlikely]] return result.failure(); // Error other than not found
-
+    Result<> File::setValuesForBuild(const Json& p_json, const std_fs::path& p_file){
         // Set source files
         if(Result<std::vector<std::string>> result = p_json.get<std::vector<std::string>>(key::SOURCE)){
             sources = result.takeValue() 
@@ -155,8 +186,8 @@ namespace docme::config{ // #SCOPE: docme::config
                     return makePath(path, p_file); 
                 })
                 | std::ranges::to<std::vector>();
-        }else if(Json::Error::isTypeError(result.error())) return Error(Error::DOCME_E206, std::string(key::SOURCE), p_file.string()); // Wrong type
-        else if(result.error() != Error::DOCME_E101) [[unlikely]] return result.failure(); // Error other than not found
+        }else if(Json::Error::isJsonTypeError(result.error())) return Error(Error::DOCME_E206, std::string(key::SOURCE), p_file.string()); // Wrong type
+        else if(!Json::Error::isJsonKeyNotFoundError(result.error())) [[unlikely]] return result.failure(); // Error other than not found
 
         // Set ignore files
         if(Result<std::vector<std::string>> result = p_json.get<std::vector<std::string>>(key::IGNORE)){
@@ -165,84 +196,45 @@ namespace docme::config{ // #SCOPE: docme::config
                     return makePath(path, p_file); 
                 })
                 | std::ranges::to<std::vector>();
-        }else if(Json::Error::isTypeError(result.error())) return Error(Error::DOCME_E206, std::string(key::IGNORE), p_file.string()); // Wrong type
-        else if(result.error() != Error::DOCME_E101) [[unlikely]] return result.failure(); // Error other than not found
-
-        // Set output
-        if(Result<std::string> result = p_json.get<std::string>(key::OUTPUT)){
-            output = makePath(result.takeValue(), p_file);
-        }else if(Json::Error::isTypeError(result.error())) return Error(Error::DOCME_E205, std::string(key::OUTPUT), p_file.string()); // Wrong type
-        else if(result.error() != Error::DOCME_E101) [[unlikely]] return result.failure(); // Error other than not found
+        }else if(Json::Error::isJsonTypeError(result.error())) return Error(Error::DOCME_E206, std::string(key::IGNORE), p_file.string()); // Wrong type
+        else if(!Json::Error::isJsonKeyNotFoundError(result.error())) [[unlikely]] return result.failure(); // Error other than not found
 
         // Set language handlers
         if(Result<std::vector<std::string>> result = p_json.get<std::vector<std::string>>(key::LANGUAGE_HANDLER)){
             languageHandlers = result.takeValue();
-        }else if(Json::Error::isTypeError(result.error())) return Error(Error::DOCME_E206, std::string(key::LANGUAGE_HANDLER), p_file.string()); // Wrong type
-        else if(result.error() != Error::DOCME_E101) [[unlikely]] return result.failure(); // Error other than not found
+        }else if(Json::Error::isJsonTypeError(result.error())) return Error(Error::DOCME_E206, std::string(key::LANGUAGE_HANDLER), p_file.string()); // Wrong type
+        else if(!Json::Error::isJsonKeyNotFoundError(result.error())) [[unlikely]] return result.failure(); // Error other than not found
+
+        return {};
+    } // #END: setValuesForBuild(const Json&, const std_fs::path&)
+
+    // #METHOD: setValuesForRender(const Json&, const std_fs::path&), Instance Method
+    // #BRIEF: Sets the values of the config for render command 
+    // #NOTE: Returns error codes: DOCME_E205, DOCME_E206
+    // #PARAM: const Json& p_json, Json to parse from
+    // #PARAM: const std_fs::path& p_file, File setting values from
+    // #RETURN: Result<>, Result type void on success error type on fail
+    Result<> File::setValuesForRender(const Json& p_json, const std_fs::path& p_file){
+        // Set project name
+        if(Result<std::string> result = p_json.get<std::string>(key::PROJECT_NAME)){
+            projectName = result.takeValue();
+        }else if(Json::Error::isJsonTypeError(result.error())) return Error(Error::DOCME_E205, std::string(key::PROJECT_NAME), p_file.string()); // Wrong type
+        else if(!Json::Error::isJsonKeyNotFoundError(result.error())) [[unlikely]] return result.failure(); // Error other than not found
+
+        // Set output
+        if(Result<std::string> result = p_json.get<std::string>(key::OUTPUT)){
+            output = makePath(result.takeValue(), p_file);
+        }else if(Json::Error::isJsonTypeError(result.error())) return Error(Error::DOCME_E205, std::string(key::OUTPUT), p_file.string()); // Wrong type
+        else if(!Json::Error::isJsonKeyNotFoundError(result.error())) [[unlikely]] return result.failure(); // Error other than not found
 
         // Set renderers
         if(Result<std::vector<std::string>> result = p_json.get<std::vector<std::string>>(key::RENDERER)){
             renderers = result.takeValue();
-        }else if(Json::Error::isTypeError(result.error())) return Error(Error::DOCME_E206, std::string(key::RENDERER), p_file.string()); 
-        else if(result.error() != Error::DOCME_E101) [[unlikely]] return result.failure(); // Error other than not found
+        }else if(Json::Error::isJsonTypeError(result.error())) return Error(Error::DOCME_E206, std::string(key::RENDERER), p_file.string());
+        else if(!Json::Error::isJsonKeyNotFoundError(result.error())) [[unlikely]] return result.failure(); // Error other than not found
 
         return {};
-    } // #END: setValues(const Json&)
-
-
-// ------------------------------------------------------------------------------
-//                            class File::Error
-// ------------------------------------------------------------------------------
-
-// #SCOPE: Error
-
-// #DIV: Public
-
-// ---- Public Special Methods ----
-
-    // #METHOD: Error<T_ContextArgs>(const Code, const std::string&), Constructor
-    // #BRIEF: Constructs Error from an error code and context args
-    // #TEMPLATE: class... T_ContextArgs, context arguments parameter pack
-    // #PARAM: const Code p_code, Error code for error
-    // #PARAM: const T_ContextArgs&... p_contextArgs, Context arguments parameter pack
-    template<class... T_ContextArgs> File::Error::Error(const Code p_code, const T_ContextArgs&... p_contextArgs): core::Error(ERROR_MESSAGES, p_code, std::make_format_args(p_contextArgs...)){
-
-    } // #END: Error(const Code)
-
-    // Explicit template instantiations for File errors.
-    template File::Error::Error(const core::Error::Code);
-    template File::Error::Error(const core::Error::Code, const std::string&);
-    template File::Error::Error(const core::Error::Code, const std::string&, const std::string&);
-    template File::Error::Error(const core::Error::Code, const std::string&, const std::string&, const std::string&);
-
-
-// #END: Error
-
-// ------------------------------------------------------------------------------
-//                           class File::Warning
-// ------------------------------------------------------------------------------
-
-// #SCOPE: Warning
-
-// #DIV: Public
-
-// --- Public Special Methods ----
-
-    // #METHOD: Warning<T_ContextArgs>(const Code, const std::string&), Constructor
-    // #BRIEF: Constructs Warning from a warning code and context args
-    // #TEMPLATE: class... T_ContextArgs, context arguments parameter pack
-    // #PARAM: const Code p_code, Warning code for warning
-    // #PARAM: const T_ContextArgs&... p_contextArgs, Context arguments parameter pack
-    template<class... T_ContextArgs> File::Warning::Warning(const Code p_code, const T_ContextArgs&... p_contextArgs): core::Warning(WARNING_MESSAGES, p_code, std::make_format_args(p_contextArgs...)){
-
-    } // #END: Warning(const Code)
-
-    // Explicit template instantiations for File warnings.
-    template File::Warning::Warning(const core::Warning::Code);
-    template File::Warning::Warning(const core::Warning::Code, const std::string&);
-    template File::Warning::Warning(const core::Warning::Code, const std::string&, const std::string&);
-    template File::Warning::Warning(const core::Warning::Code, const std::string&, const std::string&, const std::string&);
-
+    } // #END: setValuesForRender(const Json&, const std_fs::path&)
 
 // #END: File
 

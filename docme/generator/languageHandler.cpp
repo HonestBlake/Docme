@@ -120,25 +120,25 @@ namespace docme::generator{ // #SCOPE: docme::generator
         // Set name
         if(Result<std::string> result = p_metadata.get<std::string>(key::NAME)){
             name = result.takeValue();
-        }else if(Json::Error::isTypeError(result.error())) return Error(Error::DOCME_E405, p_metadataPath, p_tag, key::NAME, "string"); // Name wrong type
+        }else if(Json::Error::isJsonTypeError(result.error())) return Error(Error::DOCME_E405, p_metadataPath, p_tag, key::NAME, "string"); // Name wrong type
         else return Error(Error::DOCME_E406, p_metadataPath, p_tag, key::NAME); // Cant find name
 
         // Set version
         if(Result<std::string> result = p_metadata.get<std::string>(key::VERSION)){
             version = result.takeValue();
-        }else if(Json::Error::isTypeError(result.error())) return Error(Error::DOCME_E405, p_metadataPath, p_tag, key::VERSION, "string"); // Version wrong type
+        }else if(Json::Error::isJsonTypeError(result.error())) return Error(Error::DOCME_E405, p_metadataPath, p_tag, key::VERSION, "string"); // Version wrong type
         else return Error(Error::DOCME_E406, p_metadataPath, p_tag, key::VERSION); // Cant find version
 
         // Set description
         if(Result<std::string> result = p_metadata.get<std::string>(key::DESCRIPTION)){
             description = result.takeValue();
-        }else if(Json::Error::isTypeError(result.error())) return Error(Error::DOCME_E405, p_metadataPath, p_tag, key::DESCRIPTION, "string"); // Description wrong type
+        }else if(Json::Error::isJsonTypeError(result.error())) return Error(Error::DOCME_E405, p_metadataPath, p_tag, key::DESCRIPTION, "string"); // Description wrong type
         else return Error(Error::DOCME_E406, p_metadataPath, p_tag, key::DESCRIPTION); // Cant find description
 
         // Set author
         if(Result<std::string> result = p_metadata.get<std::string>(key::AUTHOR)){
             author = result.takeValue();
-        }else if(Json::Error::isTypeError(result.error())) return Error(Error::DOCME_E405, p_metadataPath, p_tag, key::AUTHOR, "string"); // Author wrong type
+        }else if(Json::Error::isJsonTypeError(result.error())) return Error(Error::DOCME_E405, p_metadataPath, p_tag, key::AUTHOR, "string"); // Author wrong type
         else return Error(Error::DOCME_E406, p_metadataPath, p_tag, key::AUTHOR); // Cant find author
 
         return {};
@@ -155,7 +155,7 @@ namespace docme::generator{ // #SCOPE: docme::generator
         std_fs::path binaryPath;
         if(Result<std::string> result = p_metadata.get<std::string>(key::BIN, key::OS)){
             core::util::normalizePath(binaryPath = result.takeValue(), p_metadataPath.parent_path());
-        }else if(Json::Error::isTypeError(result.error())) return Error(Error::DOCME_E405, p_metadataPath.string(), p_tag, key::BIN, "string"); // Wrong type for binary
+        }else if(Json::Error::isJsonTypeError(result.error())) return Error(Error::DOCME_E405, p_metadataPath.string(), p_tag, key::BIN, "string"); // Wrong type for binary
         else return Error(Error::DOCME_E406, p_metadataPath.string(), p_tag, key::BIN); // Couldn't find binary
 
         if(Result<Library> result = Library::load(name, binaryPath)){
@@ -171,40 +171,14 @@ namespace docme::generator{ // #SCOPE: docme::generator
     // #RETURN: Result<>, Result type for loading functions
     Result<> LanguageHandler::loadFunctions(const std::string_view p_tag){
         // Load supportsFileType
-        if(Result<std::function<plugin::function::SupportsFileType>> result = m_library.getFunction<plugin::function::SupportsFileType>(plugin::function::SUPPORTS_FILE_TYPE_NAME)){
+        if(Result<std::function<plugin::api::supportsFileType::Type>> result = m_library.getFunction<plugin::api::supportsFileType::Type>(plugin::api::supportsFileType::NAME)){
             m_supportsFileType = result.takeValue();
-        }else return Error(Error::DOCME_E408, plugin::function::SUPPORTS_FILE_TYPE_NAME, p_tag); // Failed to load function
+        }else return Error(Error::DOCME_E408, plugin::api::supportsFileType::NAME, p_tag); // Failed to load function
 
         return {};
     } // #END: loadFunctions(const std::string_view)
 
-
-// ------------------------------------------------------------------------------
-//                                 class Error
-// ------------------------------------------------------------------------------
-
-// #SCOPE: Error
-
-// #DIV: Public
-
-// --- Public Special Methods ----
-
-    // #METHOD: Error<T_ContextArgs>(const Code, const std::string&), Constructor
-    // #BRIEF: Constructs Error from an error code and context arguments
-    // #TEMPLATE: class... T_ContextArgs, context arguments parameter pack
-    // #PARAM: const Code p_code, Error code for error
-    // #PARAM: const T_ContextArgs&... p_contextArgs, Context arguments parameter pack
-    // #NOTE: Context arguments are used to format the error message
-    template<class... T_ContextArgs> LanguageHandler::Error::Error(const core::Error::Code p_code, const T_ContextArgs&... p_contextArgs): core::Error(ERROR_MESSAGES, p_code, std::make_format_args(p_contextArgs...)){
-
-    } // #END: Error(const Code)
-
-    // Explicit template instantiations for LanguageHandler errors.
-    template LanguageHandler::Error::Error(const core::Error::Code);
-    template LanguageHandler::Error::Error(const core::Error::Code, const std::string&);
-    template LanguageHandler::Error::Error(const core::Error::Code, const std::string&, const std::string&);
-    template LanguageHandler::Error::Error(const core::Error::Code, const std::string&, const std::string&, const std::string&);
-
+    
 // #END: LanguageHandler
 
 } // #END: docme::generator

@@ -9,23 +9,25 @@ module;
 // #BRIEF: Module partition for parser component in docme generator module
 export module docme.generator:parser;
 
+import :parserContext; // #IMPORT: docme.generator:parserContext, Internal parser context
+import docme.core; // #IMPORT: docme.core, Internal core library
+
 namespace docme::generator{ // #SCOPE: docme::generator
 
     // #CLASS: Parser, Exported Final Class
     // #BRIEF: 
     export class Parser final{
     public: // #DIV: Public
-    // Public Types
-        struct Info;
-
+        Parser() = default;
+    // Public Static Methods
+        [[nodiscard]] static Parser build(ParserContext&& p_context);
+    // Public Methods
+        [[nodiscard]] Result<> parse();
     private: // #DIV: Private
+    // Private Special Methods
+        Parser(ParserContext&& p_context);
+    // Private Fields
+        ParserContext m_context; // #FIELD: ParserContext m_context, Parser context for parser to process
     }; // #END: Parser
-
-    // #STRUCT: Parser::Info, Struct
-    // #BRIEF:
-    struct Parser::Info{
-        std::string languageHandler;
-        std::vector<std_fs::path> sources;
-    }; // #END: Parser::Info
 
 } // #END: docme::generator

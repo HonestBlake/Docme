@@ -1,0 +1,33 @@
+// #FILE: warnings.mpp, Component Module Interface File
+// #BRIEF: Module interface file for app package warnings
+
+module;
+
+#include "app.hpp" // #INCLUDE: app.hpp, Package wide header
+
+// #MODULE: docme.app:warnings, Component Module Partition
+export module docme.app:warnings;
+
+import docme.core;
+import docme.config;
+
+namespace docme::app{ // #SCOPE: docme::app
+
+    // #CLASS: Warning, Exported Final Class
+    // #BRIEF: Package-wide app warning specialization
+    export class Warning final: public core::Warning{
+    public: // #DIV: Public
+        template<class... T_ContextArgs> Warning(const Code p_code, const T_ContextArgs&... p_contextArgs);
+    private: // #DIV: Private
+        inline const static std::unordered_map<Code, std::string> WARNING_MESSAGES = {
+            {DOCME_W201, "Creating the confile file \"{}\" when a config file already exists at \"" + (std_fs::current_path() / config::File::DEFAULT_CONFIG_FILE).string() + "\""},
+        };
+    }; // #END: Warning
+
+} // #END: docme::app
+
+#define COMPILED_WITH_MODULE
+
+#include "warnings.tpp" // #INCLUDE: warnings.tpp, Warning template definitions
+
+#undef COMPILED_WITH_MODULE

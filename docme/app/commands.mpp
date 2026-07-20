@@ -11,6 +11,8 @@ export module docme.app:commands;
 
 import docme.core; // #IMPORT: docme.core, Internal core library
 import docme.config; // #IMPORT: docme.config, Internal config library
+import :errors; // #IMPORT: docme.app:errors, Package error type
+import :warnings; // #IMPORT: docme.app:warnings, Package warning type
 
 namespace docme::app{ // #SCOPE: docme::app
 
@@ -18,9 +20,6 @@ namespace docme::app{ // #SCOPE: docme::app
     // #BRIEF: Class that holds docme commands
     export class Command final{
     public: // #DIV: Public
-    // Public Types
-        class Error;
-        class Warning;
     // Public Special Methods
         Command() = delete; // #DELETE: Command(), Default constructor
         Command(const Command&) = delete; // #DELETE: Command(const Command&), Copy constructor
@@ -31,39 +30,10 @@ namespace docme::app{ // #SCOPE: docme::app
         void operator=(Command&&) = delete; // #DELETE: operator=(Command&&), Move assignment
     // Public Static Methods
         static Result<> init(const std::optional<std_fs::path>& p_config);
-        static Result<> build(const std::optional<std_fs::path>& p_config, const config::Options& p_options);
+        static Result<> build(const std::optional<std_fs::path>& p_config, config::Options&& p_options);
         static Result<> render();
         static Result<> generate();
         static Result<> check();
-    // Private Static Methods
-        static Result<config::Settings> buildSettings(const std::optional<std_fs::path>& p_config, const config::Options& p_options);
     }; // #END: Command
-
-    // #CLASS: Command::Error, Final Class
-    // #BRIEF: Error type specialization for command component
-    // #DERIVES: core::Error
-    class Command::Error final: public core::Error{
-    public: // #DIV: Public
-    // Public Special Methods
-        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
-    // Private Static Fields
-        inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
-            {DOCME_E300, "Failed to initialize the default config file as a default config file already exists at location \"" + (std_fs::current_path() / config::File::DEFAULT_CONFIG_FILE).string() + "\""},
-        };
-    }; // #END: Command::Error
-
-    // #CLASS: Command::Warning, Final Class
-    // #BRIEF: Warning type specialization for command component
-    // #DERIVES: core::Warning
-    class Command::Warning final: public core::Warning{
-    public: // #DIV: Public
-    // Public Special Methods
-        template<class... T_ContextArgs> Warning(const Code p_code, const T_ContextArgs&... p_contextArgs);
-    // Private Static Fields
-        inline const static std::unordered_map<Code, std::string> WARNING_MESSAGES = {
-            {DOCME_W201, "Creating the confile file \"{}\" when a config file already exists at \"" + (std_fs::current_path() / config::File::DEFAULT_CONFIG_FILE).string() + "\""},
-        };
-    }; // #END: Command::Warning
-
 
 } // END: docme::app

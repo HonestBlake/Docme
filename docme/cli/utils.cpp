@@ -4,6 +4,8 @@
 module;
 
 #include "cli.hpp" // #INCLUDE: cli.hpp, Package wide header
+#include "config/config.hpp"
+#include <filesystem>
 
 module docme.cli; // #IMPLEMENTS: docme.cli:utils
 import :utils;
@@ -72,6 +74,22 @@ namespace docme::cli{ // #SCOPE: docme::cli
         const std::int64_t milliseconds = time % 1'000;
         logger.log(std::string(p_message), p_timer.name(), std::format("{:02}:{:02}:{:03}", minutes, seconds, milliseconds));
     } // #END: printTimer(const core::Timer&)
+
+    // #FUNC: print(const std::string_view), Function
+    // #BRIEF: Prints the given message to the console
+    // #PARAM: const std::string_view p_message, Message to print
+    void util::print(const std::string_view p_message){
+        logger.log(std::string(p_message));
+    } // #END: print(const std::string_view)
+
+    // #FUNC: printRunnningCommand(const std::string_view, const std::string_view, const std::optional<std_fs::path>&), Function
+    // #BRIEF: Prints the build header to the console with the given config path
+    // #PARAM: const std::string_view p_command, Command being run
+    // #PARAM: const std::string_view p_context, Context of command being run
+    // #PARAM: const std::optional<std_fs::path>& p_config, Config path being used for command
+    void util::printRunningCommand(const std::string_view p_command, const std::string_view p_context, const std::optional<std_fs::path>& p_config){
+        logger.log("Running {} command {}: {}", p_command, p_context, p_config? (std_fs::is_regular_file(*p_config)? p_config->string(): (*p_config / config::DEFAULT_CONFIG_FILE_NAME).string()): config::File::DEFAULT_CONFIG_FILE.string());
+    } // #END: printRunnningCommand(const std::string_view, const std::string_view, const std::optional<std_fs::path>&)
 
 
 // #END: utils

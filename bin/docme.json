@@ -10,10 +10,10 @@
     ],
     "output": "path/to/output/dir",
     "language_handler": [
-        "CDoc"
+        "cdoc"
     ],
     "renderer": [
-        "Markdown",
-        "Json"
+        "markdown",
+        "json"
     ]
 }

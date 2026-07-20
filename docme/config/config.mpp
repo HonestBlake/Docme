@@ -8,8 +8,10 @@ module;
 // #BRIEF: Package module for configuration data and loading
 export module docme.config;
 
+export import :errors; // #EXPORT: docme.config:errors
 export import :schema; // #EXPORT: docme.config:schema
 export import :file; // #EXPORT: docme.config:file
 export import :options; // #EXPORT: docme.config:options
 export import :settings; // #EXPORT: docme.config:settings
 export import :utils; // #EXPORT: docme.config:utils
+export import :warnings; // #EXPORT: docme.config:warnings

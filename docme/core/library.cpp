@@ -128,35 +128,6 @@ namespace docme::core{ // #SCOPE: docme::core
         #endif
     } // #END: getNativeFunctionPointer(NativeHandle, const std::string_view)
 
-
-// ------------------------------------------------------------------------------
-//                            class Library::Error
-// ------------------------------------------------------------------------------
-
-// #SCOPE: Library::Error
-
-// #DIV: Public
-
-// ---- Public Special Methods ----
-
-
-    // #METHOD: Error<...T_ContextArgs>(const Code, const T_ContextArgs&...), Public Template Constructor
-    // #BRIEF: Template constructor for dynamic library error with context arguments
-    // #PARAM: const Code p_code, Error code
-    // #PARAM: const T_ContextArgs&... p_contextArgs, Context arguments bundle
-    // #TEMPLATE: class... T_ContextArgs
-    template<class... T_ContextArgs> Library::Error::Error(const Code p_code, const T_ContextArgs&... p_contextArgs): core::Error(ERROR_MESSAGES, p_code, std::make_format_args(p_contextArgs...)){
-
-    } // #END: Error<...T_ContextArgs>(const Code, const T_ContextArgs&...)
-
-    // Explicit template instantiations for Library errors.
-    template Library::Error::Error(const core::Error::Code);
-    template Library::Error::Error(const core::Error::Code, const std::string&);
-    template Library::Error::Error(const core::Error::Code, const std::string&, const std::string&);
-    template Library::Error::Error(const core::Error::Code, const std::string&, const std::string&, const std::string&);
-
-// #END: Library::Error
-
 // #END: Library
 
 } // #END: docme::core

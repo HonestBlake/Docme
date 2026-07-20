@@ -5,10 +5,14 @@ set(APP_INCLUDE_DIRS
 )
 set(APP_SRC_FILES
     "${APP}/commands.cpp"
+    "${APP}/errors.cpp"
+    "${APP}/warnings.cpp"
 )
 set(APP_MOD_FILES
     "${APP}/app.mpp"
     "${APP}/commands.mpp"
+    "${APP}/errors.mpp"
+    "${APP}/warnings.mpp"
 )
 set(APP_PCH_FILES
 

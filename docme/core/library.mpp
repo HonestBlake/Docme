@@ -47,19 +47,16 @@ namespace docme::core{ // #SCOPE: docme::core
         NativeHandle m_handle = nullptr; // #FIELD: NativeHandle m_handle, Native dynamic library handle
     }; // #END: Library
 
-    // #CLASS: Library::Error, Final Class
-    // #BRIEF: Dynamic library error specialization
-    // #DERIVES, public core::Error, Base project error type
-    class Library::Error final: public core::Error{
+    // #CLASS: Library::Error, Exported Final Class
+    // #BRIEF: Core library component error specialization
+    class Library::Error final: public docme::core::Error{
     public: // #DIV: Public
-    // Public Special Methods
         template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
     private: // #DIV: Private
-    // Private Static Fields
         inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
             {DOCME_E105, "Failed to load dynamic library \"{}\" at path \"{}\""},
             {DOCME_E106, "Failed to get function \"{}\" from dynamic library \"{}\""},
-            {DOCME_E107, "Cannot get function \"{}\" because dynamic library \"{}\" is not loaded"}
+            {DOCME_E107, "Cannot get function \"{}\" because dynamic library \"{}\" is not loaded"},
         };
     }; // #END: Library::Error
 

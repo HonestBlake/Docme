@@ -21,8 +21,8 @@ namespace docme::core{ // #SCOPE: docme::core
     export class Json final{
     public: // #DIV: Public
     // Public Types
-        struct Node;
         class Error;
+        struct Node;
     // Public Special Methods
         Json() = default; // #DEFAULT: Json(), Default constructor
         Json(const nlohmann::json& p_json);
@@ -38,6 +38,23 @@ namespace docme::core{ // #SCOPE: docme::core
         nlohmann::json m_json;
     }; // #END: Json
 
+    // #CLASS: Json::Error, Exported Final Class
+    // #BRIEF: Core json component error specialization
+    class Json::Error final: public docme::core::Error{
+    public: // #DIV: Public
+        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
+        static bool isJsonTypeError(const docme::core::Error& p_error);
+        static bool isJsonKeyNotFoundError(const docme::core::Error& p_error);
+    private: // #DIV: Private
+        inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
+            {DOCME_E100, "Failed to load json file at {}"},
+            {DOCME_E101, "While parsing json could not find key {}"},
+            {DOCME_E102, "While parsing json expected string at {} but got wrong type"},
+            {DOCME_E103, "While parsing json expected list at {} but got wrong type"},
+            {DOCME_E104, "Failed to parse json file at {}"},
+        };
+    }; // #END: Json::Error
+
     // Json template specialization decorations
     template<> Result<std::string> Json::get<std::string>(const std::string_view p_key)const;
     template<> Result<std::string> Json::get<std::string>(const std::string_view p_key, const std::string_view p_subKey)const;
@@ -50,23 +67,10 @@ namespace docme::core{ // #SCOPE: docme::core
         Json value;
     }; // #END: Json::Node
 
-    // #CLASS: Json::Error, Final Class
-    // #BRIEF: Json error specialization
-    // #DERIVES, public core::Error, Base project error type
-    class Json::Error final: public core::Error{
-    public: // #DIV: Public
-    // Public Special Methods
-        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
-    // Public Static Methods
-        static bool isTypeError(const core::Error& p_error);
-    // Private Static Fields
-        inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {
-            {DOCME_E100, "Failed to load json file at {}"},
-            {DOCME_E101, "While parsing json could not find key {}"},
-            {DOCME_E102, "While parsing json expected string at {} but got wrong type"},
-            {DOCME_E103, "While parsing json expected list at {} but got wrong type"},
-            {DOCME_E104, "Failed to parse json file at {}"},
-        };
-    }; // #END: Json::Error
-
 } // #END: docme::core
+
+#define COMPILED_WITH_MODULE
+
+#include "json.tpp" // #INCLUDE: json.tpp, Json template definitions
+
+#undef COMPILED_WITH_MODULE

@@ -1,0 +1,30 @@
+// #FILE: errors.mpp, Component Module Interface File
+// #BRIEF: Module interface file for CLI package errors
+
+module;
+
+#include "cli.hpp" // #INCLUDE: cli.hpp, Package wide header
+
+// #MODULE: docme.cli:errors, Component Module Partition
+export module docme.cli:errors;
+
+import docme.core;
+
+namespace docme::cli{ // #SCOPE: docme::cli
+
+    // #CLASS: Error, Exported Final Class
+    // #BRIEF: Package-wide CLI error specialization
+    export class Error final: public core::Error{
+    public: // #DIV: Public
+        template<class... T_ContextArgs> Error(const Code p_code, const T_ContextArgs&... p_contextArgs);
+    private: // #DIV: Private
+        inline const static std::unordered_map<Code, std::string> ERROR_MESSAGES = {};
+    }; // #END: Error
+
+} // #END: docme::cli
+
+#define COMPILED_WITH_MODULE
+
+#include "errors.tpp" // #INCLUDE: errors.tpp, Error template definitions
+
+#undef COMPILED_WITH_MODULE

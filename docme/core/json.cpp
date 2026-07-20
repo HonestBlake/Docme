@@ -35,6 +35,20 @@ namespace docme::core{ // #SCOPE: docme::core
 
 // ---- Public Static Methods ----
 
+    // #METHOD: isJsonTypeError(const docme::core::Error&), Public Static Method
+    // #BRIEF: Checks if an error represents a JSON type mismatch
+    bool Json::Error::isJsonTypeError(const docme::core::Error& p_error){
+        return p_error == DOCME_E102 || p_error == DOCME_E103;
+    } // #END: isJsonTypeError(const docme::core::Error&)
+
+    // #METHOD: isJsonKeyNotFoundError(const docme::core::Error&), Public Static Method
+    // #BRIEF: Checks if an error represents a missing JSON key
+    bool Json::Error::isJsonKeyNotFoundError(const docme::core::Error& p_error){
+        return p_error == DOCME_E101;
+    } // #END: isJsonKeyNotFoundError(const docme::core::Error&)
+
+// ---- Public Static Methods ----
+
     // #METHOD: parse(const std_fs::path&), Static Method
     // #BRIEF: Parses file into nlohmann json object then creates a json wrapper and returns
     // #NOTE: Returns error codes: DOCME_E100, DOCME_E104
@@ -107,46 +121,6 @@ namespace docme::core{ // #SCOPE: docme::core
         }
         return nodes;
     } // #END: nodes
-
-
-// ------------------------------------------------------------------------------
-//                               class Json::Error
-// ------------------------------------------------------------------------------
-
-// #SCOPE: Error
-
-// #DIV: Public
-
-// ---- Public Special Methods ----
-
-    // #METHOD: Error<...T_ContextArgs>(const Code, const T_ContextArgs&...), Public Template Constructor
-    // #BRIEF: Template constructor for error with context arguments
-    // #PARAM: const Code p_code, Error code
-    // #PARMA: const T_ContextArgs&... p_contextArgs, Context arguments bundle
-    // #TEMPLATE: class... T_ContextArgs,
-    template<class... T_ContextArgs> Json::Error::Error(const Code p_code, const T_ContextArgs&... p_contextArgs): core::Error(ERROR_MESSAGES, p_code, std::make_format_args(p_contextArgs...)){
-
-    } // #END: Error<...T_ContextArgs>(const Code, const T_ContextArgs&...)
-
-    // Explicit template instantiations for Json errors.
-    template Json::Error::Error(const core::Error::Code);
-    template Json::Error::Error(const core::Error::Code, const std::string&);
-    template Json::Error::Error(const core::Error::Code, const std::string&, const std::string&);
-    template Json::Error::Error(const core::Error::Code, const std::string&, const std::string&, const std::string&);
-
-
-// ---- Public Static Methods ----
-
-    // #METHOD: isTypeError(const core::Error&), Public Static Method
-    // #BRIEF: Checks if given error is a type error
-    // #PARAM: const core::Error& p_error, Error to check
-    // #RETURN: bool, True if given error is a type error, false otherwise
-    bool Json::Error::isTypeError(const core::Error& p_error){
-        return p_error.code == DOCME_E102 || p_error.code == DOCME_E103;
-    } // #END: isTypeError(const core::Error&)
-
-    
-// #END: Error
 
 // #END: Json
 

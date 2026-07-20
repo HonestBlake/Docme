@@ -1,0 +1,27 @@
+// #FILE: api.mpp, Component Module Interface File
+// #BRIEF: Module interface file for plugin API contracts
+
+module;
+
+#include "plugin.hpp" // #INCLUDE: plugin.hpp, Package wide header
+
+// #MODULE: docme.plugin:api, Component Module Partition
+// #BRIEF: Module partition for plugin API contracts
+export module docme.plugin:api;
+
+namespace docme::plugin{ // #SCOPE: docme::plugin
+
+    // #NAMESPACE: api, Exported Namespace
+    // #BRIEF: Namespace for language handler and renderer plugin API contracts
+    export namespace api{
+
+        // #NAMESPACE: supportsFileType, Namespace
+        // #BRIEF: Namespace for supportsFileType function language handler API contract
+        namespace supportsFileType{
+            using Type = bool(const char*);
+            inline constexpr std::string_view NAME = "supportsFileType";
+        } // #END: supportsFileType
+
+    } // #END: api
+
+} // #END: docme::plugin

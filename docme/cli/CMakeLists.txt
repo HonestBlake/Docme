@@ -16,12 +16,16 @@ set(CLI_INCLUDE_DIRS
 )
 set(CLI_SRC_FILES
     "${CLI}/application.cpp"
+    "${CLI}/errors.cpp"
     "${CLI}/utils.cpp"
+    "${CLI}/warnings.cpp"
 )
 set(CLI_MOD_FILES
     "${CLI}/cli.mpp"
     "${CLI}/application.mpp"
+    "${CLI}/errors.mpp"
     "${CLI}/utils.mpp"
+    "${CLI}/warnings.mpp"
 )
 set(CLI_PCH_FILES
 
