@@ -59,31 +59,101 @@ namespace docme::cli{ // #SCOPE: docme::cli
     // #BRIEF: Setup CLI parser with commands and options
     // #RETURN: Result<>, Optional error state
     Result<> Application::setupCliParser(){
-        // Positionals
         if(simpleCli::Result<> result = m_parser.addPositional(m_positionals); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-        //continuous
-        // Options
-        if(simpleCli::Result<> result = m_parser.addOption<std::optional<std_fs::path>>(tags::CONFIG, m_config, &util::optionalPathConverter); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-        if(simpleCli::Result<> result = m_parser.addOption<std::optional<std::string>>(tags::PROJECT_NAME, m_options.projectName, &util::optionalStringConverter); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-        if(simpleCli::Result<> result = m_parser.addContinuousOption<std_fs::path>(tags::SOURCE, m_options.sources, &util::pathConverter); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-        if(simpleCli::Result<> result = m_parser.addContinuousOption<std_fs::path>(tags::IGNORE, m_options.ignores, &util::pathConverter); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-        if(simpleCli::Result<> result = m_parser.addOption<std::optional<std_fs::path>>(tags::OUTPUT, m_options.output, &util::optionalPathConverter); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-        if(simpleCli::Result<> result = m_parser.addContinuousOption<std::string>(tags::LANGUAGE_HANDLER, m_options.languageHandlers); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-        if(simpleCli::Result<> result = m_parser.addContinuousOption<std::string>(tags::RENDERER, m_options.renderers); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-
-        // Commands
-        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(commands::INIT, std::bind(&Application::init, this)); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(commands::BUILD, std::bind(&Application::build, this)); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(commands::RENDER, [](){logger.debug("render called");}); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(commands::GENERATE, [](){logger.debug("generate called");}); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-        if(simpleCli::Result<> result = m_parser.addExclusiveCommand(commands::CHECK, [](){logger.debug("check called");}); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-
-        // Flags
-        if(simpleCli::Result<> result = m_parser.addExclusiveFlag(flags::HELP, m_help); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
-        if(simpleCli::Result<> result = m_parser.addExclusiveFlag(flags::VERSION, m_version); !result) return Error(Error::DOCME_INTERNAL, result.error().message());
+        
+        if(Result<> result = setupCommands(); !result) return result.failure();
+        if(Result<> result = setupFlags(); !result) return result.failure();
+        if(Result<> result = setupOptions(); !result) return result.failure();
 
         return {};
     } // #END: setupCliParser()
+
+    // #METHOD: setupCommands(), Instance Method
+    // #BRIEF: Setup CLI commands
+    // #RETURN: Result<>, Optional error state
+    Result<> Application::setupCommands(){
+        if(simpleCli::Result<> result = m_parser.addExclusiveCommand({"init"}, [this](){ init(); }); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addExclusiveCommand({"build"}, [this](){ build(); }); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addExclusiveCommand({"render"}, [this](){ render(); }); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addExclusiveCommand({"generate"}, [this](){ generate(); }); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addExclusiveCommand({"check"}, [this](){ check(); }); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        return {};
+    } // #END: setupCommands()
+
+    // #METHOD: setupFlags(), Instance Method
+    // #BRIEF: Setup CLI flags
+    // #RETURN: Result<>, Optional error state
+    Result<> Application::setupFlags(){
+        if(simpleCli::Result<> result = m_parser.addExclusiveFlag({"--help", "-h"}, m_help); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addExclusiveFlag({"--version", "-v"}, m_version); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addFlag({"--with-code"}, [this](){ m_options.includeCode = true; }); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addFlag({"--without-code"}, [this](){ m_options.includeCode = false; }); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addFlag({"--with-public"}, [this](){ m_options.includePublic = true; }); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addFlag({"--without-public"}, [this](){ m_options.includePublic = false; }); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addFlag({"--with-private"}, [this](){ m_options.includePrivate = true; }); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addFlag({"--without-private"}, [this](){ m_options.includePrivate = false; }); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addFlag({"--with-protected"}, [this](){ m_options.includeProtected = true; }); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addFlag({"--without-protected"}, [this](){ m_options.includeProtected = false; }); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        return {};
+    } // #END: setupFlags()
+
+    // #METHOD: setupOptions(), Instance Method
+    // #BRIEF: Setup CLI options
+    // #RETURN: Result<>, Optional error state
+    Result<> Application::setupOptions(){
+        if(simpleCli::Result<> result = m_parser.addOption<std::optional<std_fs::path>>({"--config", "-c"}, m_config, &util::optionalPathConverter); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addOption<std::optional<std::string>>({"--project", "-p"}, m_options.projectName, &util::optionalStringConverter); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addContinuousOption<std_fs::path>({"--source", "-s"}, m_options.sources, &util::pathConverter); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addContinuousOption<std_fs::path>({"--ignore", "-i"}, m_options.ignores, &util::pathConverter); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addOption<std::optional<std_fs::path>>({"--output", "-o"}, m_options.output, &util::optionalPathConverter); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addContinuousOption<std::string>({"--language", "-l"}, m_options.languageHandlers); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        if(simpleCli::Result<> result = m_parser.addContinuousOption<std::string>({"--render", "-r"}, m_options.renderers); !result){
+            return Error(Error::DOCME_INTERNAL, result.error().message());
+        }
+        return {};
+    } // #END: setupOptions()
 
     // #METHOD: help(), Const Instance Method
     // #BRIEF: Print help message to console
@@ -176,7 +246,7 @@ namespace docme::cli{ // #SCOPE: docme::cli
 
         util::printRunningCommand("Build", "from config path", config);
 
-        Result<> result = app::Command::build(config, config::Options(m_options));
+        Result<> result = app::Command::build(config, m_options);
         if(result.hasWarnings()){
             util::handleWarnings(result.warnings());
         }
@@ -186,6 +256,24 @@ namespace docme::cli{ // #SCOPE: docme::cli
 
         util::printTimer("{} ran for {}", timer.stop()); // Stop and print build timer
     } // #END: build()
+
+    // #METHOD: render(), Instance Method
+    // #BRIEF: Call and handles app render command. 
+    void Application::render(){
+        logger.warn("Render command is not yet implemented");
+    } // #END: render()
+
+    // #METHOD: generate(), Instance Method
+    // #BRIEF: Call and handles app generate command.
+    void Application::generate(){
+        logger.warn("Generate command is not yet implemented");
+    } // #END: generate()
+
+    // #METHOD: check(), Instance Method
+    // #BRIEF: Call and handles app check command.
+    void Application::check(){
+        logger.warn("Check command is not yet implemented");
+    } // #END: check()
 
     // #METHOD: getConfigOrPositional(), Const Instance Method
     // #BRIEF: Get config file path from config option or positional argument.
@@ -201,8 +289,7 @@ namespace docme::cli{ // #SCOPE: docme::cli
                 Warning::propagate(Warning(Warning::DOCME_W501));
             }
             if(!m_positionals.empty()){
-                std_fs::path config = m_positionals[0];
-                core::util::normalizePath(config, std_fs::current_path());
+                std_fs::path config = core::util::normalizePath(m_positionals[0], std_fs::current_path());
                 return {config};
             }
         }

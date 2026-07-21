@@ -38,11 +38,11 @@ namespace docme::config{ // #SCOPE: docme::config
         // Create and check new file path
         std_fs::path filePath;
         if(std::error_code error; std_fs::is_directory(p_path, error)){ // Given a directory
-            filePath = p_path / DEFAULT_CONFIG_FILE_NAME;
+            filePath = core::util::normalizePath(p_path / DEFAULT_CONFIG_FILE_NAME, std_fs::current_path());
         }else{ // Given a file path
             if(error && error != std::make_error_condition(std::errc::no_such_file_or_directory)) return Error(Error::DOCME_E201, p_path.string()); // Error checking template file path
             if(p_path.extension().string() != CONFIG_FILE_EXTENSION) return Error(Error::DOCME_E202, p_path.string()); // Given file is not correct type
-            filePath = p_path;
+            filePath = core::util::normalizePath(p_path, std_fs::current_path());
         }
 
         // Copy template file to new file
@@ -149,9 +149,7 @@ namespace docme::config{ // #SCOPE: docme::config
     // #PARAM: const std_fs::path& p_file, File path to make path relative to
     // #RETURN: std_fs::path, Path made from given string and file path
     std_fs::path File::makePath(const std::string_view p_path, const std_fs::path& p_file){
-        std_fs::path path = p_path;
-        core::util::normalizePath(path, p_file.parent_path());
-        return path;
+        return core::util::normalizePath(std_fs::path(std::string(p_path)), p_file.parent_path());
     } // #END: makePath(const std::string_view, const std_fs::path&)
 
     // #METHOD: getPath(const std_fs::path&), Static Method
@@ -161,11 +159,11 @@ namespace docme::config{ // #SCOPE: docme::config
     // #RETURN: Result<std_fs::path>, Path to config file on success, Error on failure
     Result<std_fs::path> File::getPath(const std_fs::path& p_path){
         if(std::error_code error; std_fs::is_directory(p_path, error)){ // Given a directory
-            return p_path / DEFAULT_CONFIG_FILE_NAME;
+            return core::util::normalizePath(p_path / DEFAULT_CONFIG_FILE_NAME, std_fs::current_path());
         }else{ // Given a file path
             if(error) return Error(Error::DOCME_E204, p_path.string()); // Error checking config file path
             if(p_path.extension().string() != CONFIG_FILE_EXTENSION) return Error(Error::DOCME_E202, p_path.string()); // Given file is not correct type
-            return p_path;
+            return core::util::normalizePath(p_path, std_fs::current_path());
         }
     } // #END: getPath(const std_fs::path&)
 

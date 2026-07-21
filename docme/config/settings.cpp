@@ -18,40 +18,31 @@ namespace docme::config{ // #SCOPE: docme::config
 
 // #DIV: Public
 
-// ---- Public Special Methods ----
-
-    // #METHOD: Settings(), Constructor
-    // #BRIEF: Constructs Settings with default values
-    Settings::Settings(){
-
-    } // #END: Settings()
-
-
 // ---- Public Static Methods ----
 
-    // #METHOD: build(File&&, Options&&), Static Method
+    // #METHOD: build(File&&, const Options&), Static Method
     // #BRIEF: Builds settings from the given config file and options
     // #PARAM: File&& p_config, Config file values to build settings from
-    // #PARAM: Options&& p_options, Config option values to build settings from
+    // #PARAM: const Options& p_options, Config option values to build settings from
     // #RETURN: Result<Settings>, The built settings result type
-    Result<Settings> Settings::build(File&& p_config, Options&& p_options){
-        return Settings(std::move(p_config), std::move(p_options));
-    } // #END: build(File&&, Options&&)
+    Result<Settings> Settings::build(File&& p_config, const Options& p_options){
+        return Settings(std::move(p_config), p_options);
+    } // #END: build(File&&, const Options&)
 
 
 // #DIV: Private
 
 // --- Private Special Methods ----
 
-    // #METHOD: Settings(File&&, Options&&), Constructor
+    // #METHOD: Settings(File&&, const Options&), Constructor
     // #BRIEF: Constructs Settings from the given config file and options
     // #PARAM: File&& p_config, Config file values to construct settings from
-    // #PARAM: Options&& p_options, Config option values to construct settings from
-    Settings::Settings(File&& p_config, Options&& p_options){
+    // #PARAM: const Options& p_options, Config option values to construct settings from
+    Settings::Settings(File&& p_config, const Options& p_options){
         setDefaults();
         applyFile(std::move(p_config));
         applyOptions(std::move(p_options));
-    } // #END: Settings(File&&, Options&&)
+    } // #END: Settings(File&&, const Options&)
 
 
 // ---- Private Methods ----
@@ -91,29 +82,29 @@ namespace docme::config{ // #SCOPE: docme::config
         }
     } // #END: applyFile(File&&)
     
-    // #METHOD: applyOptions(Options&&), Instance Method
+    // #METHOD: applyOptions(const Options&), Instance Method
     // #BRIEF: Applies config option values to the settings
-    // #PARAM: Options&& p_options, Config option values to apply
-    void Settings::applyOptions(Options&& p_options){
+    // #PARAM: const Options& p_options, Config option values to apply
+    void Settings::applyOptions(const Options& p_options){
         if(p_options.projectName){
-            projectName = std::move(*p_options.projectName);
+            projectName = *p_options.projectName;
         }
         if(!p_options.sources.empty()){
-            sources = std::move(p_options.sources);
+            sources = p_options.sources;
         }
         if(!p_options.ignores.empty()){
-            ignores = std::move(p_options.ignores);
+            ignores = p_options.ignores;
         }
         if(p_options.output){
-            output = std::move(*p_options.output);
+            output = *p_options.output;
         }
         if(!p_options.languageHandlers.empty()){
-            languageHandlers = std::move(p_options.languageHandlers);
+            languageHandlers = p_options.languageHandlers;
         }
         if(!p_options.renderers.empty()){
-            renderers = std::move(p_options.renderers);
+            renderers = p_options.renderers;
         }
-    } // #END: applyOptions(Options&&)
+    } // #END: applyOptions(const Options&)
 
 
 // #END: Settings

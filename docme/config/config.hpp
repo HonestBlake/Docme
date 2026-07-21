@@ -17,13 +17,19 @@ namespace docme{ // #SCOPE: docme
             inline const std::string_view OUTPUT = "output";
             inline const std::string_view LANGUAGE_HANDLER = "language_handler";
             inline const std::string_view RENDERER = "renderer";
+            inline const std::string_view INCLUDE_CODE = "include_code";
+            inline const std::string_view INCLUDE_PRIVATE = "include_private";
+            inline const std::string_view INCLUDE_PROTECTED = "include_protected";
             inline const std::unordered_set<std::string_view> SUPPORTED = {
                 PROJECT_NAME,
                 SOURCE,
                 IGNORE,
                 OUTPUT,
                 LANGUAGE_HANDLER,
-                RENDERER
+                RENDERER,
+                INCLUDE_CODE,
+                INCLUDE_PRIVATE,
+                INCLUDE_PROTECTED
             };
         } // #END: key
 
@@ -41,6 +47,9 @@ namespace docme{ // #SCOPE: docme
             inline constexpr std::array<std_fs::path, 0> IGNORES = {};
             inline constexpr std::array<std::string_view, 1> LANGUAGE_HANDLERS = {"cdoc"};
             inline constexpr std::array<std::string_view, 1> RENDERERS = {"json"};
+            inline constexpr bool INCLUDE_CODE = true;
+            inline constexpr bool INCLUDE_PRIVATE = true;
+            inline constexpr bool INCLUDE_PROTECTED = true;
         } // #END: defaults
 
     } // #END: config

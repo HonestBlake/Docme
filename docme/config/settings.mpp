@@ -21,16 +21,16 @@ namespace docme::config{ // #SCOPE: docme::config
     export class Settings final: public Schema<Required>{
     public: // #DIV: Public
     // Public Special Methods
-        Settings();
+        Settings() = default;
     // Public Static Methods
-        [[nodiscard]] static Result<Settings> build(File&& p_config, Options&& p_options);
+        [[nodiscard]] static Result<Settings> build(File&& p_config, const Options& p_options);
     private: // #DIV: Private
     // Private Special Methods
-        Settings(File&& p_config, Options&& p_options);
+        Settings(File&& p_config, const Options& p_options);
     // Private Methods
         void setDefaults();
         void applyFile(File&& p_config);
-        void applyOptions(Options&& p_options);
+        void applyOptions(const Options& p_options);
     }; // #END: Settings
 
 } // #END: docme::config

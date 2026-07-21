@@ -35,7 +35,7 @@ namespace docme::generator{ // #SCOPE: docme::generator
         // Get metadata path
         std_fs::path metadataPath;
         if(Result<std::string> result = getMetadataPath(pluginRegistry, p_tag)){
-            core::util::normalizePath(metadataPath = result.takeValue(), PLUGIN_REGISTRY_FILE.parent_path()); 
+            metadataPath = core::util::normalizePath(result.takeValue(), PLUGIN_REGISTRY_FILE.parent_path());
         }else return result.failure(); // Failed to get metadata path
         if(Result<> result = checkMetadataPath(metadataPath, p_tag); !result) return result.failure(); // Failed to check metadata path
 
@@ -154,7 +154,7 @@ namespace docme::generator{ // #SCOPE: docme::generator
         // Load binary path
         std_fs::path binaryPath;
         if(Result<std::string> result = p_metadata.get<std::string>(key::BIN, key::OS)){
-            core::util::normalizePath(binaryPath = result.takeValue(), p_metadataPath.parent_path());
+            binaryPath = core::util::normalizePath(result.takeValue(), p_metadataPath.parent_path());
         }else if(Json::Error::isJsonTypeError(result.error())) return Error(Error::DOCME_E405, p_metadataPath.string(), p_tag, key::BIN, "string"); // Wrong type for binary
         else return Error(Error::DOCME_E406, p_metadataPath.string(), p_tag, key::BIN); // Couldn't find binary
 

@@ -30,7 +30,7 @@ namespace docme::app{ // #SCOPE: docme::app
         void operator=(Command&&) = delete; // #DELETE: operator=(Command&&), Move assignment
     // Public Static Methods
         static Result<> init(const std::optional<std_fs::path>& p_config);
-        static Result<> build(const std::optional<std_fs::path>& p_config, config::Options&& p_options);
+        static Result<> build(const std::optional<std_fs::path>& p_config, const config::Options& p_options);
         static Result<> render();
         static Result<> generate();
         static Result<> check();

@@ -28,8 +28,8 @@ namespace docme::config{ // #SCOPE: docme::config
         [[nodiscard]] static Result<File> loadForRender(const std_fs::path& p_path = DEFAULT_CONFIG_FILE);
         static bool foundDefault();
     // Public Static Fields
-        inline const static std_fs::path DEFAULT_CONFIG_FILE = (std_fs::current_path() / DEFAULT_CONFIG_FILE_NAME).lexically_normal();
-        inline const static std_fs::path TEMPLATE_CONFIG_FILE = RESOURCES_DIR / TEMPLATE_CONFIG_FILE_NAME;
+        inline const static std_fs::path DEFAULT_CONFIG_FILE = core::util::normalizePath(DEFAULT_CONFIG_FILE_NAME, std_fs::current_path());
+        inline const static std_fs::path TEMPLATE_CONFIG_FILE = core::util::normalizePath(TEMPLATE_CONFIG_FILE_NAME, RESOURCES_DIR);
     private: // #DIV: Private
     // Private Static Methods
         static Success<> check(const Json& p_json, const std_fs::path& p_file);

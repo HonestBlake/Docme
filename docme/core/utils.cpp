@@ -14,18 +14,20 @@ namespace docme::core{ // #SCOPE: docme::core
 //                                namespace util
 // ------------------------------------------------------------------------------
 
-    // #FUNCTION: normalizePath(std_fs::path&, const std_fs::path&), Function
-    // #BRIEF: Normalizes the given path relative to the base path
-    // #PARAM: std_fs::path& p_path, The path to normalize
-    // #PARAM: const std_fs::path& p_base, The base path to normalize against
-    void util::normalizePath(std_fs::path& p_path, const std_fs::path& p_base){
+    // #FUNCTION: normalizePath(const std_fs::path&, const std_fs::path&), Function
+    // #BRIEF: Normalizes given path relative to given base path
+    // #PARAM: const std_fs::path& p_path, Path to normalize    
+    // #PARAM: const std_fs::path& p_base, Base path to normalize relative to
+    // #RETURN: std_fs::path, Normalized path
+    std_fs::path util::normalizePath(const std_fs::path& p_path, const std_fs::path& p_base){
         if(p_path.is_relative()){
-            p_path = p_base / p_path;
+            return (p_base / p_path).lexically_normal();
+        }else{
+            return p_path.lexically_normal();
         }
-        p_path = p_path.lexically_normal();
-    } // #END: normalizePath(std_fs::path&, const std_fs::path&)
+    } // #END: normalizePath(const std_fs::path&, const std_fs::path&)
 
-    // #METHOD: makeCommaSeparated(const std::vector<std::string>&), Static Method
+    // #FUNCTION: makeCommaSeparated(const std::vector<std::string>&), Function
     // #BRIEF: Takes a list of strings and makes a single comma separated string
     // #PARAM: const std::vector<std::string>& p_list, Given list
     // #RETURN: std::string, Constructed string
@@ -42,7 +44,7 @@ namespace docme::core{ // #SCOPE: docme::core
         return string;
     } // #END: makeCommaSeparated(const std::vector<std::string>&)
 
-    // #METHOD: makeCommaSeparated(const std::vector<std_fs::path>&), Static Method
+    // #FUNCTION: makeCommaSeparated(const std::vector<std_fs::path>&), Function
     // #BRIEF: Takes a list of paths and makes a single comma separated string
     // #PARAM: const std::vector<std_fs::path>& p_list, Given list
     // #RETURN: std::string, Constructed string

@@ -48,7 +48,7 @@ namespace docme::app{ // #SCOPE: docme::app
     // #NOTE: Returns warning codes: DOCME_W200
     // #PARAM: const std::optional<std_fs::path>& p_config, optional path to config file
     // #RETURN: Result<>, Optional error state
-    Result<> Command::build(const std::optional<std_fs::path>& p_configFile, config::Options&& p_configOptions){
+    Result<> Command::build(const std::optional<std_fs::path>& p_configFile, const config::Options& p_configOptions){
         // Load config file
         config::File configFile;
         if(Result<config::File> result = p_configFile? config::File::loadForBuild(*p_configFile): config::File::loadForBuild()){
@@ -57,7 +57,7 @@ namespace docme::app{ // #SCOPE: docme::app
 
         // Build settings
         config::Settings settings;
-        if(Result<config::Settings> result = config::Settings::build(std::move(configFile), std::move(p_configOptions))){
+        if(Result<config::Settings> result = config::Settings::build(std::move(configFile), p_configOptions)){
             settings = result.takeValue();
         }else return result.failure(); // Failed to build settings
 

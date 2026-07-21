@@ -33,11 +33,21 @@ namespace docme::cli{ // #SCOPE: docme::cli
     private: // #DIV: Private
     // Private Methods
         Result<> setupCliParser();
+        Result<> setupCommands();
+        Result<> setupFlags();
+        Result<> setupOptions();
         void help()const;
         void version()const;
         void init();
         void build();
+        void render();
+        void generate();
+        void check();
         Result<std::optional<std_fs::path>> getConfigOrPositional()const;
+        template<bool t_set> constexpr void setIncludeCode();
+        template<bool t_set> constexpr void setIncludePublic();
+        template<bool t_set> constexpr void setIncludePrivate();
+        template<bool t_set> constexpr void setIncludeProtected();
     // Private Fields
         std::vector<std::string> m_args;
         simpleCli::Parser m_parser;
@@ -49,3 +59,9 @@ namespace docme::cli{ // #SCOPE: docme::cli
     }; // #END: Application
 
 } // #END: docme::cli
+
+#define COMPILED_WITH_MODULE
+
+#include "application.tpp" // #INCLUDE: application.tpp, Application template definitions
+
+#undef COMPILED_WITH_MODULE

@@ -14,7 +14,7 @@ namespace docme::core{ // #SCOPE: docme::core
     // #NAMESPACE: util, Exported Namespace
     // #BRIEF: Namespace for core utility tools
     export namespace util{
-        void normalizePath(std_fs::path& p_path, const std_fs::path& p_base);
+        std_fs::path normalizePath(const std_fs::path& p_path, const std_fs::path& p_base);
         std::string makeCommaSeparated(const std::vector<std::string>& p_list);
         std::string makeCommaSeparated(const std::vector<std_fs::path>& p_list);
     } // #END: util

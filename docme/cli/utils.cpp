@@ -5,7 +5,6 @@ module;
 
 #include "cli.hpp" // #INCLUDE: cli.hpp, Package wide header
 #include "config/config.hpp"
-#include <filesystem>
 
 module docme.cli; // #IMPLEMENTS: docme.cli:utils
 import :utils;
@@ -31,9 +30,7 @@ namespace docme::cli{ // #SCOPE: docme::cli
     // #PARAM: const std::string& p_string, String to convert
     // #RETURN: simpleCli::Result<std::optional<std_fs::path>>, Converted type result type
     simpleCli::Result<std::optional<std_fs::path>> util::optionalPathConverter(const std::string& p_string){
-        std_fs::path path = p_string;
-        core::util::normalizePath(path, std_fs::current_path());
-        return std::optional<std_fs::path>(std::move(path));
+        return std::optional<std_fs::path>(core::util::normalizePath(std_fs::path(p_string), std_fs::current_path()));
     } // #END: optionalPathConverter(const std::string&)
 
     // #FUNC: pathConverter(const std::string&), Function
@@ -41,9 +38,7 @@ namespace docme::cli{ // #SCOPE: docme::cli
     // #PARAM: const std::string& p_string, String to convert   
     // #RETURN: simpleCli::Result<std::optional<std_fs::path>>, Converted type result type
     simpleCli::Result<std_fs::path> util::pathConverter(const std::string& p_string){
-        std_fs::path path = p_string;
-        core::util::normalizePath(path, std_fs::current_path());
-        return path;
+        return core::util::normalizePath(std_fs::path(p_string), std_fs::current_path());
     } // #END: pathConverter(const std::string&)
 
     // #FUNC: handleWarnings(const std::vector<core::Warning>&), Function

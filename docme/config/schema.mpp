@@ -21,12 +21,16 @@ namespace docme::config{ // #SCOPE: docme::config
     //          allowing the schema to be instantiated with either concrete (Required) or optional (Optional) field types. This enables a 
     //          single schema definition to be shared by both resolved config and partial settings sources.
     export template<template<class> class T_Field> struct Schema{
-        T_Field<std::string> projectName;                       // #FIELD: T_Field<std::string> projectName, Name of project
+        T_Field<std::string> projectName;               // #FIELD: T_Field<std::string> projectName, Name of project
         std::vector<std_fs::path> sources;              // #FIELD: T_Field<std::vector<std::string>> sources, List of source directories
         std::vector<std_fs::path> ignores;              // #FIELD: T_Field<std::vector<std::string>> ignores, List of directories to ignore
-        T_Field<std_fs::path> output;                  // #FIELD: T_Field<std_fs::path> output, Output directory for generated documentation
-        std::vector<std::string> languageHandlers;     // #FIELD: T_Field<std::vector<std::string>> languageHandlers, List of language handler modules
-        std::vector<std::string> renderers;            // #FIELD: T_Field<std::vector<std::string>> renderers, List of renderer modules
+        T_Field<std_fs::path> output;                   // #FIELD: T_Field<std_fs::path> output, Output directory for generated documentation
+        std::vector<std::string> languageHandlers;      // #FIELD: T_Field<std::vector<std::string>> languageHandlers, List of language handler modules
+        std::vector<std::string> renderers;             // #FIELD: T_Field<std::vector<std::string>> renderers, List of renderer modules
+        T_Field<bool> includeCode;                      // #FIELD: T_Field<bool> includeCode, Whether to include source code in generated documentation
+        T_Field<bool> includePublic;                    // #FIELD: T_Field<bool> includePublic, Whether to include public members in generated documentation
+        T_Field<bool> includePrivate;                   // #FIELD: T_Field<bool> includePrivate, Whether to include private members in generated documentation
+        T_Field<bool> includeProtected;                 // #FIELD: T_Field<bool> includeProtected, Whether to include protected members in generated documentation
     }; // #END: Schema<T_Field<Type>>
 
 } // #END: docme::config
